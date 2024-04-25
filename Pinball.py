@@ -1,2 +1,2 @@
-msg = "Alles funktioniert nicht"
+msg = "Alles funktioniert evtl jetzt doch o.O ?"
 print(msg)
