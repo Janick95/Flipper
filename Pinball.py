@@ -1,2 +1,2 @@
-msg = "Alles funktioniert evtl jetzt doch o.O ?"
+msg = "Alles seltsam"
 print(msg)
