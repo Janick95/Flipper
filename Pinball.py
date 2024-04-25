@@ -1,2 +1,2 @@
-msg = "This is Pinball"
+msg = "Hab was geändert LUL"
 print(msg)
