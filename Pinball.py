@@ -1,2 +1,2 @@
-msg = "Hab was geändert LUL"
+msg = "Alles funktioniert nicht"
 print(msg)
