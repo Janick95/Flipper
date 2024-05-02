@@ -3,14 +3,15 @@ import pygame
 pygame.init()
 
 
-print ("Blub")
+print ("Funktioniert noch")
+
 
 window_width = 800
 window_height = 600
 
-circlecolor = (200, 0, 0)
-circleX = 100
-circleY = 100
+ballcolor = (200, 0, 0)
+ballX = window_width/2
+ballY = window_height/2
 radius = 10
 
 
@@ -22,12 +23,22 @@ while running:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             running = False
+        elif event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
+            running = False
 
-        window.fill((25,25,25))
+   # keys = pygame.key.get_pressed()
+
+    #if keys[pygame.K_RIGHT]:
+       # ballX += 1
+   # elif keys[pygame.K_LEFT]:
+    #  ballX -= 1
+
+
+    window.fill((25,25,25))
         
-        pygame.draw.circle(window, circlecolor,(circleX, circleY),radius)
+    pygame.draw.circle(window, ballcolor,(ballX, ballY),radius)
 
-        pygame.display.update()
+    pygame.display.update()
 
 
 pygame.quit()
