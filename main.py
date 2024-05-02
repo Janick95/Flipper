@@ -1,25 +1,39 @@
+import sys
 import pygame
 
+#Pygame Initialieren
 pygame.init()
 
 
-print ("Funktioniert noch")
+print ("Still works!")
+
+# Constants
+WIDTH, HEIGHT = 800, 600
+GRAVITY = 0.1
+FRICTION = 0.99
+
+#Colors
+BLACK = (0, 0, 0)
+WHITE = (255, 255, 255)
+RED = (255, 0, 0)
 
 
-window_width = 800
-window_height = 600
-
-ballcolor = (200, 0, 0)
-ballX = window_width/2
-ballY = window_height/2
-radius = 10
+# Create the window
+screen = pygame.display.set_mode((WIDTH, HEIGHT))
+pygame.display.set_caption("2D Flipper Automat")
 
 
-window = pygame.display.set_mode((window_width, window_height))
+#Circle
+radius = 20
+x, y = WIDTH // 2, HEIGHT // 2
+velocity_x, velocity_y = 0, 0
 
 
-running = True
-while running:
+#Main loop
+while True:
+    screen.fill(WHITE)
+
+    # Handle events
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             running = False
@@ -33,13 +47,29 @@ while running:
    # elif keys[pygame.K_LEFT]:
     #  ballX -= 1
 
-
-    window.fill((25,25,25))
-        
-    pygame.draw.circle(window, ballcolor,(ballX, ballY),radius)
-
     pygame.display.update()
-
-
 pygame.quit()
+sys.exit()
 
+    #physics
+
+    velocity_y += GRAVITY
+    velocity_x *= FRICTION
+    velocity_y *= FRICTION
+    x += velocity_x
+    y += velocity_y
+
+    # Bounce off the walls
+    if x + radius >= WIDTH or x - radius <= 0:
+        velocity_x *= -1
+    if y + radius >= HEIGHT or y - radius <= 0:
+        velocity_y *= -1
+
+    # Draw the circle
+    pygame.draw.circle(screen, RED, (int(x), int(y)), radius)
+
+    # Update the display
+    pygame.display.flip()
+
+    # Cap the frame rate
+    pygame.time.Clock().tick(60)
