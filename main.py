@@ -1,34 +1,60 @@
+import sys
 import pygame
 
+#Pygame Initialieren
 pygame.init()
 
 
-print ("Blub")
+# Constants
+WIDTH, HEIGHT = 800, 600
+GRAVITY = 0.1
+FRICTION = 0.99
 
-window_width = 800
-window_height = 600
+#Colors
+BLACK = (0, 0, 0)
+WHITE = (255, 255, 255)
+RED = (255, 0, 0)
 
-circlecolor = (200, 0, 0)
-circleX = 100
-circleY = 100
-radius = 10
-
-
-window = pygame.display.set_mode((window_width, window_height))
+# Create the window
+screen = pygame.display.set_mode((WIDTH, HEIGHT))
+pygame.display.set_caption("2D Flipper Automat")
 
 
-running = True
-while running:
+#Circle
+radius = 20
+x, y = WIDTH // 2, HEIGHT // 2
+velocity_x, velocity_y = 0, 0
+
+
+#Main loop
+while True:
+    screen.fill(WHITE)
+
+    # Handle events
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
-            running = False
+            pygame.quit()
+            sys.exit()
 
-        window.fill((25,25,25))
-        
-        pygame.draw.circle(window, circlecolor,(circleX, circleY),radius)
+    #physics
 
-        pygame.display.update()
+    velocity_y += GRAVITY
+    velocity_x *= FRICTION
+    velocity_y *= FRICTION
+    x += velocity_x
+    y += velocity_y
 
+    # Bounce off the walls
+    if x + radius >= WIDTH or x - radius <= 0:
+        velocity_x *= -1
+    if y + radius >= HEIGHT or y - radius <= 0:
+        velocity_y *= -1
 
-pygame.quit()
+    # Draw the circle
+    pygame.draw.circle(screen, RED, (int(x), int(y)), radius)
 
+    # Update the display
+    pygame.display.flip()
+
+    # Cap the frame rate
+    pygame.time.Clock().tick(60)
