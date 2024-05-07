@@ -1,75 +1,107 @@
 import sys
 import pygame
+import ball
+import window
 
-#Pygame Initialieren
-pygame.init()
+class Game:
 
+    #Pygame Initialieren
+    pygame.init()
 
-print ("Still works!")
-
-# Constants
-WIDTH, HEIGHT = 800, 600
-GRAVITY = 0.1
-FRICTION = 0.99
-
-#Colors
-BLACK = (0, 0, 0)
-WHITE = (255, 255, 255)
-RED = (255, 0, 0)
-
-
-# Create the window
-screen = pygame.display.set_mode((WIDTH, HEIGHT))
-pygame.display.set_caption("2D Flipper Automat")
-
-
-#Circle
-radius = 20
-x, y = WIDTH // 2, HEIGHT // 2
-velocity_x, velocity_y = 0, 0
+#Parameters
+    #Colors
+    BLACK = (0, 0, 0)
+    WHITE = (255, 255, 255)
+    RED = (255, 0, 0)
+    
+    # Constants
+    #GRAVITY = 0.1
+    #FRICTION = 0.99
+    
+    
+   
 
 
-#Main loop
-while True:
-    screen.fill(WHITE)
+    def game():
+        clock = pygame.time.Clock()
+        window1 = window.Window()
+    #GameObjects
+    #############
 
-    # Handle events
-    for event in pygame.event.get():
-        if event.type == pygame.QUIT:
-            running = False
-        elif event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
-            running = False
 
-   # keys = pygame.key.get_pressed()
+        ball1 = ball.Ball(window1.window, window1.WINDOWWIDTH/ 2, window1.WINDOWHEIGHT/ 2)
 
-    #if keys[pygame.K_RIGHT]:
-       # ballX += 1
-   # elif keys[pygame.K_LEFT]:
-    #  ballX -= 1
 
-    pygame.display.update()
-pygame.quit()
-sys.exit()
+    #############
+    
+    #Compute data
+        running = True
+        while running:
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    running = False
+                elif event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
+                    running = False
+
+    #Draw graphics
+            delta_time = clock.tick(60)/1000
+            window1.window.fill((255, 255, 255))
+            ball1.update(delta_time)
+            pygame.display.update()
+    
+        pygame.quit()
+
+    game()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#Ball
+#x, y = WINDOWWIDTH // 2, WINDOWHEIGHT // 2
+#velocity_x, velocity_y = 0, 0
+  
+   
+#sys.exit()
 
     #physics
 
-    velocity_y += GRAVITY
-    velocity_x *= FRICTION
-    velocity_y *= FRICTION
-    x += velocity_x
-    y += velocity_y
+    #velocity_y += GRAVITY
+    #velocity_x *= FRICTION
+   # velocity_y *= FRICTION
+    #x += velocity_x
+   # y += velocity_y
 
     # Bounce off the walls
-    if x + radius >= WIDTH or x - radius <= 0:
-        velocity_x *= -1
-    if y + radius >= HEIGHT or y - radius <= 0:
-        velocity_y *= -1
+   # if x + radius >= WIDTH or x - radius <= 0:
+   #     velocity_x *= -1
+   # if y + radius >= HEIGHT or y - radius <= 0:
+   #     velocity_y *= -1
 
-    # Draw the circle
-    pygame.draw.circle(screen, RED, (int(x), int(y)), radius)
 
-    # Update the display
-    pygame.display.flip()
 
-    # Cap the frame rate
-    pygame.time.Clock().tick(60)
+   
+   
