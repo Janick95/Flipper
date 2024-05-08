@@ -7,6 +7,7 @@ class Ball:
     velocity = 2000
     GRAVITY = 200
     FRICTION = 50
+    currentVelocity = 0  
 
     def __init__(self, window, x, y):
         self.x = x
@@ -22,13 +23,13 @@ class Ball:
 
     def movement(self, delta_time):
         
-                    
-        self.velocity = self.velocity - self.FRICTION
+                  
+        self.currentVelocity = self.currentVelocity - self.FRICTION
 
        
 
         #Constant Velocity
-        self.speed = self.speed + self.velocity * delta_time
+        self.speed = self.speed + self.currentVelocity * delta_time
         self.y += self.GRAVITY * delta_time
         
         
@@ -41,4 +42,5 @@ class Ball:
             self.x -= self.speed * delta_time
         if keys[pygame.K_UP]:
             self.y -= self.speed * delta_time
+            self.currentVelocity = self.velocity
             
