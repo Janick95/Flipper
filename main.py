@@ -33,7 +33,7 @@ class Game:
         #############
 
 
-        ball1 = ball.Ball(window1.window, window1.WINDOWWIDTH/ 2, window1.WINDOWHEIGHT/ 2)
+        ball1 = ball.Ball(window1.window, window1.WINDOWWIDTH/ 2, 0)
 
 
         #############
