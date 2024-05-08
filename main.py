@@ -16,29 +16,29 @@ class Game:
     
     # Constants
     
-    #FRICTION = 0.99
+    
     
     
 
 
     def game():
         
-        GRAVITY = 200
+        
 
         #Ball Parameter
-        speed = 300
+        
         clock = pygame.time.Clock()
         window1 = window.Window()
-    #GameObjects
-    #############
+        #GameObjects
+        #############
 
 
         ball1 = ball.Ball(window1.window, window1.WINDOWWIDTH/ 2, window1.WINDOWHEIGHT/ 2)
 
 
-    #############
+        #############
     
-    #Compute data
+        #Compute data
         running = True
         while running:
             for event in pygame.event.get():
@@ -47,10 +47,10 @@ class Game:
                 elif event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
                     running = False
 
-    #Draw graphics
+        #Draw graphics
             delta_time = clock.tick(60)/1000
             window1.window.fill((255, 255, 255))
-            ball1.update(speed, delta_time, GRAVITY)
+            ball1.update(delta_time)
             pygame.display.update()
     
         pygame.quit()
@@ -84,8 +84,7 @@ class Game:
 
 
 
-#Ball
-#x, y = WINDOWWIDTH // 2, WINDOWHEIGHT // 2
+
 #velocity_x, velocity_y = 0, 0
   
    
