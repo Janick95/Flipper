@@ -9,14 +9,32 @@ class Ball:
         self.y = y
         self.window = window
        
-    def update(self, delta_time):
-        self.movement(300, delta_time)
+    def update(self, speed, delta_time, GRAVITY):
+        self.movement(speed, delta_time, GRAVITY)
         self.draw()
 
     def draw(self):
         pygame.draw.circle(self.window, "red", (self.x, self.y), self.RADIUS)
 
-    def movement(self, speed, delta_time):
+    def movement(self, speed, delta_time, GRAVITY):
+        
+        self.y += GRAVITY * delta_time
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        #Active Controlls
         keys = pygame.key.get_pressed()
 
         if keys[pygame.K_RIGHT]:

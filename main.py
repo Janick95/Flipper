@@ -15,14 +15,18 @@ class Game:
     RED = (255, 0, 0)
     
     # Constants
-    #GRAVITY = 0.1
+    
     #FRICTION = 0.99
     
     
-   
 
 
     def game():
+        
+        GRAVITY = 200
+
+        #Ball Parameter
+        speed = 300
         clock = pygame.time.Clock()
         window1 = window.Window()
     #GameObjects
@@ -46,7 +50,7 @@ class Game:
     #Draw graphics
             delta_time = clock.tick(60)/1000
             window1.window.fill((255, 255, 255))
-            ball1.update(delta_time)
+            ball1.update(speed, delta_time, GRAVITY)
             pygame.display.update()
     
         pygame.quit()
