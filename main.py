@@ -14,32 +14,17 @@ class Game:
     WHITE = (255, 255, 255)
     RED = (255, 0, 0)
     
-    window1 = window.Window()
+    
 
-    def show_text(text_to_show, window1):
-        while True:
-            for event in pygame.event.get():
-                if event.type == pygame.QUIT:
-                    pygame.quit()
+    def game():
                 
-            
-            window1.window.fill((255, 255, 255))
-            
-
-            pygame.display.update()
-
-
-
-
-    def game(window1, show_text(text_to_show, window1)):
-        
-        
         clock = pygame.time.Clock()
-        
+        window1 = window.Window()
         klicks = 0
         drawUI = False
         Manager = pygame_gui.UIManager((window.Window.WINDOWWIDTH, window.Window.WINDOWHEIGHT))
         GravityInput = pygame_gui.elements.UITextEntryLine(relative_rect=pygame.Rect((25, 950), (100, 50)), manager = Manager, object_id="#gravity_text_entry")
+        gravity = 50
 
         #GameObjects
         #############
@@ -68,10 +53,12 @@ class Game:
                     if event.button == pygame.BUTTON_LEFT:
                         ball1.target = event.pos
                         klicks = 2
-                elif event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE: 
+                elif event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE and drawUI != True: 
                     drawUI = True
                 elif event.type == pygame_gui.UI_TEXT_ENTRY_FINISHED and event.ui_object_id == "#gravity_text_entry" and drawUI:    
-                    show_text(event.text)
+                    gravity = int(event.text)
+                elif event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE and drawUI:
+                    drawUI = False
 
                 Manager.process_events(event) 
                 
@@ -83,12 +70,12 @@ class Game:
                 Manager.draw_ui(window1.window)
 
             if klicks > 0:
-                ball1.update(delta_time, klicks)
+                ball1.update(delta_time, klicks, gravity)
             pygame.display.update()
     
         pygame.quit()
 
-    game(window1)
+    game()
 
 
 
