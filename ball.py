@@ -3,6 +3,9 @@ import pygame
 class Ball:
 
     RADIUS = 20
+    position = pygame.math.Vector2(0, 0)
+    target = pygame.math.Vector2(0, 0)
+    distance = pygame.math.Vector2(0, 0)
     speed = 300
     velocity = 500
     GRAVITY = 100
@@ -11,9 +14,7 @@ class Ball:
     up = False
     speedUp = False
 
-    def __init__(self, window, x, y):
-        self.x = x
-        self.y = y
+    def __init__(self, window):
         self.window = window
        
     def update(self, delta_time):
@@ -21,38 +22,45 @@ class Ball:
         self.draw()
 
     def draw(self):
-        pygame.draw.circle(self.window, "red", (self.x, self.y), self.RADIUS)
+        pygame.draw.circle(self.window, "red", (self.position), self.RADIUS)
 
     def movement(self, delta_time):
-        self.y += self.GRAVITY * delta_time
+        
+        
+        self.position = self.position.move_towards(self.target, self.speed * delta_time)
+        
+        
+        #distance = self.target.distance_to(self.position)
+        #print(distance)
+        #self.y += self.GRAVITY * delta_time
 
-        #Constant Velocity
-        self.currentVelocity = self.currentVelocity - self.FRICTION
+        #Constant Velocity     
+              
+        #self.currentVelocity = self.currentVelocity - self.FRICTION
         
-        
-        if self.up:
-            self.y -= self.speed * delta_time
-            if self.speedUp:
-                self.currentVelocity = self.currentVelocity + 2
-                self.speed = self.speed + self.currentVelocity * delta_time
-                if self.currentVelocity == self.velocity:
-                    self.speedUp = False
-            else:
-                self.currentVelocity = self.currentVelocity - 2
-                self.speed = self.speed - self.currentVelocity * delta_time
-            if self.speed == self.GRAVITY:
-                self.up = False
+        #if self.up:
+        #    self.y -= self.speed * delta_time
+        #    if self.speedUp:
+        #        self.currentVelocity = self.currentVelocity + 2
+        #        self.speed = self.speed + self.currentVelocity * delta_time
+        #        if self.currentVelocity == self.velocity:
+        #            self.speedUp = False
+        #    else:
+        #        self.currentVelocity = self.currentVelocity - 2
+        #        self.speed = self.speed - self.currentVelocity * delta_time
+        #    if self.speed == self.GRAVITY:
+        #        self.up = False
         
         
         #Active Controlls
-        keys = pygame.key.get_pressed()
+        #keys = pygame.key.get_pressed()
 
-        if keys[pygame.K_RIGHT]:
-            self.x += self.speed * delta_time
-        elif keys[pygame.K_LEFT]:
-            self.x -= self.speed * delta_time
-        if keys[pygame.K_UP]:
-            self.up = True
-            self.speedUp = True
-            self.currentVelocity = self.velocity
+        #if keys[pygame.K_RIGHT]:
+        #    self.x += self.speed * delta_time
+        #elif keys[pygame.K_LEFT]:
+        #    self.x -= self.speed * delta_time
+        #if keys[pygame.K_UP]:
+        #    self.up = True
+        #    self.speedUp = True
+        #    self.currentVelocity = self.velocity
             

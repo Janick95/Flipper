@@ -1,4 +1,3 @@
-import sys
 import pygame
 import ball
 import window
@@ -14,27 +13,19 @@ class Game:
     WHITE = (255, 255, 255)
     RED = (255, 0, 0)
     
-    # Constants
-    
-    
-    
-    
-
 
     def game():
         
         
-
-        #Ball Parameter
-        
         clock = pygame.time.Clock()
         window1 = window.Window()
+        klicks = 0
         #GameObjects
         #############
 
 
-        ball1 = ball.Ball(window1.window, window1.WINDOWWIDTH/ 2, 0)
-
+        ball1 = ball.Ball(window1.window)
+        
 
         #############
     
@@ -46,6 +37,14 @@ class Game:
                     running = False
                 elif event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
                     running = False
+                elif klicks == 0 and event.type == pygame.MOUSEBUTTONDOWN:
+                    if event.button == pygame.BUTTON_LEFT:
+                        ball1.position = event.pos
+                        klicks = 1
+                elif klicks == 1 and event.type == pygame.MOUSEBUTTONDOWN:
+                    if event.button == pygame.BUTTON_LEFT:
+                        ball1.target = event.pos
+                        klicks = 2
 
         #Draw graphics
             delta_time = clock.tick(60)/1000
