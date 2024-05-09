@@ -8,6 +8,7 @@ class Ball:
     distance = pygame.math.Vector2(0, 0)
     speed = 300
     velocity = 500
+    impulseStrength = 0
     vecGravity = pygame.math.Vector2(0,0)
     FRICTION = 50
     currentVelocity = 0
@@ -26,15 +27,16 @@ class Ball:
     def draw(self):
         pygame.draw.circle(self.window, "red", (self.position), self.RADIUS)
 
+
     def movement(self, delta_time, gravity):
 
         vecGravity = pygame.math.Vector2(0.0, float(gravity))
 
         self.speed = self.currentVelocity
         self.distance = pygame.math.Vector2(self.target) - pygame.math.Vector2(self.position)
-        distance_magnitude = self.distance.length()
+        self.impulseStrength = self.distance.length()
 
-        if distance_magnitude > 0:
+        if self.impulseStrength > 0:
             self.distance.normalize_ip()
             self.position += self.distance * self.speed * delta_time
             self.currentVelocity = self.speed
