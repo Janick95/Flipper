@@ -30,6 +30,7 @@ class Ball:
 
         vecGravity = pygame.math.Vector2(0.0, float(gravity))
 
+        self.speed = self.currentVelocity
         self.distance = pygame.math.Vector2(self.target) - pygame.math.Vector2(self.position)
         distance_magnitude = self.distance.length()
 
