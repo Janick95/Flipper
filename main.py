@@ -23,7 +23,7 @@ class Game:
         drawUI = False
         Manager = pygame_gui.UIManager((window.Window.WINDOWWIDTH, window.Window.WINDOWHEIGHT))
         GravityInput = pygame_gui.elements.UITextEntryLine(relative_rect=pygame.Rect((25, 950), (100, 50)), manager = Manager, object_id="#gravity_text_entry")
-        gravity = 50
+        gravity = 10
 
         #GameObjects
         #############
