@@ -24,6 +24,7 @@ class Game:
         Manager = pygame_gui.UIManager((window.Window.WINDOWWIDTH, window.Window.WINDOWHEIGHT))
         GravityInput = pygame_gui.elements.UITextEntryLine(relative_rect=pygame.Rect((25, 950), (100, 50)), manager = Manager, object_id="#gravity_text_entry")
         gravity = 10
+        impulse = False
 
         #GameObjects
         #############
@@ -52,6 +53,7 @@ class Game:
                     if event.button == pygame.BUTTON_LEFT:
                         ball1.target = event.pos
                         klicks = 2
+                        impulse = True
                 elif event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE and drawUI != True: 
                     drawUI = True
                 elif event.type == pygame_gui.UI_TEXT_ENTRY_FINISHED and event.ui_object_id == "#gravity_text_entry" and drawUI:    
@@ -69,7 +71,7 @@ class Game:
                 Manager.draw_ui(window1.window)
 
             if klicks > 0:
-                ball1.update(delta_time, klicks, gravity)
+                ball1.update(delta_time, klicks, gravity, impulse)
             pygame.display.update()
     
         pygame.quit()

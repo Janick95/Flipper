@@ -6,9 +6,10 @@ class Ball:
     position = pygame.math.Vector2(0, 0)
     target = pygame.math.Vector2(100, 100)
     distance = pygame.math.Vector2(0, 0)
-    velocity = 500
+    velocity = 0
     impulseStrength = 0
-    vecGravity = pygame.math.Vector2(0,0)
+    direction = pygame.math.Vector2(0, 0)
+    vecGravity = pygame.math.Vector2(0, 0)
     FRICTION = 50
     currentVelocity = 0
     acceleration = 0
@@ -18,35 +19,53 @@ class Ball:
     def __init__(self, window):
         self.window = window
        
-    def update(self, delta_time, klicks, gravity):
+    def update(self, delta_time, klicks, gravity, impulse):
         if klicks > 1:
-            self.movement(delta_time, gravity)
+            self.movement(delta_time, gravity, impulse)
         self.draw()
 
     def draw(self):
         pygame.draw.circle(self.window, "red", (self.position), self.RADIUS)
 
 
-    def movement(self, delta_time, gravity):
+    def movement(self, delta_time, gravity, impulse):
+        
+        
+        if impulse:
+            self.distance = pygame.math.Vector2(self.target) - pygame.math.Vector2(self.position)
+            self.impulseStrength = self.distance.length()
 
-        vecGravity = pygame.math.Vector2(0.0, float(gravity))
-
-        self.distance = pygame.math.Vector2(self.target) - pygame.math.Vector2(self.position)
-        self.impulseStrength = self.distance.length()
-
-        if self.impulseStrength > 0:
-            self.distance.normalize_ip()
-            self.position += self.distance * self.impulseStrength * delta_time
-            
         else:
-            self.currentVelocity = 0
+            vecGravity = pygame.math.Vector2(0.0, float(gravity))
+            self.position = self.position + vecGravity * delta_time
+
+
         
-        self.position = self.position.move_towards(self.target, self.currentVelocity * delta_time)
+
+
+
+
+
+
+
+
+
+
+
         
-        self.position = self.position + vecGravity * delta_time
+        
+        #if self.impulseStrength > 0:
+            #self.distance = self.distance.normalize_ip()
 
+        #print(self.distance)
+        #self.position = pygame.math.Vector2(self.position).move_towards(self.target, self.currentVelocity * delta_time)
 
-
+        
+        #self.position += pygame.math.Vector2(self.distance) * delta_time
+            
+        #*self.impulseStrength
+        
+        
 
 
 
