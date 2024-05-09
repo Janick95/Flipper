@@ -28,7 +28,7 @@ class Ball:
 
     def movement(self, delta_time, gravity):
 
-        vecGravity = (0.0, float(gravity))
+        vecGravity = pygame.math.Vector2(0.0, float(gravity))
 
         self.distance = pygame.math.Vector2(self.target) - pygame.math.Vector2(self.position)
         distance_magnitude = self.distance.length()
@@ -42,7 +42,7 @@ class Ball:
         
         self.position = self.position.move_towards(self.target, self.currentVelocity * delta_time)
         
-        self.position = self.position + pygame.math.Vector2(vecGravity) * delta_time
+        self.position = self.position + vecGravity * delta_time
 
 
 
