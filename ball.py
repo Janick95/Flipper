@@ -4,7 +4,7 @@ class Ball:
 
     RADIUS = 20
     position = pygame.math.Vector2(0, 0)
-    target = pygame.math.Vector2(0, 0)
+    target = pygame.math.Vector2(-100, -100)
     distance = pygame.math.Vector2(0, 0)
     speed = 300
     velocity = 500
@@ -25,9 +25,17 @@ class Ball:
         pygame.draw.circle(self.window, "red", (self.position), self.RADIUS)
 
     def movement(self, delta_time):
+        self.distance = self.target + self.position
+        distance_magnitude = self.distance.length()
+
+        if distance_magnitude > 0:
+            self.distance.normalize_ip()
+            self.position += self.distance * self.speed * delta_time
+            self.currentVelocity = self.speed
+        else:
+            self.currentVelocity = 0
         
-        
-        self.position = self.position.move_towards(self.target, self.speed * delta_time)
+        self.position = self.position.move_towards(self.target, self.currentVelocity * delta_time)
         
         
         #distance = self.target.distance_to(self.position)
