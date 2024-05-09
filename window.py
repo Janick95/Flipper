@@ -1,8 +1,8 @@
 import pygame
 
 class Window:
-    WINDOWWIDTH = 1920
-    WINDOWHEIGHT = 1440
+    WINDOWWIDTH = 800
+    WINDOWHEIGHT = 1000
     CAPTION = "2D Flipper Automat"
     
     

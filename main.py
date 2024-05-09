@@ -37,7 +37,7 @@ class Game:
                     running = False
                 elif event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
                     running = False
-                elif event.type == pygame.MOUSEBUTTONDOWN:
+                elif klicks == 0 and event.type == pygame.MOUSEBUTTONDOWN:
                     if event.button == pygame.BUTTON_LEFT:
                         ball1.position = event.pos
                         klicks = 1
@@ -49,7 +49,8 @@ class Game:
         #Draw graphics
             delta_time = clock.tick(60)/1000
             window1.window.fill((255, 255, 255))
-            ball1.update(delta_time)
+            if klicks > 0:
+                ball1.update(delta_time)
             pygame.display.update()
     
         pygame.quit()
