@@ -12,7 +12,7 @@ class Ball:
     vecGravity = pygame.math.Vector2(0, 0)
     FRICTION = 50
     currentVelocity = 0
-    acceleration = pygame.math.Vector2(0, 0)
+    impulseAcceleration = pygame.math.Vector2(0, 0)
     gravityAcceleration = pygame.math.Vector2(0, 0)
     up = False
     speedUp = False
@@ -51,28 +51,19 @@ class Ball:
         self.vecGravity = pygame.math.Vector2(0.0, float(gravity))
         self.gravityAcceleration += self.vecGravity
         self.distance = pygame.math.Vector2(self.target) - pygame.math.Vector2(self.position)
-        self.distanceLength = self.distance.length()
+        self.impulseStrength = self.distance.length()
         self.direction = self.distance.normalize()
+        self.impulseAcceleration = self.direction * self.impulseStrength
+        self.impulseStrength -= self.FRICTION
+        
+        self.velocity += (self.gravityAcceleration * delta_time)
+        if self.impulseStrength > 1:
+            self.velocity += (self.impulseAcceleration * delta_time)
             
-        self.velocity += self.gravityAcceleration * delta_time
+        
         self.position = self.position + pygame.math.Vector2(self.direction + self.velocity * delta_time)
             
-            
-            
-
-            #a = self.yTar - self.yPos
-            #b = self.xTar - self.xPos
-            #c = a/b
-            #d = self.xMov - self.xPos
-            #self.yMov = self.yPos + c * d
-            
-
-            #print (self.xMov, self.yMov)
-            #newPosition = pygame.math.Vector2(self.xMov, self.yMov)
-
-            #self.position += newPosition * self.velocity* delta_time
-
-            #self.xMov += self.velocity * delta_time
+        
 
 
 
