@@ -53,7 +53,6 @@ class Game:
                     if event.button == pygame.BUTTON_LEFT:
                         ball1.target = event.pos
                         klicks = 2
-                        impulse = True
                 elif event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE and drawUI != True: 
                     drawUI = True
                 elif event.type == pygame_gui.UI_TEXT_ENTRY_FINISHED and event.ui_object_id == "#gravity_text_entry" and drawUI:    
@@ -71,7 +70,7 @@ class Game:
                 Manager.draw_ui(window1.window)
 
             if klicks > 0:
-                ball1.update(delta_time, klicks, gravity, impulse)
+                ball1.update(delta_time, klicks, gravity)
             pygame.display.update()
     
         pygame.quit()

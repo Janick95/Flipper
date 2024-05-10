@@ -25,24 +25,25 @@ class Ball:
     yMov = yPos
 
     newPosition = pygame.math.Vector2(0, 0)
-    distanceLength = 0
+    distanceLength = 100
 
     def __init__(self, window):
         self.window = window
        
-    def update(self, delta_time, klicks, gravity, impulse):
+    def update(self, delta_time, klicks, gravity):
         if klicks > 1:
-            self.movement(delta_time, gravity, impulse)
+            self.movement(delta_time, gravity)
         self.draw()
+       
 
     def draw(self):
         pygame.draw.circle(self.window, "red", (self.position), self.RADIUS)
 
 
-    def movement(self, delta_time, gravity, impulse):
+    def movement(self, delta_time, gravity):
         
         
-        if impulse:
+        if int(self.distanceLength) > 1:
             
             self.distance = pygame.math.Vector2(self.target) - pygame.math.Vector2(self.position)
             self.distanceLength = self.distance.length()
@@ -50,11 +51,10 @@ class Ball:
 
          
 
-            #self.velocity += pygame.math.Vector2(self.direction) * delta_time #* gravity
-            self.position += self.direction * self.velocity * delta_time
-
-            
-            
+            #self.velocity += pygame.math.Vector2(self.direction + self.velocity * delta_time) #* gravity
+            #self.position += self.direction
+            #self.position *= self.velocity * delta_time
+            self.position += pygame.math.Vector2(self.direction + self.velocity * delta_time)
             
             
             #print(self.position)
@@ -76,9 +76,8 @@ class Ball:
 
             #vecGravity = pygame.math.Vector2(0.0, float(gravity))
             #self.position = self.position + vecGravity * delta_time
-            print(self.distanceLength)
-            if self.distanceLength < 1.0:
-                impulse = False
+            
+           
 
         else:
             vecGravity = pygame.math.Vector2(0.0, float(gravity))
