@@ -13,6 +13,7 @@ class Ball:
     FRICTION = 50
     currentVelocity = 0
     acceleration = pygame.math.Vector2(0, 0)
+    gravityAcceleration = pygame.math.Vector2(0, 0)
     up = False
     speedUp = False
     xPos = position.x
@@ -47,6 +48,7 @@ class Ball:
         
         if int(self.distanceLength) > 1:
             self.vecGravity = pygame.math.Vector2(0.0, float(gravity))
+            self.gravityAcceleration += pygame.math.Vector2(0.0, float(self.gravityAcceleration.y + self.time * delta_time))
             self.distance = pygame.math.Vector2(self.target) - pygame.math.Vector2(self.position)
             self.distanceLength = self.distance.length()
             self.direction = self.distance.normalize()
@@ -54,7 +56,7 @@ class Ball:
          
             
             self.velocity += self.vecGravity * delta_time
-            self.position += pygame.math.Vector2(self.direction + self.velocity * delta_time)
+            self.position = self.position + pygame.math.Vector2(self.direction + self.velocity * delta_time) + 0.5 * (self.gravityAcceleration * (delta_time**2))
             
             
             
@@ -77,9 +79,10 @@ class Ball:
            
 
         else:
+            
             self.vecGravity = pygame.math.Vector2(0.0, float(gravity))
-            self.acceleration += self.time * delta_time
-            self.position += self.vecGravity * delta_time
+            self.gravityAcceleration += pygame.math.Vector2(0.0, float(self.gravityAcceleration.y + self.time * delta_time))
+            self.position = self.position + (self.vecGravity * delta_time) + 0.5 * (self.gravityAcceleration * (delta_time**2))
 
 
         
