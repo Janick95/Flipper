@@ -8,11 +8,8 @@ class Game:
     #Pygame Initialieren
     pygame.init()
 
-#Parameters
-    #Colors
-    BLACK = (0, 0, 0)
-    WHITE = (255, 255, 255)
-    RED = (255, 0, 0)
+    #Parameters
+    
     
 
     def game():
@@ -76,55 +73,6 @@ class Game:
         pygame.quit()
 
     game()
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-#velocity_x, velocity_y = 0, 0
-  
-   
-#sys.exit()
-
-    #physics
-
-    #velocity_y += GRAVITY
-    #velocity_x *= FRICTION
-   # velocity_y *= FRICTION
-    #x += velocity_x
-   # y += velocity_y
-
-    # Bounce off the walls
-   # if x + radius >= WIDTH or x - radius <= 0:
-   #     velocity_x *= -1
-   # if y + radius >= HEIGHT or y - radius <= 0:
-   #     velocity_y *= -1
-
-
 
    
    
