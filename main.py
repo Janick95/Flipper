@@ -5,12 +5,7 @@ import pygame_gui
 
 class Game:
 
-    #Pygame Initialieren
     pygame.init()
-
-    #Parameters
-    
-    
 
     def game():
                 
@@ -22,7 +17,6 @@ class Game:
         GravityInput = pygame_gui.elements.UITextEntryLine(relative_rect=pygame.Rect((25, 950), (100, 50)), manager = Manager, object_id="#gravity_text_entry")
         gravity = 50
         
-
         #GameObjects
         #############
 
@@ -60,7 +54,6 @@ class Game:
                 Manager.process_events(event)
                 
         #Draw graphics
-            
             Manager.update(delta_time)
             window1.window.fill((255, 255, 255))
             if drawUI:

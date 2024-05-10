@@ -11,25 +11,9 @@ class Ball:
     direction = pygame.math.Vector2(0, 0)
     vecGravity = pygame.math.Vector2(0, 0)
     FRICTION = 50
-    currentVelocity = 0
     impulseAcceleration = pygame.math.Vector2(0, 0)
     gravityAcceleration = pygame.math.Vector2(0, 0)
-    up = False
-    speedUp = False
-    xPos = position.x
-    yPos = position.y
-
-    xTar = target.x
-    yTar = target.y
-
-    xMov = xPos
-    yMov = yPos
-
-    newPosition = pygame.math.Vector2(0, 0)
-    distanceLength = 100
-
-    time = 0
-
+    
     def __init__(self, window):
         self.window = window
        
@@ -42,12 +26,8 @@ class Ball:
     def draw(self):
         pygame.draw.circle(self.window, "red", (self.position), self.RADIUS)
 
-
     def movement(self, delta_time, gravity):
-        self.time += 1
-        self.time /= 1000000
-        
-        
+                
         self.vecGravity = pygame.math.Vector2(0.0, float(gravity))
         self.gravityAcceleration += self.vecGravity
         self.distance = pygame.math.Vector2(self.target) - pygame.math.Vector2(self.position)
@@ -60,6 +40,5 @@ class Ball:
         if self.impulseStrength > 1:
             self.velocity += (self.impulseAcceleration * delta_time)
             
-        
         self.position = self.position + pygame.math.Vector2(self.direction + self.velocity * delta_time)
         
