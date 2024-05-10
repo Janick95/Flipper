@@ -44,7 +44,7 @@ class Ball:
         
         
         if int(self.distanceLength) > 1:
-            
+            vecGravity = pygame.math.Vector2(0.0, float(gravity))
             self.distance = pygame.math.Vector2(self.target) - pygame.math.Vector2(self.position)
             self.distanceLength = self.distance.length()
             self.direction = self.distance.normalize()
@@ -54,11 +54,11 @@ class Ball:
             #self.velocity += pygame.math.Vector2(self.direction + self.velocity * delta_time) #* gravity
             #self.position += self.direction
             #self.position *= self.velocity * delta_time
+            self.velocity += vecGravity * delta_time
             self.position += pygame.math.Vector2(self.direction + self.velocity * delta_time)
             
             
-            #print(self.position)
-            #print(self.target)
+            
 
             #a = self.yTar - self.yPos
             #b = self.xTar - self.xPos
@@ -74,8 +74,6 @@ class Ball:
 
             #self.xMov += self.velocity * delta_time
 
-            #vecGravity = pygame.math.Vector2(0.0, float(gravity))
-            #self.position = self.position + vecGravity * delta_time
             
            
 

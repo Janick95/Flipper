@@ -23,8 +23,8 @@ class Game:
         drawUI = False
         Manager = pygame_gui.UIManager((window.Window.WINDOWWIDTH, window.Window.WINDOWHEIGHT))
         GravityInput = pygame_gui.elements.UITextEntryLine(relative_rect=pygame.Rect((25, 950), (100, 50)), manager = Manager, object_id="#gravity_text_entry")
-        gravity = 30
-        impulse = False
+        gravity = 50
+        
 
         #GameObjects
         #############
@@ -60,7 +60,7 @@ class Game:
                 elif event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE and drawUI:
                     drawUI = False
 
-                Manager.process_events(event) 
+                Manager.process_events(event)
                 
         #Draw graphics
             
