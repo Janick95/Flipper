@@ -4,9 +4,9 @@ class Ball:
 
     RADIUS = 20
     position = pygame.math.Vector2(0, 0)
-    target = pygame.math.Vector2(100, 100)
+    target = pygame.math.Vector2(0, 0)
     distance = pygame.math.Vector2(0, 0)
-    velocity = 0
+    velocity = pygame.math.Vector2(0, 0)
     impulseStrength = 0
     direction = pygame.math.Vector2(0, 0)
     vecGravity = pygame.math.Vector2(0, 0)
@@ -15,6 +15,17 @@ class Ball:
     acceleration = 0
     up = False
     speedUp = False
+    xPos = position.x
+    yPos = position.y
+
+    xTar = target.x
+    yTar = target.y
+
+    xMov = xPos
+    yMov = yPos
+
+    newPosition = pygame.math.Vector2(0, 0)
+    distanceLength = 0
 
     def __init__(self, window):
         self.window = window
@@ -32,8 +43,42 @@ class Ball:
         
         
         if impulse:
+            
             self.distance = pygame.math.Vector2(self.target) - pygame.math.Vector2(self.position)
-            self.impulseStrength = self.distance.length()
+            self.distanceLength = self.distance.length()
+            self.direction = self.distance.normalize()
+
+         
+
+            #self.velocity += pygame.math.Vector2(self.direction) * delta_time #* gravity
+            self.position += self.direction * self.velocity * delta_time
+
+            
+            
+            
+            
+            #print(self.position)
+            #print(self.target)
+
+            #a = self.yTar - self.yPos
+            #b = self.xTar - self.xPos
+            #c = a/b
+            #d = self.xMov - self.xPos
+            #self.yMov = self.yPos + c * d
+            
+
+            #print (self.xMov, self.yMov)
+            #newPosition = pygame.math.Vector2(self.xMov, self.yMov)
+
+            #self.position += newPosition * self.velocity* delta_time
+
+            #self.xMov += self.velocity * delta_time
+
+            #vecGravity = pygame.math.Vector2(0.0, float(gravity))
+            #self.position = self.position + vecGravity * delta_time
+            print(self.distanceLength)
+            if self.distanceLength < 1.0:
+                impulse = False
 
         else:
             vecGravity = pygame.math.Vector2(0.0, float(gravity))
@@ -55,7 +100,7 @@ class Ball:
         
         
         #if self.impulseStrength > 0:
-            #self.distance = self.distance.normalize_ip()
+            
 
         #print(self.distance)
         #self.position = pygame.math.Vector2(self.position).move_towards(self.target, self.currentVelocity * delta_time)
