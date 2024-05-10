@@ -6,7 +6,6 @@ import pygame_gui
 
 class Game:
 
-    #Pygame Initialieren
     pygame.init()
 
     #Parameters
@@ -23,7 +22,6 @@ class Game:
         GravityInput = pygame_gui.elements.UITextEntryLine(relative_rect=pygame.Rect((25, 950), (100, 50)), manager = Manager, object_id="#gravity_text_entry")     # Create a text entry line object
         gravity = 50 
         
-
         #GameObjects
         #############
 

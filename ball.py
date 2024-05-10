@@ -43,7 +43,6 @@ class Ball:
     def draw(self):
         pygame.draw.circle(self.window, "red", (self.position), self.RADIUS)                                # Draw the ball to the window
 
-
     def movement(self, delta_time, gravity):
         self.time += 1                                                                                      # Update the time of the ball
         self.time /= 1000000                                                                                # Divide the time by 1000000 to get the time in
