@@ -8,10 +8,7 @@ class Game:
 
     pygame.init()
 
-    #Parameters
-    
-    
-# Define the main game loop function
+    # Define the main game loop function
     def game():
                 
         clock = pygame.time.Clock()                                                                                                                                 # Create a clock object to keep track of time
@@ -59,7 +56,6 @@ class Game:
                 Manager.process_events(event)               # Update the UIManager object
                 
         #Draw graphics
-            
             Manager.update(delta_time)                      # Update the UIManager object
             window1.window.fill((255, 255, 255))            # Fill the window with white
             if drawUI: 
