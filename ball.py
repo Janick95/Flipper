@@ -55,7 +55,7 @@ class Ball:
         self.direction = self.distance.normalize()
             
         self.velocity += self.gravityAcceleration * delta_time
-        self.position = self.position + pygame.math.Vector2(self.direction + self.velocity * delta_time) 
+        self.position = self.position + pygame.math.Vector2(self.direction + self.velocity * delta_time)
             
             
             
