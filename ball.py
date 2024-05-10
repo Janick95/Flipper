@@ -47,19 +47,15 @@ class Ball:
         self.time += 1
         self.time /= 1000000
         
-        if int(self.distanceLength) > 1:
-            self.vecGravity = pygame.math.Vector2(0.0, float(gravity))
-            self.gravityAcceleration += pygame.math.Vector2(0.0, 1.0)
-            self.distance = pygame.math.Vector2(self.target) - pygame.math.Vector2(self.position)
-            self.distanceLength = self.distance.length()
-            self.direction = self.distance.normalize()
-
-         
-            print(delta_time)
-
+        
+        self.vecGravity = pygame.math.Vector2(0.0, float(gravity))
+        self.gravityAcceleration += self.vecGravity
+        self.distance = pygame.math.Vector2(self.target) - pygame.math.Vector2(self.position)
+        self.distanceLength = self.distance.length()
+        self.direction = self.distance.normalize()
             
-            self.velocity += self.gravityAcceleration * delta_time
-            self.position = self.position + pygame.math.Vector2(self.direction + self.velocity * delta_time) 
+        self.velocity += self.gravityAcceleration * delta_time
+        self.position = self.position + pygame.math.Vector2(self.direction + self.velocity * delta_time) 
             
             
             
@@ -78,28 +74,11 @@ class Ball:
 
             #self.xMov += self.velocity * delta_time
 
-            
-           
-
-        else:
-            self.vecGravity = pygame.math.Vector2(0.0, float(gravity))
-            self.gravityAcceleration += pygame.math.Vector2(0.0, float(self.gravityAcceleration.y + self.time * delta_time))
-            self.position = self.position + (self.vecGravity * delta_time) + 0.5 * (self.gravityAcceleration * (delta_time**2))
 
 
         
 
 
-
-
-
-
-
-
-
-
-
-        
         
         #if self.impulseStrength > 0:
             
