@@ -2,7 +2,7 @@ import pygame
 
 class Ball:
 
-    RADIUS = 20
+    RADIUS = 15
     position = pygame.math.Vector2(0, 0)
     target = pygame.math.Vector2(0, 0)
     distance = pygame.math.Vector2(0, 0)
