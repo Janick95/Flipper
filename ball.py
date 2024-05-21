@@ -11,24 +11,26 @@ class Ball:
     impulseStrength = 0                                 # impulseStrength (int): The strength of the impulse
     direction = pygame.math.Vector2(0, 0)               # direction (Vector2): The direction of the ball
     vecGravity = pygame.math.Vector2(0, 0)              # vecGravity (Vector2): The gravity vector
-    FRICTION = 50                                       # FRICTION (int): The friction of the ball
     impulseAcceleration = pygame.math.Vector2(0, 0)     # impulseAcceleration (Vector2): The impulse acceleration of the ball
-    gravityAcceleration = pygame.math.Vector2(0, 0)     # gravityAcceleration (Vector2): The gravity acceleration of the ball
+    gravityAcceleration = pygame.math.Vector2(0, 0)
+    
+    GRAVITY = 9810
+    FRICTION = 50
     
     def __init__(self, window): 
         self.window = window                                # Set the window of the ball to the window of the game window
        
-    def update(self, delta_time, klicks, gravity): 
+    def update(self, delta_time, klicks): 
         if klicks > 1: 
-            self.movement(delta_time, gravity)                  # Update the movement of the ball
+            self.movement(delta_time)                  # Update the movement of the ball
         self.draw()                                             # Draw the ball to the window
        
     def draw(self):
         pygame.draw.circle(self.window, "red", (self.position), self.RADIUS)                                # Draw the ball to the window
 
-    def movement(self, delta_time, gravity):
+    def movement(self, delta_time):
                 
-        self.vecGravity = pygame.math.Vector2(0.0, float(gravity))                                          # Set the gravity vector of the ball
+        self.vecGravity = pygame.math.Vector2(0.0, float(self.GRAVITY))                                          # Set the gravity vector of the ball
         self.gravityAcceleration += self.vecGravity                                                         # Update the gravity acceleration of the ball
         self.distance = pygame.math.Vector2(self.target) - pygame.math.Vector2(self.position)               # Update the distance of the ball
         self.impulseStrength = self.distance.length()                                                       # Update the impulse strength of the ball
