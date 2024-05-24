@@ -13,7 +13,7 @@ class Game:
     def game():
                 
         clock = pygame.time.Clock()                                                                                                                              # Create a clock object to keep track of time
-        screen1 = window.Window().screen                                                                                                                                  # Initialize the game window
+        screen1 = window.Window().screen                                                                                                                                # Initialize the game window
         klicks = 0                                                                                                                                                  # Number of mouse clicks
         drawUI = False                                                                                                                                              # Draw the UI or not
         simparam1 = simparam.SimParam()
