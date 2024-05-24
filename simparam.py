@@ -17,14 +17,14 @@ class SimParam:
     def show_text(screen, position, impulseAcceleration, gravityAcceleration):
 
 
-        positionX = str(position.x)
-        positionY = str(position.y)
+        position = str(position)
+        #positionY = str(position.y)
         impulseAccelerationX = str(impulseAcceleration.x)
         impulseAccelerationY = str(impulseAcceleration.y)
         gravityAccelerationX = str(gravityAcceleration.x)
         gravityAccelerationY = str(gravityAcceleration.y)
 
-        posImg = SimParam.text_font.render("Position: " + positionX + positionY, True, "black")
+        posImg = SimParam.text_font.render("Position: " + position, True, "black")
         screen.blit(posImg, (20,20))
         
         impAccImg = SimParam.text_font.render("Impulse Acceleration: " + impulseAccelerationX + impulseAccelerationY, True, "black")
