@@ -4,6 +4,7 @@ import ball
 import window
 import pygame_gui
 import simparam
+import pygame_widgets
 
 class Game:
 
@@ -15,8 +16,7 @@ class Game:
         clock = pygame.time.Clock()                                                                                                                              # Create a clock object to keep track of time
         screen1 = window.Window().screen                                                                                                                                # Initialize the game window
         klicks = 0                                                                                                                                                  # Number of mouse clicks
-        drawUI = False                                                                                                                                              # Draw the UI or not
-        simparam1 = simparam.SimParam()
+        drawUI = False
                 
         #GameObjects
         #############
@@ -28,11 +28,13 @@ class Game:
         #############
       
         #Compute data
-        running = True 
+        running = True
         while running:                                      # Game loop
             
-            delta_time = clock.tick(60)/1000                # Compute the delta time
-            for event in pygame.event.get():                # Check for events
+            delta_time = clock.tick(60)/1000
+            
+            events = pygame.event.get()
+            for event in events:               # Check for events
                 if event.type == pygame.QUIT: 
                     running = False 
                 elif event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
@@ -55,18 +57,18 @@ class Game:
                     drawUI = False 
                 ############
 
-                simparam1.Manager.process_events(event)     # Update the UIManager object
+                
                 
         #Draw graphics
             #simparam1.Manager.update(delta_time)
             screen1.fill((255, 255, 255))
             
-            if drawUI: 
-                simparam1.Manager.draw_ui(screen1)
-                simparam.SimParam.show_text(screen1, ball1.position, ball.Ball.impulseAcceleration, ball.Ball.gravityAcceleration)           # Draw the UI elements
+            if drawUI:
+                simparam.SimParam.show_UI(screen1, ball1.position, ball1.impulseAcceleration, ball1.gravityAcceleration, ball1)
+                pygame_widgets.update(events)
 
             if klicks > 0:
-                ball1.update(delta_time, klicks)   # Update the ball object
+                ball1.update(delta_time, klicks)
             pygame.display.update()                         # Update the display
     
         pygame.quit()                                       # Quit the game
