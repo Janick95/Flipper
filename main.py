@@ -63,7 +63,7 @@ class Game:
             
             if drawUI: 
                 simparam1.Manager.draw_ui(screen1)
-                simparam.SimParam.show_text(screen1, ball.Ball.position, ball.Ball.impulseAcceleration, ball.Ball.gravityAcceleration)           # Draw the UI elements
+                simparam.SimParam.show_text(screen1, ball1.position, ball.Ball.impulseAcceleration, ball.Ball.gravityAcceleration)           # Draw the UI elements
 
             if klicks > 0:
                 ball1.update(delta_time, klicks)   # Update the ball object
