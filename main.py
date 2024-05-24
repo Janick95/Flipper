@@ -13,7 +13,7 @@ class Game:
     def game():
                 
         clock = pygame.time.Clock()                                                                                                                              # Create a clock object to keep track of time
-        window1 = window.Window()                                                                                                                                   # Initialize the game window
+        screen1 = window.Window().screen                                                                                                                                  # Initialize the game window
         klicks = 0                                                                                                                                                  # Number of mouse clicks
         drawUI = False                                                                                                                                              # Draw the UI or not
         simparam1 = simparam.SimParam()
@@ -22,7 +22,7 @@ class Game:
         #############
 
 
-        ball1 = ball.Ball(window1.window)                   # Create a ball object
+        ball1 = ball.Ball(screen1)                   # Create a ball object
         
 
         #############
@@ -35,7 +35,7 @@ class Game:
             for event in pygame.event.get():                # Check for events
                 if event.type == pygame.QUIT: 
                     running = False 
-                elif event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE: 
+                elif event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
                     running = False
                 elif klicks == 0 and event.type == pygame.MOUSEBUTTONDOWN: 
                     if event.button == pygame.BUTTON_LEFT: 
@@ -49,7 +49,8 @@ class Game:
                 elif event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE and drawUI != True:   
                     drawUI = True 
                 elif event.type == pygame_gui.UI_TEXT_ENTRY_FINISHED and event.ui_object_id == "#gravity_text_entry" and drawUI:     
-                    ball1.gravityAcceleration = int(event.text)
+                    #ball1.gravityAcceleration = int(event.text)
+                    simparam.SimParam.show_text(screen1, ball1.position, ball1.impulseAcceleration, ball1.gravityAcceleration)
                 elif event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE and drawUI: 
                     drawUI = False 
                 ############
@@ -57,10 +58,12 @@ class Game:
                 simparam1.Manager.process_events(event)     # Update the UIManager object
                 
         #Draw graphics
-            simparam1.Manager.update(delta_time)            # Update the UIManager object
-            window1.window.fill((255, 255, 255))            # Fill the window with white
+            #simparam1.Manager.update(delta_time)
+            screen1.fill((255, 255, 255))
+            
             if drawUI: 
-                simparam1.Manager.draw_ui(window1.window)             # Draw the UI elements
+                simparam1.Manager.draw_ui(screen1)
+                simparam.SimParam.show_text(screen1, ball.Ball.position, ball.Ball.impulseAcceleration, ball.Ball.gravityAcceleration)           # Draw the UI elements
 
             if klicks > 0:
                 ball1.update(delta_time, klicks)   # Update the ball object

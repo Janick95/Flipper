@@ -7,7 +7,7 @@ class Window:
     
     #__init__(self): Initializes the window
     def __init__(self):
-        self.window = pygame.display.set_mode((self.WINDOWWIDTH, self.WINDOWHEIGHT)) #create the window
+        self.screen = pygame.display.set_mode((self.WINDOWWIDTH, self.WINDOWHEIGHT)) #create the window
         pygame.display.set_caption(self.CAPTION) #set the caption of the window
 
    # Calculate the window resolution into real units

@@ -4,7 +4,7 @@ import pygame
 class Ball: 
 
     RADIUS = 15                                         # RADIUS (int): The radius of the ball
-    position = pygame.math.Vector2(0, 0)                # position (Vector2): The position of the ball
+    position = pygame.math.Vector2(0, 0)              # position (Vector2): The position of the ball
     target = pygame.math.Vector2(0, 0)                  # target (Vector2): The target position of the ball
     distance = pygame.math.Vector2(0, 0)                # distance (Vector2): The distance between the ball and the target
     velocity = pygame.math.Vector2(0, 0)                # velocity (Vector2): The velocity of the ball
@@ -17,8 +17,8 @@ class Ball:
     GRAVITY = 9810
     FRICTION = 50
     
-    def __init__(self, window): 
-        self.window = window                                # Set the window of the ball to the window of the game window
+    def __init__(self, screen): 
+        self.screen = screen                                # Set the window of the ball to the window of the game window
        
     def update(self, delta_time, klicks): 
         if klicks > 1: 
@@ -26,7 +26,7 @@ class Ball:
         self.draw()                                             # Draw the ball to the window
        
     def draw(self):
-        pygame.draw.circle(self.window, "red", (self.position), self.RADIUS)                                # Draw the ball to the window
+        pygame.draw.circle(self.screen, "red", (self.position), self.RADIUS)                                # Draw the ball to the window
 
     def movement(self, delta_time):
                 
