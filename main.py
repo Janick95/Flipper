@@ -52,7 +52,7 @@ class Game:
                     drawUI = True 
                 elif event.type == pygame_gui.UI_TEXT_ENTRY_FINISHED and event.ui_object_id == "#gravity_text_entry" and drawUI:     
                     #ball1.gravityAcceleration = int(event.text)
-                    simparam.SimParam.show_text(screen1, ball1.position, ball1.impulseAcceleration, ball1.gravityAcceleration)
+                    simparam.SimParam.show_text(screen1, ball1.position, ball1.acceleration, ball1.GRAVITY)
                 elif event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE and drawUI: 
                     drawUI = False 
                 ############
@@ -64,7 +64,7 @@ class Game:
             screen1.fill((255, 255, 255))
             
             if drawUI:
-                simparam.SimParam.show_UI(screen1, ball1.position, ball1.impulseAcceleration, ball1.gravityAcceleration, ball1)
+                simparam.SimParam.show_UI(screen1, ball1.position, ball1.acceleration, ball1.GRAVITY, ball1)
                 pygame_widgets.update(events)
 
             if klicks > 0:
