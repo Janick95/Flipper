@@ -2,6 +2,7 @@ import pygame
 import window
 import pygame_gui
 import ball
+import math
 import pygame_widgets
 from pygame_widgets.slider import Slider
 
@@ -13,6 +14,27 @@ class SimParam:
     text_font = pygame.font.SysFont("Arial", 10)
     slider1 = Slider(window.Window().screen, 270, 40, 150, 20, min=0, max=100, step=1, curved= True)
     slider2 = Slider(window.Window().screen, 500, 40, 150, 20, min=0, max=100, step=1, curved= True)
+
+    def drawVector(screen, ball):
+
+        ball_x = ball.position[0]
+        ball_y = ball.position[1]
+        ball_velocity_x = ball.velocity.x
+        ball_velocity_y = ball.velocity.y
+        vector_length = math.sqrt(((ball_velocity_x)**2)+((ball_velocity_y)**2))
+
+        vector_x = ball_x + math.cos(math.atan2(ball_velocity_y, ball_velocity_x)) * vector_length
+        vector_y = ball_y + math.sin(math.atan2(ball_velocity_y, ball_velocity_x)) * vector_length
+        pygame.draw.line(screen, "black", (ball_x, ball_y), (vector_x, vector_y), 2)
+
+
+        arrowhead_length = 10
+        arrowhead_angle = math.pi / 4
+        arrowhead_x1 = vector_x - math.cos(math.atan2(ball_velocity_y, ball_velocity_x) + arrowhead_angle) * arrowhead_length
+        arrowhead_y1 = vector_y - math.sin(math.atan2(ball_velocity_y, ball_velocity_x) + arrowhead_angle) * arrowhead_length
+        arrowhead_x2 = vector_x - math.cos(math.atan2(ball_velocity_y, ball_velocity_x) - arrowhead_angle) * arrowhead_length
+        arrowhead_y2 = vector_y - math.sin(math.atan2(ball_velocity_y, ball_velocity_x) - arrowhead_angle) * arrowhead_length
+        pygame.draw.polygon(screen, "black", [(vector_x, vector_y), (arrowhead_x1, arrowhead_y1), (arrowhead_x2, arrowhead_y2)])
 
     def show_UI(screen, position, impulseAcceleration, gravityAcceleration, ball1):
 
@@ -43,3 +65,4 @@ class SimParam:
         ball1.GRAVITY = SimParam.slider1.getValue()
         ball1.FRICTION = SimParam.slider2.getValue()
         
+        SimParam.drawVector(screen, ball1)
