@@ -38,7 +38,7 @@ class Ball:
         self.friction = self.normalForce * self.frictionCoefficient
         self.frictionAmount = math.sqrt(((self.friction.x)**2)+((self.friction.y)**2))
 
-        self.impulseStrength = self.impulseStrength - self.frictionAmount                                                       # Update the impulse strength of the ball
+        self.impulseStrength = self.impulseStrength - self.frictionAmount                                  # Update the impulse strength of the ball
         
 
         if self.impulseStrength > 1: 

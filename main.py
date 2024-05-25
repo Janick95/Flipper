@@ -5,6 +5,7 @@ import window
 import pygame_gui
 import simparam
 import pygame_widgets
+import obstacle
 
 class Game:
 
@@ -21,8 +22,8 @@ class Game:
         #GameObjects
         #############
 
-
-        ball1 = ball.Ball(screen1)                   # Create a ball object
+        obstacle1 = obstacle.Obstacle(screen1, 300, 600, 600, 250)
+        ball1 = ball.Ball(screen1)
         
 
         #############
@@ -62,6 +63,7 @@ class Game:
         #Draw graphics
             #simparam1.Manager.update(delta_time)
             screen1.fill((255, 255, 255))
+            obstacle1.draw()
             
             if drawUI:
                 simparam.SimParam.show_UI(screen1, ball1.position, ball1.acceleration, ball1.GRAVITY, ball1)

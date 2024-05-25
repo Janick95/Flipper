@@ -46,19 +46,19 @@ class SimParam:
         posImg = SimParam.text_font.render("Position: " + position, True, "black")
         screen.blit(posImg, (20,20))
         
-        impAccImg = SimParam.text_font.render("Impulse Acceleration: " + acceleration, True, "black")
+        impAccImg = SimParam.text_font.render("Acceleration: " + acceleration, True, "black")
         screen.blit(impAccImg, (20,40))
 
-        graAccImg = SimParam.text_font.render("Gravity Acceleration: " + gravity, True, "black")
+        graAccImg = SimParam.text_font.render("Gravity: " + gravity, True, "black")
         screen.blit(graAccImg, (20,60))
         
 
-        friction = str(ball1.friction)
+        friction1 = str(ball1.friction)
 
         gravImg = SimParam.text_font.render("Gravity: " + gravity, True, "black")
         screen.blit(gravImg, (270,20))
 
-        fricImg = SimParam.text_font.render("Friction: " + friction, True, "black")
+        fricImg = SimParam.text_font.render("Friction: " + friction1, True, "black")
         screen.blit(fricImg, (500,20))
 
         ball1.GRAVITY = SimParam.slider1.getValue()
