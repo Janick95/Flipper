@@ -25,7 +25,9 @@ class Ball:
     def update(self, delta_time, klicks): 
         if klicks > 1: 
             self.move(delta_time)
-            self.detectCollision()                       
+            collision = self.detectCollision()
+            if  collision:
+                self.handleCollision()                     
         self.draw()                                             # Draw the ball to the window
        
     def draw(self):
@@ -53,19 +55,19 @@ class Ball:
     
     def detectCollision(self):
 
-        collisionX = False
-        collisionY = False
+        collision = False
+        collisionDirection = pygame.math.Vector2(0, 0)
 
         
         
         if self.position.x - self.radius < 0:
-            collisionX = True
+            collision = True
         if self.position.x + self.radius > self.screen.get_width():
-            collisionX = True
+            collision = True
         if self.position.y - self.radius < 0:
-            collisionY = True
+            collision = True
         if self.position.y + self.radius > self.screen.get_height():
-            collisionY = True
+            collision = True
         
         
         
@@ -95,10 +97,15 @@ class Ball:
         # Check if the ball collides with an Object
 
 
-        return collisionX, collisionY
+        return collision
             
             #self.position[0] = self.position[0] - self.velocity[0] * 2
             #self.velocity[0] = -self.velocity[0]
             
             #self.position[1] = self.position[1] - self.velocity[1] * 2
             #self.velocity[1] = -self.velocity[1]
+
+
+    def handleCollision(self):
+
+        self.velocity = -self.velocity
