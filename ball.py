@@ -4,7 +4,7 @@ import math
 
 class Ball: 
 
-    RADIUS = 15                                         # RADIUS (int): The radius of the ball
+    radius = 15                                         # RADIUS (int): The radius of the ball
     position = pygame.math.Vector2(0, 0)              # position (Vector2): The position of the ball
     target = pygame.math.Vector2(0, 0)                  # target (Vector2): The target position of the ball
     impulse = pygame.math.Vector2(0, 0)                # distance (Vector2): The distance between the ball and the target
@@ -29,7 +29,7 @@ class Ball:
         self.draw()                                             # Draw the ball to the window
        
     def draw(self):
-        pygame.draw.circle(self.screen, "red", (self.position), self.RADIUS)                                # Draw the ball to the window
+        pygame.draw.circle(self.screen, "red", (self.position), self.radius)                                # Draw the ball to the window
 
     def move(self, delta_time):
         
@@ -56,13 +56,40 @@ class Ball:
         collisionX = False
         collisionY = False
 
-        # Check if the ball collides with the window
-        if self.position[0] < self.RADIUS or self.position[0] > self.screen.get_width() - self.RADIUS:
-            print("collision x")
+        
+        
+        if self.position.x - self.radius < 0:
             collisionX = True
-        if self.position[1] < self.RADIUS or self.position[1] > self.screen.get_height() - self.RADIUS:
-            print("collision y")
+        if self.position.x + self.radius > self.screen.get_width():
+            collisionX = True
+        if self.position.y - self.radius < 0:
             collisionY = True
+        if self.position.y + self.radius > self.screen.get_height():
+            collisionY = True
+        
+        
+        
+        #self.position.x = self.radius
+        #    self.velocity.x = -self.velocity.x
+        
+        
+        #self.position.x = 1-self.radius
+        #    self.velocity.x = -self.velocity.x
+        
+        #self.position.y = self.radius
+        #    self.velocity.y = -self.velocity.y
+        
+        #self.position.y = 1-self.radius
+        #    self.velocity.y = -self.velocity.y
+        
+        
+        # Check if the ball collides with the window
+        #if self.position[0] < self.RADIUS or self.position[0] > self.screen.get_width() - self.RADIUS:
+            #print("collision x")
+            #collisionX = True
+        #if self.position[1] < self.RADIUS or self.position[1] > self.screen.get_height() - self.RADIUS:
+            #print("collision y")
+            #collisionY = True
 
 
         # Check if the ball collides with an Object
