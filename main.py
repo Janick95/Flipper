@@ -70,7 +70,7 @@ class Game:
                 pygame_widgets.update(events)
 
             if klicks > 0:
-                ball1.update(delta_time, klicks)
+                ball1.update(delta_time, klicks, obstacle1)
             pygame.display.update()                         # Update the display
     
         pygame.quit()                                       # Quit the game
