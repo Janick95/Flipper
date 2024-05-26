@@ -58,18 +58,18 @@ class Ball:
 
         collision = False
         collisionDirection = pygame.math.Vector2(0, 0)
+        d = pygame.math.Vector2(0, 0)
         
-        vector1 = pygame.math.Vector2(obstacle.Obstacle.startX, obstacle.Obstacle.startY)
-        a = self.position - vector1
-        vector2 = pygame.math.Vector2(obstacle.Obstacle.endX, obstacle.Obstacle.endY)
-        b = vector2 - vector1
-        b = b.normalize()
+        lineStart = pygame.math.Vector2(obstacle.Obstacle.startX, obstacle.Obstacle.startY)
+        a = self.position - lineStart
+        lineEnd = pygame.math.Vector2(obstacle.Obstacle.endX, obstacle.Obstacle.endY)
+        b = (lineEnd - lineStart).normalize()
         c = a * b
-        d = math.sqrt(((b)**2)+((b)**2))
-        d = b**2
+        d.x = (math.sqrt(((b.x)**2)+((b.x)**2)))**2
+        d.y = (math.sqrt(((b.y)**2)+((b.y)**2)))**2
         e = c/d
         f = e*b
-        lineCollisionPoint = f + vector1
+        lineCollisionPoint = f + lineStart
         g = self.position - lineCollisionPoint
         i = math.sqrt(((g)**2)+((g)**2))
         collisionDistance = i - self.radius
