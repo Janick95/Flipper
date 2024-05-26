@@ -24,13 +24,14 @@ class Ball:
        
     def update(self, delta_time, klicks): 
         if klicks > 1: 
-            self.movement(delta_time)                  # Update the movement of the ball
+            self.move(delta_time)
+            self.detectCollision()                       
         self.draw()                                             # Draw the ball to the window
        
     def draw(self):
         pygame.draw.circle(self.screen, "red", (self.position), self.RADIUS)                                # Draw the ball to the window
 
-    def movement(self, delta_time):
+    def move(self, delta_time):
         
         self.impulse = pygame.math.Vector2(self.target) - pygame.math.Vector2(self.position)               # Update the distance of the ball
         self.impulseStrength = self.impulse.length()                                                       # Update the impulse strength of the ball
@@ -42,10 +43,35 @@ class Ball:
         
 
         if self.impulseStrength > 1: 
-            self.acceleration = self.vecGravity + self.impulse
+            self.acceleration = self.vecGravity + self.impulse * delta_time
         else:
-            self.acceleration = self.vecGravity
+            self.acceleration = self.vecGravity * delta_time
 
         self.velocity = self.velocity + self.acceleration * delta_time
         self.position = self.position + pygame.math.Vector2(self.direction + self.velocity * delta_time)    # Update the position of the ball
         
+    
+    def detectCollision(self):
+
+        collisionX = False
+        collisionY = False
+
+        # Check if the ball collides with the window
+        if self.position[0] < self.RADIUS or self.position[0] > self.screen.get_width() - self.RADIUS:
+            print("collision x")
+            collisionX = True
+        if self.position[1] < self.RADIUS or self.position[1] > self.screen.get_height() - self.RADIUS:
+            print("collision y")
+            collisionY = True
+
+
+        # Check if the ball collides with an Object
+
+
+        return collisionX, collisionY
+            
+            #self.position[0] = self.position[0] - self.velocity[0] * 2
+            #self.velocity[0] = -self.velocity[0]
+            
+            #self.position[1] = self.position[1] - self.velocity[1] * 2
+            #self.velocity[1] = -self.velocity[1]

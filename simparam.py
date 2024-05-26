@@ -46,11 +46,11 @@ class SimParam:
         posImg = SimParam.text_font.render("Position: " + position, True, "black")
         screen.blit(posImg, (20,20))
         
-        impAccImg = SimParam.text_font.render("Acceleration: " + acceleration, True, "black")
-        screen.blit(impAccImg, (20,40))
+        accImg = SimParam.text_font.render("Acceleration: " + acceleration, True, "black")
+        screen.blit(accImg, (20,40))
 
-        graAccImg = SimParam.text_font.render("Gravity: " + gravity, True, "black")
-        screen.blit(graAccImg, (20,60))
+        gravImg = SimParam.text_font.render("Gravity: " + gravity, True, "black")
+        screen.blit(gravImg, (20,60))
         
 
         friction1 = str(ball1.friction)
