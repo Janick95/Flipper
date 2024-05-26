@@ -23,10 +23,10 @@ class Ball:
     def __init__(self, screen): 
         self.screen = screen                                # Set the window of the ball to the window of the game window
        
-    def update(self, delta_time, klicks): 
+    def update(self, delta_time, klicks, obstacle1): 
         if klicks > 1: 
             self.move(delta_time)
-            collision = self.detectCollision()
+            collision = self.detectCollision(obstacle1)
             if  collision:
                 self.handleCollision()                     
         self.draw()                                             # Draw the ball to the window
@@ -54,25 +54,34 @@ class Ball:
         self.position = self.position + pygame.math.Vector2(self.direction + self.velocity * delta_time)    # Update the position of the ball
         
     
-    def detectCollision(self):
+    def detectCollision(self, obstacle1):
 
         collision = False
         collisionDirection = pygame.math.Vector2(0, 0)
         
-        vector1 = pygame.math.Vector2(obstacle.Obstacle.startX, obstacle.Obstacle.startY)
+        vector1 = pygame.math.Vector2(obstacle1.startX, obstacle1.startY)
         a = self.position - vector1
-        vector2 = pygame.math.Vector2(obstacle.Obstacle.endX, obstacle.Obstacle.endY)
+        vector2 = pygame.math.Vector2(obstacle1.endX, obstacle1.endY)
         b = vector2 - vector1
         b = b.normalize()
-        c = a * b
-        d = math.sqrt(((b)**2)+((b)**2))
-        d = b**2
-        e = c/d
-        f = e*b
+        c = pygame.math.Vector2(0, 0)
+        c.x = a.x * b.x
+        c.y = a.y * b.y
+        d = pygame.math.Vector2(0, 0)
+        d.x = math.sqrt(((b.x)**2)+((b.x)**2))**2
+        d.y = math.sqrt(((b.y)**2)+((b.y)**2))**2
+        e = pygame.math.Vector2(0, 0)
+        e.x = c.x / d.x
+        e.y = c.y / d.y
+        f = pygame.math.Vector2(0,0)
+        f.x = e.x * b.x
+        f.y = e.y * b.y
         lineCollisionPoint = f + vector1
         g = self.position - lineCollisionPoint
-        i = math.sqrt(((g)**2)+((g)**2))
-        collisionDistance = i - self.radius
+        i = pygame.math.Vector2(0, 0)
+        i.x = math.sqrt(((g.x)**2)+((g.x)**2))**2
+        i.y = math.sqrt(((g.y)**2)+((g.y)**2))**2
+        collisionDistance = i.length() - self.radius
         
         
         if self.position.x - self.radius < 0:
@@ -89,10 +98,6 @@ class Ball:
 
         if collisionDistance < 1:
             collision = True
-            
-
-
-
 
         
         #self.position.x = self.radius
