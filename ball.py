@@ -1,6 +1,7 @@
 # Import necessary libraries and modules
 import pygame
 import math
+import obstacle
 
 class Ball: 
 
@@ -57,7 +58,21 @@ class Ball:
 
         collision = False
         collisionDirection = pygame.math.Vector2(0, 0)
-
+        
+        vector1 = pygame.math.Vector2(obstacle.Obstacle.startX, obstacle.Obstacle.startY)
+        a = self.position - vector1
+        vector2 = pygame.math.Vector2(obstacle.Obstacle.endX, obstacle.Obstacle.endY)
+        b = vector2 - vector1
+        b = b.normalize()
+        c = a * b
+        d = math.sqrt(((b)**2)+((b)**2))
+        d = b**2
+        e = c/d
+        f = e*b
+        lineCollisionPoint = f + vector1
+        g = self.position - lineCollisionPoint
+        i = math.sqrt(((g)**2)+((g)**2))
+        collisionDistance = i - self.radius
         
         
         if self.position.x - self.radius < 0:
@@ -69,7 +84,16 @@ class Ball:
         if self.position.y + self.radius > self.screen.get_height():
             collision = True
         
-        
+
+
+
+        if collisionDistance < 1:
+            collision = True
+            
+
+
+
+
         
         #self.position.x = self.radius
         #    self.velocity.x = -self.velocity.x
