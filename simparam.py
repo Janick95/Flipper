@@ -12,7 +12,7 @@ class SimParam:
 
     pygame.init()
     text_font = pygame.font.SysFont("Arial", 10)
-    slider1 = Slider(window.Window().screen, 270, 40, 150, 20, min=0, max=9810, step=1, curved= True)
+    slider1 = Slider(window.Window().screen, 270, 40, 150, 20, min=0, max=9810, step=1, curved= True, initial=100)
     slider2 = Slider(window.Window().screen, 500, 40, 150, 20, min=0, max=100, step=1, curved= True)
 
     def drawVector(screen, ball1):
