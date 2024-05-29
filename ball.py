@@ -95,7 +95,7 @@ class Ball:
         
 
 
-
+        print(collisionDistance)
         if collisionDistance < 1:
             collision = True
 
