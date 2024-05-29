@@ -51,7 +51,7 @@ class Ball:
             self.acceleration = self.vecGravity
 
         self.velocity = self.velocity + self.acceleration * delta_time
-        self.position = self.position + pygame.math.Vector2(self.velocity * delta_time) + 0.5 * self.acceleration * delta_time   # Update the position of the ball
+        self.position = self.position + pygame.math.Vector2(self.velocity * delta_time) + 0.5 * self.acceleration * delta_time**2  # Update the position of the ball
         
         #acceleration hinzufügen Streckenformel anwenden
     def detectCollision(self, obstacle1):
