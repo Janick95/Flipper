@@ -20,7 +20,7 @@ class Ball:
     normalForce = vecGravity
     #metall ball on wood
     frictionCoefficient = 0.6
-    impulseOnlyOnes = True
+    impulseOnlyOnce = True
     
     def __init__(self, screen): 
         self.screen = screen                                # Set the window of the ball to the window of the game window
@@ -45,7 +45,7 @@ class Ball:
         if self.impulse.y < 0.0:
             self.impulse.y = - self.impulse.y
 
-        if klicks == 2 and self.impulseOnlyOnes:
+        if klicks == 2 and self.impulseOnlyOnce:
             self.impulseStrength = self.impulse.length()
             print("klicks is gleich 2")
             self.impulseOnlyOnce = False
