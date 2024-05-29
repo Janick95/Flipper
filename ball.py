@@ -46,14 +46,14 @@ class Ball:
         
 
         if self.impulseStrength > 1: 
-            self.acceleration = self.vecGravity + self.impulse * delta_time
+            self.acceleration = self.vecGravity + self.impulse
         else:
-            self.acceleration = self.vecGravity * delta_time
+            self.acceleration = self.vecGravity
 
         self.velocity = self.velocity + self.acceleration * delta_time
-        self.position = self.position + pygame.math.Vector2(self.direction + self.velocity * delta_time)    # Update the position of the ball
+        self.position = self.position + pygame.math.Vector2(self.velocity * delta_time) + 0.5 * self.acceleration * delta_time   # Update the position of the ball
         
-    
+        #acceleration hinzufügen Streckenformel anwenden
     def detectCollision(self, obstacle1):
 
         collision = False
@@ -81,7 +81,7 @@ class Ball:
         i = pygame.math.Vector2(0, 0)
         i.x = math.sqrt(((g.x)**2)+((g.x)**2))**2
         i.y = math.sqrt(((g.y)**2)+((g.y)**2))**2
-        collisionDistance = i.length() - self.radius
+        collisionDistance = i.length() - self.radius /1000
         
         
         if self.position.x - self.radius < 0:
