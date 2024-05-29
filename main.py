@@ -31,7 +31,7 @@ class Game:
         #Compute data
         running = True
         while running:                                      # Game loop
-            
+            # Timecalculation mm per second
             delta_time = clock.tick(60)/1000
             
             events = pygame.event.get()

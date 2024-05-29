@@ -9,7 +9,8 @@ class Ball:
     position = pygame.math.Vector2(0, 0)              # position (Vector2): The position of the ball
     target = pygame.math.Vector2(0, 0)                  # target (Vector2): The target position of the ball
     impulse = pygame.math.Vector2(0, 0)                # distance (Vector2): The distance between the ball and the target
-    velocity = pygame.math.Vector2(0, 0)                # velocity (Vector2): The velocity of the ball
+    velocity = pygame.math.Vector2(0, 0)
+    impulseNormal = pygame.math.Vector2(0, 0)          # impulseNormal
     impulseStrength = 0                                 # impulseStrength (int): The strength of the impulse
     direction = pygame.math.Vector2(0, 0)               # direction (Vector2): The direction of the ball
     acceleration = pygame.math.Vector2(0, 0)
@@ -19,13 +20,14 @@ class Ball:
     normalForce = vecGravity
     #metall ball on wood
     frictionCoefficient = 0.6
+    impulseOnlyOnes = True
     
     def __init__(self, screen): 
         self.screen = screen                                # Set the window of the ball to the window of the game window
        
     def update(self, delta_time, klicks, obstacle1): 
         if klicks > 1: 
-            self.move(delta_time)
+            self.move(delta_time, klicks)
             collision = self.detectCollision(obstacle1)
             if  collision:
                 self.handleCollision()                     
@@ -34,16 +36,27 @@ class Ball:
     def draw(self):
         pygame.draw.circle(self.screen, "red", (self.position), self.radius)                                # Draw the ball to the window
 
-    def move(self, delta_time):
+    def move(self, delta_time, klicks):
         
-        self.impulse = pygame.math.Vector2(self.target) - pygame.math.Vector2(self.position)               # Update the distance of the ball
-        self.impulseStrength = self.impulse.length()                                                       # Update the impulse strength of the ball
-        self.direction = self.impulse.normalize()
+        self.impulse = pygame.math.Vector2(self.target) - pygame.math.Vector2(self.position)
+        
+        if self.impulse.x < 0.0 :
+            self.impulse.x = - self.impulse.x
+        if self.impulse.y < 0.0:
+            self.impulse.y = - self.impulse.y
+
+        if klicks == 2 and self.impulseOnlyOnes:
+            self.impulseStrength = self.impulse.length()
+            print("klicks is gleich 2")
+            self.impulseOnlyOnce = False
+
+        print (self.impulseStrength)                                                 # Update the impulse strength of the ball
         self.friction = self.normalForce * self.frictionCoefficient
         self.frictionAmount = math.sqrt(((self.friction.x)**2)+((self.friction.y)**2))
 
-        self.impulseStrength = self.impulseStrength - self.frictionAmount                                  # Update the impulse strength of the ball
-        
+        self.impulseStrength -= self.frictionAmount                                  # Update the impulse strength of the ball
+        print(self.frictionAmount)
+        print (self.impulseStrength)
 
         if self.impulseStrength > 1: 
             self.acceleration = self.vecGravity + self.impulse
@@ -51,7 +64,7 @@ class Ball:
             self.acceleration = self.vecGravity
 
         self.velocity = self.velocity + self.acceleration * delta_time
-        self.position = self.position + pygame.math.Vector2(self.velocity * delta_time) + 0.5 * self.acceleration * delta_time**2  # Update the position of the ball
+        self.position = self.position + pygame.math.Vector2(self.velocity * delta_time) + (0.5 * self.acceleration * delta_time**2)  # Update the position of the ball
         
         #acceleration hinzufügen Streckenformel anwenden
     def detectCollision(self, obstacle1):
@@ -94,8 +107,6 @@ class Ball:
             collision = True
         
 
-
-        print(collisionDistance)
         if collisionDistance < 1:
             collision = True
 
