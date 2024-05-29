@@ -16,8 +16,6 @@ class Ball:
     acceleration = pygame.math.Vector2(0, 0)
     friction = pygame.math.Vector2(0, 0)
     GRAVITY = 981
-    vecGravity = pygame.math.Vector2(0.0, float(GRAVITY))
-    normalForce = vecGravity
     #metall ball on wood
     frictionCoefficient = 0.6
     impulseOnlyOnce = True
@@ -51,15 +49,17 @@ class Ball:
             print("klicks is gleich 2")
             self.impulseOnlyOnce = False
 
-        self.friction = self.normalForce * self.frictionCoefficient
+        vecGravity = pygame.math.Vector2(0.0, float(self.GRAVITY))
+        normalForce = vecGravity
+        self.friction = normalForce * self.frictionCoefficient
         self.frictionAmount = math.sqrt(((self.friction.x)**2)+((self.friction.y)**2))
 
         self.impulseStrength -= self.frictionAmount                                  # Update the impulse strength of the ball
 
         if self.impulseStrength > 100: 
-            self.acceleration = self.vecGravity + self.impulse
+            self.acceleration = vecGravity + self.impulse
         else:
-            self.acceleration = self.vecGravity
+            self.acceleration = vecGravity
             self.impulseStrength = 0
 
         self.velocity = self.velocity + self.acceleration * delta_time
