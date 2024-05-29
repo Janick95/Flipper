@@ -79,9 +79,9 @@ class Ball:
         lineCollisionPoint = f + lineStart
         g = self.position - lineCollisionPoint
         i = pygame.math.Vector2(0, 0)
-        i.x = math.sqrt(((g.x)**2)+((g.x)**2))**2
-        i.y = math.sqrt(((g.y)**2)+((g.y)**2))**2
-        collisionDistance = i.length() - self.radius /1000
+        i.x = math.sqrt(((g.x)**2)+((g.x)**2))
+        i.y = math.sqrt(((g.y)**2)+((g.y)**2))
+        collisionDistance = i.length() - self.radius
         
         
         if self.position.x - self.radius < 0:
