@@ -79,13 +79,10 @@ class Ball:
         lineEnd = pygame.math.Vector2(obstacle1.endX, obstacle1.endY)
         directionVec = lineEnd - self.lineStart.normalize()
         numerator = a * directionVec
-        directionVecAmount = pygame.math.Vector2(0, 0)
-        directionVecAmount.x = math.sqrt(((directionVec.x)**2)+((directionVec.x)**2))
-        directionVecAmount.y = math.sqrt(((directionVec.y)**2)+((directionVec.y)**2))
-        denominator = directionVecAmount * directionVecAmount
+        denominator = (math.sqrt(((directionVec.x)**2)+((directionVec.y)**2)))**2
         scalar = numerator / denominator
         #calculates the Collisionpoint
-        self.lineCollisionPoint = self.lineStart + (directionVec * scalar)
+        self.lineCollisionPoint = self.lineStart + (scalar * directionVec)
         distanceVec = self.position - self.lineCollisionPoint
         i = pygame.math.Vector2(0, 0)
         i.x = math.sqrt(((distanceVec.x)**2)+((distanceVec.x)**2))
