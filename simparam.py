@@ -68,4 +68,6 @@ class SimParam:
 
         #Collision UI
         print(ball1.lineCollisionPoint)
-        pygame.draw.circle(screen, "blue", (ball1.lineCollisionPoint), 5)
+        pygame.draw.circle(screen, "yellow", (ball1.lineCollisionPoint), 5)
+
+        pygame.draw.circle(screen, "green", (ball1.lineStart), 5)
