@@ -62,11 +62,7 @@ class SimParam:
         gravImg = SimParam.text_font.render("Gravity: " + gravity, True, "black")
         screen.blit(gravImg, (270,20))
 
-        fricImg = SimParam.text_font.render("Friction: " + friction1, True, "black")
-        screen.blit(fricImg, (500,20))
-
         ball1.GRAVITY = SimParam.slider1.getValue()
-        ball1.friction = SimParam.slider2.getValue()
         
         SimParam.drawVector(screen, ball1)
 
