@@ -47,7 +47,6 @@ class Ball:
 
         if klicks == 2 and self.impulseOnlyOnce:
             self.impulseStrength = self.impulse.length()
-            self.impulseStrength *= 100
             print("klicks is gleich 2")
             self.impulseOnlyOnce = False
 
@@ -77,7 +76,8 @@ class Ball:
         self.lineStart = pygame.math.Vector2(obstacle1.startX, obstacle1.startY)
         a = self.position - self.lineStart
         lineEnd = pygame.math.Vector2(obstacle1.endX, obstacle1.endY)
-        directionVec = lineEnd - self.lineStart.normalize()
+        directionVec = lineEnd - self.lineStart
+        #directionVec = directionVec.normalize()
         numerator = a * directionVec
         denominator = (math.sqrt(((directionVec.x)**2)+((directionVec.y)**2)))**2
         scalar = numerator / denominator
