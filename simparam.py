@@ -20,7 +20,7 @@ class SimParam:
         ball_y = ball1.position[1]
         ball_velocity_x = ball1.velocity.x
         ball_velocity_y = ball1.velocity.y
-        vector_length = math.sqrt(((ball_velocity_x)**2)+((ball_velocity_y)**2))
+        vector_length = ball1.velocity.length()
 
         vector_x = ball_x + math.cos(math.atan2(ball_velocity_y, ball_velocity_x)) * vector_length
         vector_y = ball_y + math.sin(math.atan2(ball_velocity_y, ball_velocity_x)) * vector_length
@@ -34,6 +34,8 @@ class SimParam:
         arrowhead_x2 = vector_x - math.cos(math.atan2(ball_velocity_y, ball_velocity_x) - arrowhead_angle) * arrowhead_length
         arrowhead_y2 = vector_y - math.sin(math.atan2(ball_velocity_y, ball_velocity_x) - arrowhead_angle) * arrowhead_length
         pygame.draw.polygon(screen, "black", [(vector_x, vector_y), (arrowhead_x1, arrowhead_y1), (arrowhead_x2, arrowhead_y2)])
+
+
 
     def show_UI(screen, position, velocity, acceleration, GRAVITY, ball1):
 

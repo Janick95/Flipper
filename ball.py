@@ -21,6 +21,10 @@ class Ball:
     impulseOnlyOnce = True
     lineCollisionPoint = pygame.math.Vector2(0, 0)
     lineStart = pygame.math.Vector2(0, 0)
+    lineEnd = pygame.math.Vector2(0, 0)
+    directionVec = pygame.math.Vector2(0, 0)
+    scalar = 0
+    impulseFinished = True
     
     def __init__(self, screen): 
         self.screen = screen                                # Set the window of the ball to the window of the game window
@@ -47,7 +51,6 @@ class Ball:
 
         if klicks == 2 and self.impulseOnlyOnce:
             self.impulseStrength = self.impulse.length()
-            print("klicks is gleich 2")
             self.impulseOnlyOnce = False
 
         vecGravity = pygame.math.Vector2(0.0, float(self.GRAVITY))
@@ -55,13 +58,20 @@ class Ball:
         self.friction = normalForce * self.frictionCoefficient
         self.frictionAmount = math.sqrt(((self.friction.x)**2)+((self.friction.y)**2))
 
-        self.impulseStrength -= self.frictionAmount                                  # Update the impulse strength of the ball
+        if self.impulseFinished == False:
+            self.impulseStrength -= self.frictionAmount
+            
+        if self.impulseFinished == True:
+            self.impulseStrength = 0    
 
-        if self.impulseStrength > 100: 
+        print(self.impulseStrength)
+        print(self.frictionAmount)
+        if self.impulseStrength > 1:
+            print("impulse wird mit eingerechnet")
             self.acceleration = vecGravity + self.impulse
         else:
             self.acceleration = vecGravity
-            self.impulseStrength = 0
+            self.impulseFinished = True
 
         self.velocity = self.velocity + self.acceleration * delta_time
         self.position = self.position + pygame.math.Vector2(self.velocity * delta_time) + (0.5 * self.acceleration * delta_time**2)  # Update the position of the ball
@@ -75,14 +85,14 @@ class Ball:
        
         self.lineStart = pygame.math.Vector2(obstacle1.startX, obstacle1.startY)
         a = self.position - self.lineStart
-        lineEnd = pygame.math.Vector2(obstacle1.endX, obstacle1.endY)
-        directionVec = lineEnd - self.lineStart
+        self.lineEnd = pygame.math.Vector2(obstacle1.endX, obstacle1.endY)
+        self.directionVec = self.lineEnd - self.lineStart
         #directionVec = directionVec.normalize()
-        numerator = a * directionVec
-        denominator = (math.sqrt(((directionVec.x)**2)+((directionVec.y)**2)))**2
-        scalar = numerator / denominator
+        numerator = a * self.directionVec
+        denominator = (math.sqrt(((self.directionVec.x)**2)+((self.directionVec.y)**2)))**2
+        self.scalar = numerator / denominator
         #calculates the Collisionpoint
-        self.lineCollisionPoint = self.lineStart + (scalar * directionVec)
+        self.lineCollisionPoint = self.lineStart + (self.scalar * self.directionVec)
         distanceVec = self.position - self.lineCollisionPoint
         i = pygame.math.Vector2(0, 0)
         i.x = math.sqrt(((distanceVec.x)**2)+((distanceVec.x)**2))
@@ -100,7 +110,14 @@ class Ball:
             collision = True
         
 
-        if collisionDistance < 1:
+        onLine = False
+        if self.lineCollisionPoint.x > self.lineStart.x and self.lineCollisionPoint.y < self.lineStart.y:
+            onLine = True
+
+        if self.lineCollisionPoint.length() < self.lineEnd.length():
+            onLine = True
+
+        if collisionDistance < 1 and onLine:
             collision = True
 
         
