@@ -19,6 +19,7 @@ class Ball:
     #metall ball on wood
     frictionCoefficient = 0.6
     impulseOnlyOnce = True
+    lineCollisionPoint = pygame.math.Vector2(0, 0)
     
     def __init__(self, screen): 
         self.screen = screen                                # Set the window of the ball to the window of the game window
@@ -88,11 +89,11 @@ class Ball:
         f = pygame.math.Vector2(0,0)
         f.x = e.x * b.x
         f.y = e.y * b.y
-        lineCollisionPoint = f + lineStart
-        g = self.position - lineCollisionPoint
+        self.lineCollisionPoint = f + lineStart
+        distanceVec = self.position - self.lineCollisionPoint
         i = pygame.math.Vector2(0, 0)
-        i.x = math.sqrt(((g.x)**2)+((g.x)**2))
-        i.y = math.sqrt(((g.y)**2)+((g.y)**2))
+        i.x = math.sqrt(((distanceVec.x)**2)+((distanceVec.x)**2))
+        i.y = math.sqrt(((distanceVec.y)**2)+((distanceVec.y)**2))
         collisionDistance = i.length() - self.radius
         
         

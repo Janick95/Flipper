@@ -36,21 +36,25 @@ class SimParam:
         arrowhead_y2 = vector_y - math.sin(math.atan2(ball_velocity_y, ball_velocity_x) - arrowhead_angle) * arrowhead_length
         pygame.draw.polygon(screen, "black", [(vector_x, vector_y), (arrowhead_x1, arrowhead_y1), (arrowhead_x2, arrowhead_y2)])
 
-    def show_UI(screen, position, acceleration, GRAVITY, ball1):
+    def show_UI(screen, position, velocity, acceleration, GRAVITY, ball1):
 
-
+        #General UI
         position = str(position)
+        velocity = str(velocity)
         acceleration = str(acceleration)
         gravity = str(GRAVITY)
         
         posImg = SimParam.text_font.render("Position: " + position, True, "black")
         screen.blit(posImg, (20,20))
         
-        accImg = SimParam.text_font.render("Acceleration: " + acceleration, True, "black")
+        accImg = SimParam.text_font.render("Velocity: " + velocity, True, "black")
         screen.blit(accImg, (20,40))
 
+        accImg = SimParam.text_font.render("Acceleration: " + acceleration, True, "black")
+        screen.blit(accImg, (20,60))
+
         gravImg = SimParam.text_font.render("Gravity: " + gravity, True, "black")
-        screen.blit(gravImg, (20,60))
+        screen.blit(gravImg, (20,80))
         
 
         friction1 = str(ball1.friction)
@@ -65,3 +69,8 @@ class SimParam:
         ball1.friction = SimParam.slider2.getValue()
         
         SimParam.drawVector(screen, ball1)
+
+
+        #Collision UI
+        print(ball1.lineCollisionPoint)
+        pygame.draw.circle(screen, "blue", (ball1.lineCollisionPoint), 5)

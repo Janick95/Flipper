@@ -66,7 +66,7 @@ class Game:
             obstacle1.draw()
             
             if drawUI:
-                simparam.SimParam.show_UI(screen1, ball1.position, ball1.acceleration, ball1.GRAVITY, ball1)
+                simparam.SimParam.show_UI(screen1, ball1.position, ball1.velocity, ball1.acceleration, ball1.GRAVITY, ball1)
                 pygame_widgets.update(events)
 
             if klicks > 0:
