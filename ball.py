@@ -25,6 +25,7 @@ class Ball:
     directionVec = pygame.math.Vector2(0, 0)
     scalar = 0
     impulseFinished = True
+    collisionCounter = 0
     
     def __init__(self, screen): 
         self.screen = screen                                # Set the window of the ball to the window of the game window
@@ -58,20 +59,12 @@ class Ball:
         self.friction = normalForce * self.frictionCoefficient
         self.frictionAmount = math.sqrt(((self.friction.x)**2)+((self.friction.y)**2))
 
-        if self.impulseFinished == False:
-            self.impulseStrength -= self.frictionAmount
-            
-        if self.impulseFinished == True:
-            self.impulseStrength = 0    
-
-        print(self.impulseStrength)
-        print(self.frictionAmount)
-        if self.impulseStrength > 1:
-            print("impulse wird mit eingerechnet")
+        
+        if self.collisionCounter < 1:
             self.acceleration = vecGravity + self.impulse
         else:
             self.acceleration = vecGravity
-            self.impulseFinished = True
+            
 
         self.velocity = self.velocity + self.acceleration * delta_time
         self.position = self.position + pygame.math.Vector2(self.velocity * delta_time) + (0.5 * self.acceleration * delta_time**2)  # Update the position of the ball
@@ -102,12 +95,16 @@ class Ball:
         
         if self.position.x - self.radius < 0:
             collision = True
+            self.collisionCounter += 1
         if self.position.x + self.radius > self.screen.get_width():
             collision = True
+            self.collisionCounter += 1
         if self.position.y - self.radius < 0:
             collision = True
+            self.collisionCounter += 1
         if self.position.y + self.radius > self.screen.get_height():
             collision = True
+            self.collisionCounter += 1
         
 
         onLine = False
@@ -119,6 +116,7 @@ class Ball:
 
         if collisionDistance < 1 and onLine:
             collision = True
+            self.collisionCounter += 1
 
         
         #self.position.x = self.radius

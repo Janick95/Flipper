@@ -11,7 +11,7 @@ from pygame_widgets.slider import Slider
 class SimParam:
 
     pygame.init()
-    text_font = pygame.font.SysFont("Arial", 10)
+    text_font = pygame.font.SysFont("Arial", 15)
     slider1 = Slider(window.Window().screen, 270, 40, 150, 20, min=0, max=9810, step=1, curved= True, initial=100)
     
     def drawVector(screen, ball1):
@@ -37,13 +37,14 @@ class SimParam:
 
 
 
-    def show_UI(screen, position, velocity, acceleration, GRAVITY, ball1):
+    def show_UI(screen, ball1):
 
         #General UI
-        position = str(position)
-        velocity = str(velocity)
-        acceleration = str(acceleration)
-        gravity = str(GRAVITY)
+        position = str(ball1.position)
+        velocity = str(ball1.velocity)
+        acceleration = str(ball1.acceleration)
+        gravity = str(ball1.GRAVITY)
+        impulse = str(ball1.impulse)
         
         posImg = SimParam.text_font.render("Position: " + position, True, "black")
         screen.blit(posImg, (20,20))
@@ -56,9 +57,10 @@ class SimParam:
 
         gravImg = SimParam.text_font.render("Gravity: " + gravity, True, "black")
         screen.blit(gravImg, (20,80))
-        
 
-        friction1 = str(ball1.friction)
+        impulseImg = SimParam.text_font.render("Impulse: " + impulse, True, "black")
+        screen.blit(impulseImg, (20,100))
+        
 
         gravImg = SimParam.text_font.render("Gravity: " + gravity, True, "black")
         screen.blit(gravImg, (270,20))
