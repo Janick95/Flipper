@@ -10,6 +10,5 @@ class Obstacle:
         self.endY = endY
 
 
-
     def draw(self):
         pygame.draw.line(self.screen, "purple", (self.startX, self.startY), (self.endX, self.endY), 10)

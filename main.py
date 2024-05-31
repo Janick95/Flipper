@@ -14,9 +14,9 @@ class Game:
     # Define the main game loop function
     def game():
                 
-        clock = pygame.time.Clock()                                                                                                                              # Create a clock object to keep track of time
-        screen1 = window.Window().screen                                                                                                                                # Initialize the game window
-        klicks = 0                                                                                                                                                  # Number of mouse clicks
+        clock = pygame.time.Clock()                                                                                                                              
+        screen1 = window.Window().screen                                                                                                                                
+        klicks = 0                                                                                                                                                  
         drawUI = False
                 
         #GameObjects
@@ -30,38 +30,34 @@ class Game:
       
         #Compute data
         running = True
-        while running:                                      # Game loop
+        # Game loop
+        while running:                                      
             # Timecalculation mm per second
             delta_time = clock.tick(60)/1000
             
             events = pygame.event.get()
-            for event in events:               # Check for events
+            for event in events:               
                 if event.type == pygame.QUIT: 
                     running = False 
                 elif event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
                     running = False
                 elif klicks == 0 and event.type == pygame.MOUSEBUTTONDOWN: 
                     if event.button == pygame.BUTTON_LEFT: 
-                        ball1.position = event.pos          # Set the position of the ball to the mouse position
+                        ball1.position = event.pos          
                         klicks = 1 
                 elif klicks == 1 and event.type == pygame.MOUSEBUTTONDOWN: 
                     if event.button == pygame.BUTTON_LEFT: 
-                        ball1.target = event.pos            # Set the target position of the ball to the mouse position
+                        ball1.target = event.pos            
                         klicks = 2
                 #Show SimParam
                 elif event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE and drawUI != True:   
                     drawUI = True 
                 elif event.type == pygame_gui.UI_TEXT_ENTRY_FINISHED and event.ui_object_id == "#gravity_text_entry" and drawUI:     
-                    #ball1.gravityAcceleration = int(event.text)
                     simparam.SimParam.show_text(screen1, ball1.position, ball1.acceleration, ball1.GRAVITY)
                 elif event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE and drawUI: 
-                    drawUI = False 
-                ############
-
+                    drawUI = False                
                 
-                
-        #Draw graphics
-            #simparam1.Manager.update(delta_time)
+            #Draw graphics
             screen1.fill((255, 255, 255))
             obstacle1.draw()
             
@@ -71,11 +67,11 @@ class Game:
 
             if klicks > 0:
                 ball1.update(delta_time, klicks, obstacle1)
-            pygame.display.update()                         # Update the display
+            pygame.display.update()                         
     
-        pygame.quit()                                       # Quit the game
+        pygame.quit()                                       
 
-    game()                                                  # Call the game loop function
+    game()                                                  
 
    
    
