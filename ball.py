@@ -24,9 +24,13 @@ class Ball:
     lineEnd = pygame.math.Vector2(0, 0)
     directionVec = pygame.math.Vector2(0, 0)
     scalar = 0
-    impulseFinished = True
+    collisionDistance = 0
     collisionCounter = 0
     collisionAngle = 0.0
+    ballObjectDistance = collisionDistance
+    distanceTreshold = 10.0
+    velocityTreshold = 300.0
+
     
     def __init__(self, screen): 
         self.screen = screen                                # Set the window of the ball to the window of the game window
@@ -151,13 +155,13 @@ class Ball:
 
     def handleCollision(self):
 
-        if self.collisionAngle < sidhfkf and siaihflahif:
+        if self.ballObjectDistance < self.distanceTreshold and self.velocity.length() < self.velocityTreshold:
             self.acceleration = 0
             velocityStrength = self.velocity.length()
-            surfaceDirectionVec = 
+            surfaceDirectionVec = pygame.math.Vector2(0, 0)
             surfaceDirectionVec = surfaceDirectionVec * velocityStrength
             self.velocity = surfaceDirectionVec
-            self.position += (5,5)
+            self.position += (-5, -5)
 
         else:
             self.velocity = -self.velocity
