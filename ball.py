@@ -30,6 +30,8 @@ class Ball:
     ballObjectDistance = collisionDistance
     distanceTreshold = 10.0
     velocityTreshold = 300.0
+    rolling = False
+    onLine = False
 
     
     def __init__(self, screen): 
@@ -53,13 +55,10 @@ class Ball:
             self.impulseOnlyOnce = False
 
         vecGravity = pygame.math.Vector2(0.0, float(self.GRAVITY))
-        normalForce = vecGravity
-        self.friction = normalForce * self.frictionCoefficient
-        self.frictionAmount = math.sqrt(((self.friction.x)**2)+((self.friction.y)**2))
-
         
         if self.collisionCounter < 1:
             self.acceleration = vecGravity + self.impulse
+
         else:
             self.acceleration = vecGravity
             
@@ -104,16 +103,16 @@ class Ball:
             collision = True
             self.collisionCounter += 1
         
-
-        onLine = False
         if self.lineCollisionPoint.x > self.lineStart.x and self.lineCollisionPoint.y < self.lineStart.y:
             if self.lineCollisionPoint.x < self.lineEnd.x and self.lineCollisionPoint.y > self.lineEnd.y:
-                onLine = True
+                self.onLine = True
+        else:
+            self.onLine = False
 
         #if self.lineCollisionPoint.length() < self.lineEnd.length():
         #    onLine = True
 
-        if collisionDistance < 1 and onLine:
+        if collisionDistance < 1 and self.onLine:
             collision = True
             self.collisionCounter += 1
 
@@ -155,22 +154,31 @@ class Ball:
 
     def handleCollision(self):
 
-        if self.ballObjectDistance < self.distanceTreshold and self.velocity.length() < self.velocityTreshold:
-            
+        if self.ballObjectDistance < self.distanceTreshold and self.velocity.length() < self.velocityTreshold or self.rolling:
+            self.rolling = True
             point1 = pygame.math.Vector2(0,1000)
             point2 = pygame.math.Vector2(800,1000)
             vec1 = point2 - point1
             alpha = vec1.angle_to(self.directionVec)
 
             hight = self.directionVec.length() * math.sin(alpha)
-            
+
             self.acceleration = 0
             
             rollVelocity = math.sqrt(self.GRAVITY * hight * 2)
             rollDirection = -self.directionVec.normalize()
             self.velocity = rollDirection * rollVelocity
+
+            normalForce = self.GRAVITY
+            frictionStrength = normalForce * self.frictionCoefficient
+            self.friction = -rollDirection * frictionStrength
+
+            self.velocity -= self.friction
             
             self.position += (-5, -5)
+
+            if self.onLine == False:
+                self.rolling = False
 
         else:
             self.velocity = -self.velocity
