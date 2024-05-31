@@ -42,16 +42,9 @@ class Ball:
         pygame.draw.circle(self.screen, "red", (self.position), self.radius)                                # Draw the ball to the window
 
     def move(self, delta_time, klicks):
-        
-        self.impulse = pygame.math.Vector2(self.target) - pygame.math.Vector2(self.position)
-        
-        if self.impulse.x < 0.0 :
-            self.impulse.x = - self.impulse.x
-        if self.impulse.y < 0.0:
-            self.impulse.y = - self.impulse.y
 
         if klicks == 2 and self.impulseOnlyOnce:
-            self.impulseStrength = self.impulse.length()
+            self.impulse = pygame.math.Vector2(self.target) - pygame.math.Vector2(self.position)
             self.impulseOnlyOnce = False
 
         vecGravity = pygame.math.Vector2(0.0, float(self.GRAVITY))
@@ -109,10 +102,11 @@ class Ball:
 
         onLine = False
         if self.lineCollisionPoint.x > self.lineStart.x and self.lineCollisionPoint.y < self.lineStart.y:
-            onLine = True
+            if self.lineCollisionPoint.x < self.lineEnd.x and self.lineCollisionPoint.y > self.lineEnd.y:
+                onLine = True
 
-        if self.lineCollisionPoint.length() < self.lineEnd.length():
-            onLine = True
+        #if self.lineCollisionPoint.length() < self.lineEnd.length():
+        #    onLine = True
 
         if collisionDistance < 1 and onLine:
             collision = True
