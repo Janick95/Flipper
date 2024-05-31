@@ -156,11 +156,20 @@ class Ball:
     def handleCollision(self):
 
         if self.ballObjectDistance < self.distanceTreshold and self.velocity.length() < self.velocityTreshold:
+            
+            point1 = pygame.math.Vector2(0,1000)
+            point2 = pygame.math.Vector2(800,1000)
+            vec1 = point2 - point1
+            alpha = vec1.angle_to(self.directionVec)
+
+            hight = self.directionVec.length() * math.sin(alpha)
+            
             self.acceleration = 0
-            velocityStrength = self.velocity.length()
-            surfaceDirectionVec = pygame.math.Vector2(0, 0)
-            surfaceDirectionVec = surfaceDirectionVec * velocityStrength
-            self.velocity = surfaceDirectionVec
+            
+            rollVelocity = math.sqrt(self.GRAVITY * hight * 2)
+            rollDirection = -self.directionVec.normalize()
+            self.velocity = rollDirection * rollVelocity
+            
             self.position += (-5, -5)
 
         else:
