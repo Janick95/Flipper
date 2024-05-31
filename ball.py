@@ -26,6 +26,7 @@ class Ball:
     scalar = 0
     impulseFinished = True
     collisionCounter = 0
+    collisionAngle = 0.0
     
     def __init__(self, screen): 
         self.screen = screen                                # Set the window of the ball to the window of the game window
@@ -60,9 +61,9 @@ class Ball:
             
 
         self.velocity = self.velocity + self.acceleration * delta_time
-        self.position = self.position + pygame.math.Vector2(self.velocity * delta_time) + (0.5 * self.acceleration * delta_time**2)  # Update the position of the ball
+        self.position = self.position + (self.velocity * delta_time) + (0.5 * self.acceleration * delta_time**2)  
         
-        #acceleration hinzufügen Streckenformel anwenden
+    
     def detectCollision(self, obstacle1):
 
         collision = False
@@ -150,4 +151,13 @@ class Ball:
 
     def handleCollision(self):
 
-        self.velocity = -self.velocity
+        if self.collisionAngle < sidhfkf and siaihflahif:
+            self.acceleration = 0
+            velocityStrength = self.velocity.length()
+            surfaceDirectionVec = 
+            surfaceDirectionVec = surfaceDirectionVec * velocityStrength
+            self.velocity = surfaceDirectionVec
+            self.position += (5,5)
+
+        else:
+            self.velocity = -self.velocity
