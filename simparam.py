@@ -10,7 +10,7 @@ class SimParam:
 
     pygame.init()
     text_font = pygame.font.SysFont("Arial", 15)                                                                                            # Set up a font for rendering text
-    slider1 = Slider(window.Window().screen, 270, 40, 150, 20, min=0, max=981, step=1, curved= True, initial=100)                          # Create a slider for adjusting gravity
+    slider1 = Slider(window.Window().screen, 270, 40, 150, 20, min=0, max=981, step=1, curved= True, initial=981)                          # Create a slider for adjusting gravity
     
     # Calculate the window resolution into real units
     def realUnits(pixel):# Calculate the window resolution into real units

@@ -42,7 +42,7 @@ class Ball:
             self.move(delta_time, klicks)                   # move the ball based on the given delta time and klicks
             collision = self.detectCollision(obstacle1)     # detect a collision with the given obstacle1
             if  collision:                                  # if a collision is detected
-                self.handleCollision()                      # handle the collision
+                self.handleCollision(obstacle1)                      # handle the collision
         self.draw()                                         # draw the ball on the screen    
        
     def draw(self):
@@ -133,7 +133,7 @@ class Ball:
         return collision
 
 
-    def handleCollision(self):
+    def handleCollision(self, obstacle1):
 
         # Check if the object is close to the obstacle and moving slowly, or if it's rolling
         if self.ballObjectDistance < self.distanceTreshold and self.velocity.length() < self.velocityTreshold or self.rolling:  
@@ -142,29 +142,29 @@ class Ball:
             # Define points for calculating the slope of the line
             point1 = pygame.math.Vector2(0,1000)                                                                                
             point2 = pygame.math.Vector2(800,1000)
-            # Vector along the ground line
+            
             vec1 = point2 - point1                                                                                              
-            # Angle between the ground line and the direction vector
+            
             alpha = vec1.angle_to(self.directionVec)                                                                            
-            # Height for potential energy calculation
+            
             height = self.directionVec.length() * math.sin(alpha)                                                               
-            # Reset acceleration
+           
             self.acceleration = 0                                                                                               
-            # Calculate the rolling velocity due to gravity
+           
             rollVelocity = math.sqrt(self.GRAVITY * height * 2)                                                                 
-            # Direction of rolling
+            
             rollDirection = -self.directionVec.normalize()                                                                      
-            # Set rolling velocity
+            
             self.velocity = rollDirection * rollVelocity                                                                        
-            # Normal force due to gravity
+            
             normalForce = self.GRAVITY                                                                                          
-            # Friction force
+            
             frictionStrength = normalForce * self.frictionCoefficient                                                           
-            # Set friction force
+            
             self.friction = -rollDirection * frictionStrength                                                                   
-            # Apply friction to velocity
+            
             self.velocity -= self.friction                                                                                      
-            # Adjust position slightly
+            
             self.position += (-5, -5)                                                                                           
 
             # If not on the line anymore, stop rolling
@@ -173,4 +173,14 @@ class Ball:
 
         # If not rolling, simply invert the velocity upon collision        
         else:                                                                                                                   
-            self.velocity = -self.velocity
+            
+            dx = obstacle1.endX - obstacle1.startX
+            dy = obstacle1.endY - obstacle1.startY
+            lineLength = math.sqrt(dx**2 + dy**2)
+            normal_x = dy / lineLength
+            normal_y = -dx / lineLength
+            dot_product = self.velocity.x * normal_x + self.velocity.y * normal_y
+            self.velocity.x -= 2 * dot_product * normal_x
+            self.velocity.y -= 2 * dot_product * normal_y 
+
+            #self.velocity = -self.velocity
