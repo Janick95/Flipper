@@ -71,7 +71,11 @@ class Game:
                 pygame_widgets.update(events)
 
             if klicks > 0:
+<<<<<<< HEAD
                 ball1.update(delta_time, klicks, obstacle_manager.obstacles)
+=======
+                ball1.update(delta_time, klicks, obstacle)
+>>>>>>> 0d81aca51dd84e18c656757df8c5c1aee4cf4961
 
             pygame.display.update()
 
