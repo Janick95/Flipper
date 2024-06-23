@@ -4,13 +4,17 @@ import pygame_gui
 import ball
 import math
 import pygame_widgets
+import button
 from pygame_widgets.slider import Slider
+
 
 class SimParam:
 
     pygame.init()
     text_font = pygame.font.SysFont("Arial", 15)                                                                                            # Set up a font for rendering text
     slider1 = Slider(window.Window().screen, 270, 40, 150, 20, min=0, max=981, step=1, curved= True, initial=981)                          # Create a slider for adjusting gravity
+
+    restart_button = button.Button("Restart", (650, 50), (100, 40), "GREY", "ORANGE", text_font)
     
     # Calculate the window resolution into real units
     def realUnits(pixel):# Calculate the window resolution into real units
@@ -74,3 +78,10 @@ class SimParam:
         #Collision UI
         pygame.draw.circle(screen, "yellow", (ball1.lineCollisionPoint), 5)
         pygame.draw.circle(screen, "green", (ball1.lineStart), 5)
+
+    
+    def draw_restart_button(screen):
+        SimParam.restart_button.draw(screen)
+        
+    def is_restart_button_clicked(event):
+        return SimParam.restart_button.is_clicked(event)    
