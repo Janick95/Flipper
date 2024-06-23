@@ -76,7 +76,7 @@ class Game:
                 pygame_widgets.update(events)                                               # Update the widgets
 
             if klicks > 0:                                                                  # If the number of clicks is greater than 0
-                ball1.update(delta_time, klicks, obstacle)                                 # Update the ball's position and velocity
+                ball1.update(delta_time, klicks, obstacle_manager.obstacles)                                 # Update the ball's position and velocity
             pygame.display.update()                                                         # Update the display with the rendered graphics                       
     
         pygame.quit()                                                                       # Quit the Pygame library                                      
