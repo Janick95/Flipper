@@ -7,6 +7,9 @@ import simparam
 import pygame_widgets
 import obstacle
 
+from obstacle import ObstacleManager, CircleObstacle, RectObstacle, LineObstacle
+
+
 class Game: 
 
     pygame.init()
@@ -21,8 +24,14 @@ class Game:
                 
         #GameObjects
         #############
+        obstacle_manager = ObstacleManager()
 
-        obstacle1 = obstacle.Obstacle(screen1, 300, 600, 600, 250)              # Create an obstacle object
+         # Add some obstacles
+        obstacle_manager.add_obstacle(CircleObstacle("RED", (100, 100), 50))
+        obstacle_manager.add_obstacle(RectObstacle("GREEN", pygame.Rect(200, 150, 100, 50)))
+        obstacle_manager.add_obstacle(LineObstacle("BLUE", (300, 300), (400, 400), 5))
+
+        #obstacle1 = obstacle.Obstacle(screen1, 300, 600, 600, 250)              # Create an obstacle object
         ball1 = ball.Ball(screen1)                                              # Create a ball object 
         
 
@@ -58,14 +67,16 @@ class Game:
                 
             #Draw graphics
             screen1.fill((255, 255, 255))                                                   # Clear the screen with white color
-            obstacle1.draw()                                                                # Draw the obstacle
+           # Draw obstacles
+            #obstacle1.draw()
+            obstacle_manager.draw(screen1)
             
             if drawUI:                                                                      # If the flag for drawing UI elements is True
                 simparam.SimParam.show_UI(screen1, ball1)                                   # Show the UI elements
                 pygame_widgets.update(events)                                               # Update the widgets
 
             if klicks > 0:                                                                  # If the number of clicks is greater than 0
-                ball1.update(delta_time, klicks, obstacle1)                                 # Update the ball's position and velocity
+                ball1.update(delta_time, klicks, obstacle)                                 # Update the ball's position and velocity
             pygame.display.update()                                                         # Update the display with the rendered graphics                       
     
         pygame.quit()                                                                       # Quit the Pygame library                                      
