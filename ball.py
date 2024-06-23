@@ -65,7 +65,7 @@ class Ball:
         self.velocity = self.velocity + self.acceleration * delta_time
         self.position = self.position + (self.velocity * delta_time) + (0.5 * self.acceleration * delta_time**2)      
         
-    def detectLine(self, obstacle):
+    def detectLine(self, obstacle, collision):
 
         #collisionDirection = pygame.math.Vector2(0, 0)
         self.lineStart = pygame.math.Vector2(obstacle.startX, obstacle.startY)                                                
@@ -103,9 +103,8 @@ class Ball:
         return collision
     
 
-    def detectPoint(self, obstacle):
-        self.collisionPoint = obstacle.position + obstacle.radius
-        distanceVec = self.position - self.lineCollisionPoint
+    def detectPoint(self, obstacle, collision):
+        distanceVec = self.position - obstacle.position
         i = pygame.math.Vector2(0, 0)
         i.x = math.sqrt(((distanceVec.x)**2)+((distanceVec.x)**2))
         i.y = math.sqrt(((distanceVec.y)**2)+((distanceVec.y)**2))
@@ -124,22 +123,23 @@ class Ball:
         collision = False
 
         while index < len(obstacles):
-            if obstacles[index] == obstacle.LineObstacle():
+            if isinstance(obstacles[index], obstacle.LineObstacle):
                 if self.onLine:
-                    collision = self.detectLine(obstacle[index])
+                    collision = self.detectLine(obstacles[index], collision)
                 elif self.lineCollisionPoint.x == self.lineStart.x and self.lineCollisionPoint.y == self.lineStart.y:
                     if self.lineCollisionPoint.y == self.lineEnd.x and self.lineCollisionPoint.y == self.lineEnd.y:
-                        collision = self.detectPoint(obstacle[index])
+                        collision = self.detectPoint(obstacles[index], collision)
                 
-            if obstacles[index] == obstacle.CircleObstacle():
-                collision = self.detectPoint(obstacle[index])
+            if isinstance(obstacles[index], obstacle.CircleObstacle):
+                collision = self.detectPoint(obstacles[index], collision)
 
-            if obstacles[index] == obstacle.RectObstacle():
-                if self.onLine:
-                    collision = self.detectLine(obstacle[index])
-                elif self.lineCollisionPoint.x == self.lineStart.x and self.lineCollisionPoint.y == self.lineStart.y:
-                    if self.lineCollisionPoint.y == self.lineEnd.x and self.lineCollisionPoint.y == self.lineEnd.y:
-                        collision = self.detectPoint(obstacle[index])
+            #Auskommentieren um zu Testen. Code funktioniert noch nicht
+            #if isinstance(obstacles[index], obstacle.RectObstacle):
+            #    if self.onLine:
+            #        collision = self.detectLine(obstacle[index])
+            #    elif self.lineCollisionPoint.x == self.lineStart.x and self.lineCollisionPoint.y == self.lineStart.y:
+            #        if self.lineCollisionPoint.y == self.lineEnd.x and self.lineCollisionPoint.y == self.lineEnd.y:
+            #            collision = self.detectPoint(obstacle[index])
                 
         if self.position.x - self.radius < 0:                                                                                   
             collision = True
