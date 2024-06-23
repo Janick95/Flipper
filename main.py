@@ -59,7 +59,7 @@ class Game:
                     drawUI = False
 
                 # Check if the restart button is clicked
-                if simparam.SimParam.is_restart_button_clicked(event):
+                elif simparam.SimParam.is_restart_button_clicked(event):
                     clock, screen1, klicks, drawUI, obstacle_manager, ball1 = Game.reset_game()
 
             screen1.fill((255, 255, 255))
