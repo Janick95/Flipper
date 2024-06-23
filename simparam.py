@@ -46,49 +46,37 @@ class SimParam:
 
     # Display the user interface elements on the screen
     def show_UI(screen, ball1):
-
         #General UI
-        # Convert ball attributes to strings
         position = str(ball1.position)
         velocity = str(ball1.velocity)
         acceleration = str(ball1.acceleration)
         gravity = str(ball1.GRAVITY)
         impulse = str(ball1.impulse)
         
-        # Render and display the ball's position
         posImg = SimParam.text_font.render("Position: " + position, True, "black")
         screen.blit(posImg, (20,20))
 
-        # Render and display the ball's velocity
         accImg = SimParam.text_font.render("Velocity: " + velocity, True, "black")
         screen.blit(accImg, (20,40))
 
-        # Render and display the ball's acceleration
         accImg = SimParam.text_font.render("Acceleration: " + acceleration, True, "black")
         screen.blit(accImg, (20,60))
 
-        # Render and display the current gravity value
         gravImg = SimParam.text_font.render("Gravity: " + gravity, True, "black")
         screen.blit(gravImg, (20,80))
 
-        # Render and display the ball's impulse
         impulseImg = SimParam.text_font.render("Impulse: " + impulse, True, "black")
         screen.blit(impulseImg, (20,100))
         
-        # Render and display the current gravity value again
         gravImg = SimParam.text_font.render("Gravity: " + gravity, True, "black")
         screen.blit(gravImg, (270,20))
 
-        # Update the ball's gravity based on the slider value
         ball1.GRAVITY = SimParam.slider1.getValue()
 
-        # Draw the velocity vector of the ball
         SimParam.drawVector(screen, ball1)
 
         #Collision UI
-        # Draw a small yellow circle at the collision point
         pygame.draw.circle(screen, "yellow", (ball1.lineCollisionPoint), 5)
-        # Draw a small green circle at the start of the line
         pygame.draw.circle(screen, "green", (ball1.lineStart), 5)
 
     
