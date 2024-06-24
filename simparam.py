@@ -15,6 +15,7 @@ class SimParam:
     slider1 = Slider(window.Window().screen, 270, 40, 150, 20, min=0, max=981, step=1, curved= True, initial=981)                          # Create a slider for adjusting gravity
 
     restart_button = button.Button("Restart", (650, 50), (100, 40), "GREY", "ORANGE", text_font)
+    pause_button = button.Button("| |", (650, 150), (100, 40), "GREEN", "RED", text_font)
     
     # Calculate the window resolution into real units
     def realUnits(pixel):# Calculate the window resolution into real units
@@ -85,3 +86,9 @@ class SimParam:
         
     def is_restart_button_clicked(event):
         return SimParam.restart_button.is_clicked(event)    
+    
+    def draw_pause_button(screen):
+        SimParam.pause_button.draw(screen)
+
+    def is_pause_button_clicked(event):
+        return SimParam.pause_button.is_clicked(event)

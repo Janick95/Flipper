@@ -122,16 +122,16 @@ class Ball:
         index = 0
         collision = False
 
-        while index < len(obstacles):
-            if isinstance(obstacles[index], obstacle.LineObstacle):
-                if self.onLine:
-                    collision = self.detectLine(obstacles[index], collision)
-                elif self.lineCollisionPoint.x == self.lineStart.x and self.lineCollisionPoint.y == self.lineStart.y:
-                    if self.lineCollisionPoint.y == self.lineEnd.x and self.lineCollisionPoint.y == self.lineEnd.y:
-                        collision = self.detectPoint(obstacles[index], collision)
+        #while index < len(obstacles):
+            #if isinstance(obstacles[index], obstacle.LineObstacle):
+            #    if self.onLine:
+            #        collision = self.detectLine(obstacles[index], collision)
+            #    elif self.lineCollisionPoint.x == self.lineStart.x and self.lineCollisionPoint.y == self.lineStart.y:
+            #        if self.lineCollisionPoint.y == self.lineEnd.x and self.lineCollisionPoint.y == self.lineEnd.y:
+            #            collision = self.detectPoint(obstacles[index], collision)
                 
-            if isinstance(obstacles[index], obstacle.CircleObstacle):
-                collision = self.detectPoint(obstacles[index], collision)
+            #if isinstance(obstacles[index], obstacle.CircleObstacle):
+            #    collision = self.detectPoint(obstacles[index], collision)
 
             #Auskommentieren um zu Testen. Code funktioniert noch nicht
             #if isinstance(obstacles[index], obstacle.RectObstacle):
