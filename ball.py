@@ -66,12 +66,11 @@ class Ball:
         self.position = self.position + (self.velocity * delta_time) + (0.5 * self.acceleration * delta_time**2)      
         
     def detectLine(self, obstacle, collision):
-
         #collisionDirection = pygame.math.Vector2(0, 0)
         self.lineStart = pygame.math.Vector2(obstacle.start_pos)
         self.lineEnd = pygame.math.Vector2(obstacle.end_pos)
         a = self.position - self.lineStart                                                                                      
-        self.directionVec = self.lineEnd - self.lineStart                                                                       
+        self.directionVec = self.lineEnd - self.lineStart
         #directionVec = directionVec.normalize()
         numerator = a * self.directionVec                                                                                       
         denominator = (math.sqrt(((self.directionVec.x)**2)+((self.directionVec.y)**2)))**2                                     
@@ -96,9 +95,16 @@ class Ball:
         else:
             self.onLine = False
 
-        if collisionDistance < 1 and self.onLine:                                                                               
+        
+        if self.lineCollisionPoint.x == self.lineStart.x and self.lineCollisionPoint.y == self.lineStart.y:
+            collision = self.detectPoint(obstacle, collision)
+        elif self.lineCollisionPoint.y == self.lineEnd.x and self.lineCollisionPoint.y == self.lineEnd.y:
+            collision = self.detectPoint(obstacle, collision)
+                        
+        elif collisionDistance < 1 and self.onLine:
             collision = True
             self.collisionCounter += 1
+            print("line collision")
 
         return collision
     
@@ -111,36 +117,34 @@ class Ball:
         i = pygame.math.Vector2(0, 0)
         i.x = math.sqrt(((distanceVec.x)**2)+((distanceVec.x)**2))
         i.y = math.sqrt(((distanceVec.y)**2)+((distanceVec.y)**2))
-        collisionDistance = i.length() - self.radius
+        if isinstance(currentObstacle, obstacle.CircleObstacle):
+            collisionDistance = i.length() - self.radius - currentObstacle.radius
+        elif isinstance(currentObstacle, obstacle.LineObstacle):
+            print("point line")
+            collisionDistance = i.length() - self.radius
 
         if collisionDistance < 1:                                                                               
             collision = True
             self.collisionCounter += 1
+            print("pointCollision")
 
         return collision
 
 
     def detectCollision(self, obstacles):
 
-        index = 0
         collision = False
         currentObstacle = None
 
-        while index < len(obstacles):
-            if isinstance(obstacles[index], obstacle.LineObstacle):
-                if self.onLine:
-                    collision = self.detectLine(obstacles[index], collision)
-                    currentObstacle = obstacles[index]
-                elif self.lineCollisionPoint.x == self.lineStart.x and self.lineCollisionPoint.y == self.lineStart.y:
-                    if self.lineCollisionPoint.y == self.lineEnd.x and self.lineCollisionPoint.y == self.lineEnd.y:
-                        collision = self.detectPoint(obstacles[index], collision)
-                        currentObstacle = obstacles[index]
+        for temporaryObstacle in obstacles:
+            if isinstance(temporaryObstacle, obstacle.LineObstacle):
+                collision = self.detectLine(temporaryObstacle, collision)
+                currentObstacle = temporaryObstacle
                 
-            if isinstance(obstacles[index], obstacle.CircleObstacle):
-                collision = self.detectPoint(obstacles[index], collision)
-                currentObstacle = obstacles[index]
+            if isinstance(temporaryObstacle, obstacle.CircleObstacle):
+                collision = self.detectPoint(temporaryObstacle, collision)
+                currentObstacle = temporaryObstacle
 
-            index += 1
 
             #Auskommentieren um zu Testen. Code funktioniert noch nicht
             #if isinstance(obstacles[index], obstacle.RectObstacle):
@@ -168,36 +172,36 @@ class Ball:
 
     def handleCollision(self, currentObstacle):
 
-        if self.ballObjectDistance < self.distanceTreshold and self.velocity.length() < self.velocityTreshold or self.rolling:
-            self.rolling = True                                                                                                 
-            point1 = pygame.math.Vector2(0,1000)                                                                                
-            point2 = pygame.math.Vector2(800,1000)
-            vec1 = point2 - point1
-            alpha = vec1.angle_to(self.directionVec)                                                                            
-            height = self.directionVec.length() * math.sin(alpha)                                                               
-            self.acceleration = 0                                                                                               
-            rollVelocity = math.sqrt(self.GRAVITY * height * 2)                                                                 
-            rollDirection = -self.directionVec.normalize()                                                                      
-            self.velocity = rollDirection * rollVelocity                                                                        
-            normalForce = self.GRAVITY                                                                                          
-            frictionStrength = normalForce * self.frictionCoefficient                                                           
-            self.friction = -rollDirection * frictionStrength                                                                   
-            self.velocity -= self.friction
-            self.position += (-5, -5)
+        #if self.ballObjectDistance < self.distanceTreshold and self.velocity.length() < self.velocityTreshold or self.rolling:
+        #    self.rolling = True                                                                                                 
+        #    point1 = pygame.math.Vector2(0,1000)                                                                                
+        #    point2 = pygame.math.Vector2(800,1000)
+        #    vec1 = point2 - point1
+        #    alpha = vec1.angle_to(self.directionVec)                                                                            
+        #    height = self.directionVec.length() * math.sin(alpha)                                                               
+        #    self.acceleration = 0                                                                                               
+        #    rollVelocity = math.sqrt(self.GRAVITY * height * 2)                                                                 
+        #    rollDirection = -self.directionVec.normalize()                                                                      
+        #    self.velocity = rollDirection * rollVelocity                                                                        
+        #    normalForce = self.GRAVITY                                                                                          
+        #    frictionStrength = normalForce * self.frictionCoefficient                                                           
+        #    self.friction = -rollDirection * frictionStrength                                                                   
+        #    self.velocity -= self.friction
+        #    self.position += (-5, -5)
 
-            if self.onLine == False:                                                                                            
-                self.rolling = False
+        #    if self.onLine == False:                                                                                            
+        #        self.rolling = False
 
                 
-        else:                                                                                                                   
+        #else:                                                                                                                   
             
-            dx = currentObstacle.end_pos.x - currentObstacle.start_pos.x
-            dy = currentObstacle.end_pos.y - currentObstacle.start_pos.y
-            lineLength = math.sqrt(dx**2 + dy**2)
-            normal_x = dy / lineLength
-            normal_y = -dx / lineLength
-            dot_product = self.velocity.x * normal_x + self.velocity.y * normal_y
-            self.velocity.x -= 2 * dot_product * normal_x
-            self.velocity.y -= 2 * dot_product * normal_y 
+        dx = currentObstacle.end_pos.x - currentObstacle.start_pos.x
+        dy = currentObstacle.end_pos.y - currentObstacle.start_pos.y
+        lineLength = math.sqrt(dx**2 + dy**2)
+        normal_x = dy / lineLength
+        normal_y = -dx / lineLength
+        dot_product = self.velocity.x * normal_x + self.velocity.y * normal_y
+        self.velocity.x -= 2 * dot_product * normal_x
+        self.velocity.y -= 2 * dot_product * normal_y 
 
             #self.velocity = -self.velocity
