@@ -240,25 +240,28 @@ class Ball:
 
             self.delta = currentObstacle.end_pos - currentObstacle.start_pos
             lineLength = self.delta.length()
-            self.normal.x = self.delta.y / lineLength
-            self.normal.y = -self.delta.x / lineLength
-            dot_product = self.velocity.x * self.normal.x + self.velocity.y * self.normal.y
-            self.velocity.x -= 2 * dot_product * self.normal.x
-            self.velocity.y -= 2 * dot_product * self.normal.y
+            direction = self.delta / lineLength
+            self.normal = pygame.math.Vector2(-direction.y, direction.x)
+            dot_product = self.velocity.dot(self.normal)
+            self.velocity -= 2 * dot_product * self.normal
+
+
+            #self.delta = currentObstacle.end_pos - currentObstacle.start_pos
+            #lineLength = self.delta.length()
+            #self.normal.x = self.delta.y / lineLength
+            #self.normal.y = -self.delta.x / lineLength
+            #dot_product = self.velocity.x * self.normal.x + self.velocity.y * self.normal.y
+            #self.velocity.x -= 2 * dot_product * self.normal.x
+            #self.velocity.y -= 2 * dot_product * self.normal.y
 
 
         elif isinstance(currentObstacle, obstacle.CircleObstacle):
 
-            self.delta = currentObstacle.end_pos - currentObstacle.start_pos
-            lineLength = self.delta.length()
-            self.normal.x = self.delta.y / lineLength
-            self.normal.y = -self.delta.x / lineLength
-            dot_product = self.velocity.x * self.normal.x + self.velocity.y * self.normal.y
-            self.velocity.x -= 2 * dot_product * self.normal.x
-            self.velocity.y -= 2 * dot_product * self.normal.y
+            direction = self.position - currentObstacle.position
+            self.normal = direction.normalize()
+            dot_product = self.velocity.dot(self.normal)
+            self.velocity -= 2 * dot_product * self.normal
 
 
-
-        
 
             #self.velocity = -self.velocity
