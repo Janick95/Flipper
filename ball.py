@@ -40,9 +40,9 @@ class Ball:
     def update(self, delta_time, klicks, obstacles):    
         if klicks > 1:                                      
             self.move(delta_time, klicks)                  
-            collision = self.detectCollision(obstacles)     
+            collision, currentObstacle = self.detectCollision(obstacles)     
             if  collision:                                  
-                self.handleCollision(obstacles)                      
+                self.handleCollision(currentObstacle)                      
         self.draw()                                         
        
     def draw(self):
@@ -124,17 +124,21 @@ class Ball:
 
         index = 0
         collision = False
+        currentObstacle = None
 
         while index < len(obstacles):
             if isinstance(obstacles[index], obstacle.LineObstacle):
                 if self.onLine:
                     collision = self.detectLine(obstacles[index], collision)
+                    currentObstacle = obstacles[index]
                 elif self.lineCollisionPoint.x == self.lineStart.x and self.lineCollisionPoint.y == self.lineStart.y:
                     if self.lineCollisionPoint.y == self.lineEnd.x and self.lineCollisionPoint.y == self.lineEnd.y:
                         collision = self.detectPoint(obstacles[index], collision)
+                        currentObstacle = obstacles[index]
                 
             if isinstance(obstacles[index], obstacle.CircleObstacle):
                 collision = self.detectPoint(obstacles[index], collision)
+                currentObstacle = obstacles[index]
 
             index += 1
 
@@ -159,10 +163,10 @@ class Ball:
             collision = True
             self.collisionCounter += 1
 
-        return collision                                                           
+        return collision, currentObstacle                                                           
         
 
-    def handleCollision(self, obstacles):
+    def handleCollision(self, currentObstacle):
 
         if self.ballObjectDistance < self.distanceTreshold and self.velocity.length() < self.velocityTreshold or self.rolling:
             self.rolling = True                                                                                                 
@@ -187,8 +191,8 @@ class Ball:
                 
         else:                                                                                                                   
             
-            dx = obstacles.endX - obstacles.startX
-            dy = obstacles.endY - obstacles.startY
+            dx = currentObstacle.endX - currentObstacle.startX
+            dy = currentObstacle.endY - currentObstacle.startY
             lineLength = math.sqrt(dx**2 + dy**2)
             normal_x = dy / lineLength
             normal_y = -dx / lineLength
