@@ -37,14 +37,14 @@ class Ball:
 
     
     def __init__(self, screen):                             
-        self.screen = screen                                
+        self.screen = screen
        
     def update(self, delta_time, klicks, obstacles):    
         if klicks > 1:                                      
             self.move(delta_time, klicks)                  
-            collision, currentObstacle = self.detectCollision(obstacles)     
+            collision, currentObstacle, collisionRim = self.detectCollision(obstacles)     
             if  collision:                                  
-                self.handleCollision(currentObstacle)                      
+                self.handleCollision(currentObstacle, collisionRim)                      
         self.draw()                                         
        
     def draw(self):
@@ -137,6 +137,7 @@ class Ball:
 
         collision = False
         currentObstacle = None
+        collisionRim = 0
 
         for temporaryObstacle in obstacles:
             if isinstance(temporaryObstacle, obstacle.LineObstacle):
@@ -161,26 +162,30 @@ class Ball:
             collision = True
             self.collisionCounter += 1
             currentObstacle = None
+            collisionRim = 1
         if self.position.x + self.radius > self.screen.get_width():
             print("rim collision")
             collision = True
             self.collisionCounter += 1
             currentObstacle = None
+            collisionRim = 2
         if self.position.y - self.radius < 0:
             print("rim collision")
             collision = True
             self.collisionCounter += 1
             currentObstacle = None
+            collisionRim = 3
         if self.position.y + self.radius > self.screen.get_height():
             print("rim collision")
             collision = True
             self.collisionCounter += 1
             currentObstacle = None
+            collisionRim = 4
 
-        return collision, currentObstacle                                                           
+        return collision, currentObstacle, collisionRim                                                          
         
 
-    def handleCollision(self, currentObstacle):
+    def handleCollision(self, currentObstacle, collisionRim):
 
         #if self.ballObjectDistance < self.distanceTreshold and self.velocity.length() < self.velocityTreshold or self.rolling:
         #    self.rolling = True                                                                                                 
@@ -204,9 +209,25 @@ class Ball:
     
         #else:
             
-        if isinstance(currentObstacle, None):
+        if currentObstacle == None:
 
-            self.delta = currentObstacle.end_pos - currentObstacle.start_pos
+            startVec = pygame.math.Vector2(0, 0)
+            endVec = pygame.math.Vector2(0, 0)
+        
+            if collisionRim == 1:
+                startVec = pygame.math.Vector2(0, 0)
+                endVec = pygame.math.Vector2(0, self.screen.get_height())
+            if collisionRim == 2:
+                startVec = pygame.math.Vector2(self.screen.get_width(),self.screen.get_height())
+                endVec = pygame.math.Vector2(self.screen.get_width(), 0)
+            if collisionRim == 3:
+                startVec = pygame.math.Vector2(self.screen.get_width(), 0)
+                endVec = pygame.math.Vector2(0, 0)
+            if collisionRim == 4:
+                startVec = pygame.math.Vector2(0, self.screen.get_height())
+                endVec = pygame.math.Vector2(self.screen.get_width(), self.screen.get_height())
+
+            self.delta = endVec - startVec
             lineLength = self.delta.length()
             self.normal.x = self.delta.y / lineLength
             self.normal.y = -self.delta.x / lineLength
@@ -234,7 +255,7 @@ class Ball:
             self.normal.y = -self.delta.x / lineLength
             dot_product = self.velocity.x * self.normal.x + self.velocity.y * self.normal.y
             self.velocity.x -= 2 * dot_product * self.normal.x
-            self.velocity.y -= 2 * dot_product * self.normal.y 
+            self.velocity.y -= 2 * dot_product * self.normal.y
 
 
 
