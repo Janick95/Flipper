@@ -68,8 +68,8 @@ class Ball:
     def detectLine(self, obstacle, collision):
 
         #collisionDirection = pygame.math.Vector2(0, 0)
-        self.lineStart = pygame.math.Vector2(obstacle.startX, obstacle.startY)                                                
-        self.lineEnd = pygame.math.Vector2(obstacle.endX, obstacle.endY)
+        self.lineStart = pygame.math.Vector2(obstacle.start_pos)
+        self.lineEnd = pygame.math.Vector2(obstacle.end_pos)
         a = self.position - self.lineStart                                                                                      
         self.directionVec = self.lineEnd - self.lineStart                                                                       
         #directionVec = directionVec.normalize()
@@ -191,8 +191,8 @@ class Ball:
                 
         else:                                                                                                                   
             
-            dx = currentObstacle.endX - currentObstacle.startX
-            dy = currentObstacle.endY - currentObstacle.startY
+            dx = currentObstacle.end_pos.x - currentObstacle.start_pos.x
+            dy = currentObstacle.end_pos.y - currentObstacle.start_pos.y
             lineLength = math.sqrt(dx**2 + dy**2)
             normal_x = dy / lineLength
             normal_y = -dx / lineLength

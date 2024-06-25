@@ -16,7 +16,7 @@ class Obstacle:
 class CircleObstacle(Obstacle):
     def __init__(self, color, position, radius):
         super().__init__(color)
-        self.position = position
+        self.position = pygame.math.Vector2(position)
         self.radius = radius
 
     def draw(self, screen):
@@ -33,8 +33,8 @@ class RectObstacle(Obstacle):
 class LineObstacle(Obstacle):
     def __init__(self, color, start_pos, end_pos, width):
         super().__init__(color)
-        self.start_pos = start_pos
-        self.end_pos = end_pos
+        self.start_pos = pygame.math.Vector2(start_pos)
+        self.end_pos = pygame.math.Vector2(end_pos)
         self.width = width
 
     def draw(self, screen):
