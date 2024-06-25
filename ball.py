@@ -31,7 +31,9 @@ class Ball:
     distanceTreshold = 10.0                                 
     velocityTreshold = 300.0                                
     rolling = False                                         
-    onLine = False                                          
+    onLine = False
+    delta = pygame.math.Vector2(0, 0)
+    normal = pygame.math.Vector2(0, 0)
 
     
     def __init__(self, screen):                             
@@ -158,18 +160,22 @@ class Ball:
             print("rim collision")
             collision = True
             self.collisionCounter += 1
+            currentObstacle = None
         if self.position.x + self.radius > self.screen.get_width():
             print("rim collision")
             collision = True
             self.collisionCounter += 1
+            currentObstacle = None
         if self.position.y - self.radius < 0:
             print("rim collision")
             collision = True
             self.collisionCounter += 1
+            currentObstacle = None
         if self.position.y + self.radius > self.screen.get_height():
             print("rim collision")
             collision = True
             self.collisionCounter += 1
+            currentObstacle = None
 
         return collision, currentObstacle                                                           
         
@@ -198,14 +204,40 @@ class Ball:
     
         #else:
             
+        if isinstance(currentObstacle, None):
+
+            self.delta = currentObstacle.end_pos - currentObstacle.start_pos
+            lineLength = self.delta.length()
+            self.normal.x = self.delta.y / lineLength
+            self.normal.y = -self.delta.x / lineLength
+            dot_product = self.velocity.x * self.normal.x + self.velocity.y * self.normal.y
+            self.velocity.x -= 2 * dot_product * self.normal.x
+            self.velocity.y -= 2 * dot_product * self.normal.y 
+
+
+        elif isinstance(currentObstacle, obstacle.LineObstacle):
+
+            self.delta = currentObstacle.end_pos - currentObstacle.start_pos
+            lineLength = self.delta.length()
+            self.normal.x = self.delta.y / lineLength
+            self.normal.y = -self.delta.x / lineLength
+            dot_product = self.velocity.x * self.normal.x + self.velocity.y * self.normal.y
+            self.velocity.x -= 2 * dot_product * self.normal.x
+            self.velocity.y -= 2 * dot_product * self.normal.y
+
+
+        elif isinstance(currentObstacle, obstacle.CircleObstacle):
+
+            self.delta = currentObstacle.end_pos - currentObstacle.start_pos
+            lineLength = self.delta.length()
+            self.normal.x = self.delta.y / lineLength
+            self.normal.y = -self.delta.x / lineLength
+            dot_product = self.velocity.x * self.normal.x + self.velocity.y * self.normal.y
+            self.velocity.x -= 2 * dot_product * self.normal.x
+            self.velocity.y -= 2 * dot_product * self.normal.y 
+
+
+
         
-        dx = currentObstacle.end_pos.x - currentObstacle.start_pos.x
-        dy = currentObstacle.end_pos.y - currentObstacle.start_pos.y
-        lineLength = math.sqrt(dx**2 + dy**2)
-        normal_x = dy / lineLength
-        normal_y = -dx / lineLength
-        dot_product = self.velocity.x * normal_x + self.velocity.y * normal_y
-        self.velocity.x -= 2 * dot_product * normal_x
-        self.velocity.y -= 2 * dot_product * normal_y 
 
             #self.velocity = -self.velocity
