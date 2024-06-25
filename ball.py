@@ -154,16 +154,20 @@ class Ball:
             #        if self.lineCollisionPoint.y == self.lineEnd.x and self.lineCollisionPoint.y == self.lineEnd.y:
             #            collision = self.detectPoint(obstacle[index])
                 
-        if self.position.x - self.radius < 0:                                                                                   
+        if self.position.x - self.radius < 0:
+            print("rim collision")
             collision = True
             self.collisionCounter += 1
         if self.position.x + self.radius > self.screen.get_width():
+            print("rim collision")
             collision = True
             self.collisionCounter += 1
         if self.position.y - self.radius < 0:
+            print("rim collision")
             collision = True
             self.collisionCounter += 1
         if self.position.y + self.radius > self.screen.get_height():
+            print("rim collision")
             collision = True
             self.collisionCounter += 1
 
@@ -191,10 +195,10 @@ class Ball:
 
         #    if self.onLine == False:                                                                                            
         #        self.rolling = False
-
-                
-        #else:                                                                                                                   
+    
+        #else:
             
+        
         dx = currentObstacle.end_pos.x - currentObstacle.start_pos.x
         dy = currentObstacle.end_pos.y - currentObstacle.start_pos.y
         lineLength = math.sqrt(dx**2 + dy**2)
