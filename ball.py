@@ -103,8 +103,11 @@ class Ball:
         return collision
     
 
-    def detectPoint(self, obstacle, collision):
-        distanceVec = self.position - obstacle.position
+    def detectPoint(self, currentObstacle, collision):
+        if isinstance(currentObstacle, obstacle.CircleObstacle):
+            distanceVec = self.position - currentObstacle.position
+        elif isinstance(currentObstacle, obstacle.LineObstacle):
+            distanceVec = self.position - currentObstacle.start_pos
         i = pygame.math.Vector2(0, 0)
         i.x = math.sqrt(((distanceVec.x)**2)+((distanceVec.x)**2))
         i.y = math.sqrt(((distanceVec.y)**2)+((distanceVec.y)**2))
@@ -122,16 +125,18 @@ class Ball:
         index = 0
         collision = False
 
-        #while index < len(obstacles):
-            #if isinstance(obstacles[index], obstacle.LineObstacle):
-            #    if self.onLine:
-            #        collision = self.detectLine(obstacles[index], collision)
-            #    elif self.lineCollisionPoint.x == self.lineStart.x and self.lineCollisionPoint.y == self.lineStart.y:
-            #        if self.lineCollisionPoint.y == self.lineEnd.x and self.lineCollisionPoint.y == self.lineEnd.y:
-            #            collision = self.detectPoint(obstacles[index], collision)
+        while index < len(obstacles):
+            if isinstance(obstacles[index], obstacle.LineObstacle):
+                if self.onLine:
+                    collision = self.detectLine(obstacles[index], collision)
+                elif self.lineCollisionPoint.x == self.lineStart.x and self.lineCollisionPoint.y == self.lineStart.y:
+                    if self.lineCollisionPoint.y == self.lineEnd.x and self.lineCollisionPoint.y == self.lineEnd.y:
+                        collision = self.detectPoint(obstacles[index], collision)
                 
-            #if isinstance(obstacles[index], obstacle.CircleObstacle):
-            #    collision = self.detectPoint(obstacles[index], collision)
+            if isinstance(obstacles[index], obstacle.CircleObstacle):
+                collision = self.detectPoint(obstacles[index], collision)
+
+            index += 1
 
             #Auskommentieren um zu Testen. Code funktioniert noch nicht
             #if isinstance(obstacles[index], obstacle.RectObstacle):
@@ -182,8 +187,8 @@ class Ball:
                 
         else:                                                                                                                   
             
-            dx = obstacle1.endX - obstacle1.startX
-            dy = obstacle1.endY - obstacle1.startY
+            dx = obstacles.endX - obstacles.startX
+            dy = obstacles.endY - obstacles.startY
             lineLength = math.sqrt(dx**2 + dy**2)
             normal_x = dy / lineLength
             normal_y = -dx / lineLength
