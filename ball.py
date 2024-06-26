@@ -151,12 +151,27 @@ class Ball:
 
 
             #Auskommentieren um zu Testen. Code funktioniert noch nicht
-            #if isinstance(obstacles[index], obstacle.RectObstacle):
-            #    if self.onLine:
-            #        collision = self.detectLine(obstacle[index])
-            #    elif self.lineCollisionPoint.x == self.lineStart.x and self.lineCollisionPoint.y == self.lineStart.y:
-            #        if self.lineCollisionPoint.y == self.lineEnd.x and self.lineCollisionPoint.y == self.lineEnd.y:
-            #            collision = self.detectPoint(obstacle[index])
+            if isinstance(temporaryObstacle, obstacle.RectObstacle):
+                
+                rectWidth = temporaryObstacle.rect[2]
+                rectHeight = temporaryObstacle.rect[3]
+
+                corner_top_left = pygame.math.Vector2(temporaryObstacle.rect[0], temporaryObstacle.rect[1])
+                corner_bottom_left = pygame.math.Vector2(corner_top_left.x, corner_top_left.y + rectHeight)
+                corner_top_right = pygame.math.Vector2(corner_top_left.x + rectWidth, corner_top_left.y)
+                corner_bottom_right = pygame.math.Vector2(corner_top_left.x + rectWidth, corner_top_left.y + rectHeight)
+
+                edge_left = obstacle.LineObstacle("alpha = 0", corner_bottom_left, corner_top_left, 0)
+                edge_top = obstacle.LineObstacle("alpha = 0", corner_bottom_left, corner_top_right, 0)
+                edge_right = obstacle.LineObstacle("alpha = 0", corner_top_right, corner_bottom_right, 0)
+                edge_bottom = obstacle.LineObstacle("alpha = 0", corner_bottom_right, corner_bottom_left, 0)
+
+                collision = self.detectLine(edge_left, collision)
+                collision = self.detectLine(edge_top, collision)
+                collision = self.detectLine(edge_right, collision)
+                collision = self.detectLine(edge_bottom, collision)
+                currentObstacle = temporaryObstacle
+                
                 
         if self.position.x - self.radius < 0:
             print("rim collision")
