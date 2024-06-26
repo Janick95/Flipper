@@ -40,6 +40,22 @@ class LineObstacle(Obstacle):
     def draw(self, screen):
         pygame.draw.line(screen, self.color, self.start_pos, self.end_pos, self.width)
 
+
+class FlipperObstacle(Obstacle):
+    def __init__(self, color, position, size, angle):       
+        self.color = color
+        self.position = position
+        self.size = size
+        self.angle = angle
+        self.rect = pygame.Rect(position, size)
+
+    def draw(self, screen):
+        pygame.draw.rect(screen, self.color, self.rect)
+
+    def rotate(self, angle):
+        self.angle += angle    
+
+
 # ObstacleManager class
 class ObstacleManager:
     def __init__(self):
