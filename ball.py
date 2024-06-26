@@ -59,7 +59,7 @@ class Ball:
         vecGravity = pygame.math.Vector2(0.0, float(self.GRAVITY))                                                  
         
         if self.collisionCounter < 1:                                                                              
-            self.acceleration = vecGravity + self.impulse                                                           
+            self.acceleration = vecGravity + self.impulse
 
         else:
             self.acceleration = vecGravity
