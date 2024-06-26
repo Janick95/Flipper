@@ -42,14 +42,17 @@ class Game:
         
 
         #active Elements
-        obstacle_manager.add_obstacle(CircleObstacle("RED", (200, 200), 20))
-        obstacle_manager.add_obstacle(CircleObstacle("RED", (250, 300), 20))
-        obstacle_manager.add_obstacle(CircleObstacle("RED", (300, 200), 20))
-        obstacle_manager.add_obstacle(CircleObstacle("RED", (350, 300), 20))
-        obstacle_manager.add_obstacle(CircleObstacle("RED", (400, 200), 20))
-        obstacle_manager.add_obstacle(CircleObstacle("RED", (450, 300), 20))
-        obstacle_manager.add_obstacle(CircleObstacle("RED", (500, 200), 20))
-        obstacle_manager.add_obstacle(CircleObstacle("RED", (550, 300), 20))
+        obstacle_manager.add_obstacle(CircleObstacle("RED", (250, 200), 20))
+        obstacle_manager.add_obstacle(CircleObstacle("RED", (300, 300), 20))
+        obstacle_manager.add_obstacle(CircleObstacle("RED", (350, 200), 20))
+        obstacle_manager.add_obstacle(CircleObstacle("RED", (400, 300), 20))
+        obstacle_manager.add_obstacle(CircleObstacle("RED", (450, 200), 20))
+        obstacle_manager.add_obstacle(CircleObstacle("RED", (500, 300), 20))
+        obstacle_manager.add_obstacle(CircleObstacle("RED", (550, 200), 20))
+        obstacle_manager.add_obstacle(CircleObstacle("RED", (350, 400), 20))
+        obstacle_manager.add_obstacle(CircleObstacle("RED", (450, 400), 20))
+        obstacle_manager.add_obstacle(CircleObstacle("RED", (450, 400), 20))
+        obstacle_manager.add_obstacle(CircleObstacle("RED", (400, 500), 20))
 
 
 
