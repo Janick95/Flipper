@@ -11,8 +11,9 @@ from pygame_widgets.slider import Slider
 class SimParam:
 
     pygame.init()
-    text_font = pygame.font.SysFont("Arial", 15)                                                                                            # Set up a font for rendering text
-    slider1 = Slider(window.Window().screen, 270, 40, 150, 20, min=0, max=981, step=1, curved= True, initial=981)                          # Create a slider for adjusting gravity
+    
+    text_font = pygame.font.SysFont("Arial", 20)                                                                                            # Set up a font for rendering text
+    slider1 = Slider(window.Window().screen, 270, 40, 150, 20, min=0, max=981, step=1, handleColour=(255, 255, 0),curved= True, initial=981)                          # Create a slider for adjusting gravity
 
     restart_button = button.Button("Restart", (650, 50), (100, 40), "GREY", "ORANGE", text_font)
     pause_button = button.Button("| |", (650, 150), (100, 40), "GREEN", "RED", text_font)
@@ -33,7 +34,7 @@ class SimParam:
 
         vector_x = ball_x + math.cos(math.atan2(ball_velocity_y, ball_velocity_x)) * vector_length# Calculate the end point of the velocity vector
         vector_y = ball_y + math.sin(math.atan2(ball_velocity_y, ball_velocity_x)) * vector_length
-        pygame.draw.line(screen, "black", (ball_x, ball_y), (vector_x, vector_y), 2)# Draw the velocity vector as a black line
+        pygame.draw.line(screen, "WHITE", (ball_x, ball_y), (vector_x, vector_y), 2)# Draw the velocity vector as a black line
 
         arrowhead_length = 10# Define the arrowhead parameters
         arrowhead_angle = math.pi / 4
@@ -43,7 +44,7 @@ class SimParam:
         arrowhead_x2 = vector_x - math.cos(math.atan2(ball_velocity_y, ball_velocity_x) - arrowhead_angle) * arrowhead_length
         arrowhead_y2 = vector_y - math.sin(math.atan2(ball_velocity_y, ball_velocity_x) - arrowhead_angle) * arrowhead_length
         # Draw the arrowhead as a black polygon
-        pygame.draw.polygon(screen, "black", [(vector_x, vector_y), (arrowhead_x1, arrowhead_y1), (arrowhead_x2, arrowhead_y2)])
+        pygame.draw.polygon(screen, "WHITE", [(vector_x, vector_y), (arrowhead_x1, arrowhead_y1), (arrowhead_x2, arrowhead_y2)])
 
     # Display the user interface elements on the screen
     def show_UI(screen, ball1):
@@ -54,22 +55,22 @@ class SimParam:
         gravity = str(ball1.GRAVITY)
         impulse = str(ball1.impulse)
         
-        posImg = SimParam.text_font.render("Position: " + position, True, "black")
+        posImg = SimParam.text_font.render("Position: " + position, True, "WHITE")
         screen.blit(posImg, (20,20))
 
-        accImg = SimParam.text_font.render("Velocity: " + velocity, True, "black")
+        accImg = SimParam.text_font.render("Velocity: " + velocity, True, "WHITE")
         screen.blit(accImg, (20,40))
 
-        accImg = SimParam.text_font.render("Acceleration: " + acceleration, True, "black")
+        accImg = SimParam.text_font.render("Acceleration: " + acceleration, True, "WHITE")
         screen.blit(accImg, (20,60))
 
-        gravImg = SimParam.text_font.render("Gravity: " + gravity, True, "black")
+        gravImg = SimParam.text_font.render("Gravity: " + gravity, True, "WHITE")
         screen.blit(gravImg, (20,80))
 
-        impulseImg = SimParam.text_font.render("Impulse: " + impulse, True, "black")
+        impulseImg = SimParam.text_font.render("Impulse: " + impulse, True, "WHITE")
         screen.blit(impulseImg, (20,100))
         
-        gravImg = SimParam.text_font.render("Gravity: " + gravity, True, "black")
+        gravImg = SimParam.text_font.render("Gravity: " + gravity, True, "WHITE")
         screen.blit(gravImg, (270,20))
 
         ball1.GRAVITY = SimParam.slider1.getValue()

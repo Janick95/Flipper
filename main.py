@@ -30,12 +30,16 @@ class Game:
         #obstacle_manager.add_obstacle(LineObstacle("BLACK", (800, 800), (0, 800), 5))
         obstacle_manager.add_obstacle(LineObstacle("BLACK", (0, 1000), (0, 0), 5))
 
-        obstacle_manager.add_obstacle(LineObstacle("BLUE", (0, 800), (200, 900), 5))
+        obstacle_manager.add_obstacle(LineObstacle("BLUE", (50, 800), (300, 900), 5))
         obstacle_manager.add_obstacle(LineObstacle("BLUE", (800, 800), (600, 900), 5))
 
+        obstacle_manager.add_obstacle(LineObstacle("GREEN", (0, 150), (0, 800), 5))
+        obstacle_manager.add_obstacle(LineObstacle("GREEN", (50, 150), (50, 800), 5))
+        obstacle_manager.add_obstacle(LineObstacle("GREEN", (0, 800), (50, 800), 5))
+
         # Add Flippers
-        obstacle_manager.add_obstacle(FlipperObstacle("ORANGE", (200, 900), (150, 20), 0))
-        obstacle_manager.add_obstacle(FlipperObstacle("ORANGE", (450, 900), (150, 20), 0))
+        obstacle_manager.add_obstacle(FlipperObstacle("ORANGE", (300, 900), (100, 20), 0))
+        obstacle_manager.add_obstacle(FlipperObstacle("ORANGE", (500, 900), (100, 20), 0))
 
 
         #obstacle_manager.add_obstacle(RectObstacle("GREEN", pygame.Rect(200, 150, 100, 50)))
@@ -103,7 +107,7 @@ class Game:
 
 
             if not paused:
-                screen1.fill((255, 255, 255))
+                screen1.fill((0, 0, 0))
                 obstacle_manager.draw(screen1)
                 simparam.SimParam.draw_restart_button(screen1)
                 simparam.SimParam.draw_pause_button(screen1)
