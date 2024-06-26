@@ -17,7 +17,7 @@ class Game:
         clock = pygame.time.Clock()
         screen1 = window.Window().screen
         klicks = 0
-        drawUI = False
+        #drawUI = False
 
         obstacle_manager = ObstacleManager()
         obstacle_manager.add_obstacle(CircleObstacle("RED", (100, 100), 50))
@@ -26,15 +26,16 @@ class Game:
 
         ball1 = ball.Ball(screen1)
 
-        return clock, screen1, klicks, drawUI, obstacle_manager, ball1
+        return clock, screen1, klicks, obstacle_manager, ball1
 
     def game():
-        clock, screen1, klicks, drawUI, obstacle_manager, ball1 = Game.reset_game()
+        clock, screen1, klicks, obstacle_manager, ball1 = Game.reset_game()
         running = True
         paused = False
+        drawUI = False
 
         while running:
-            delta_time = clock.tick(60) / 1000
+            delta_time = clock.tick(60) / 1000 # seconds
             events = pygame.event.get()
 
             for event in events:
@@ -59,7 +60,7 @@ class Game:
 
                 # Check if the restart button is clicked
                 elif simparam.SimParam.is_restart_button_clicked(event):
-                    clock, screen1, klicks, drawUI, obstacle_manager, ball1 = Game.reset_game()
+                    clock, screen1, klicks, obstacle_manager, ball1 = Game.reset_game()
                 # Pause the game
                 elif simparam.SimParam.is_pause_button_clicked(event):
                     paused = not paused

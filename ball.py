@@ -65,6 +65,7 @@ class Ball:
             self.acceleration = vecGravity
 
         self.velocity = self.velocity + self.acceleration * delta_time
+        #self.velocity = self.velocity / (delta_time * 1000) + self.acceleration * delta_time
         self.position = self.position + (self.velocity * delta_time) + (0.5 * self.acceleration * delta_time**2)      
         
     def detectLine(self, obstacle, collision):
