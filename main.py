@@ -7,7 +7,7 @@ import simparam
 import pygame_widgets
 import obstacle
 
-from obstacle import ObstacleManager, CircleObstacle, RectObstacle, LineObstacle
+from obstacle import ObstacleManager, CircleObstacle, RectObstacle, LineObstacle, FlipperObstacle
 
 class Game:
 
@@ -20,9 +20,39 @@ class Game:
         #drawUI = False
 
         obstacle_manager = ObstacleManager()
-        obstacle_manager.add_obstacle(CircleObstacle("RED", (100, 100), 50))
-        obstacle_manager.add_obstacle(RectObstacle("GREEN", pygame.Rect(200, 150, 100, 50)))
-        obstacle_manager.add_obstacle(LineObstacle("BLUE", (300, 300), (400, 400), 5))
+        #obstacle_manager.add_obstacle(CircleObstacle("RED", (100, 100), 50))
+        #obstacle_manager.add_obstacle(RectObstacle("GREEN", pygame.Rect(200, 150, 100, 50)))
+        #obstacle_manager.add_obstacle(LineObstacle("BLUE", (300, 300), (400, 400), 5))
+
+        #passive Elements
+        obstacle_manager.add_obstacle(LineObstacle("BLACK", (0, 0), (800, 0), 5))
+        obstacle_manager.add_obstacle(LineObstacle("BLACK", (800, 0), (800, 1000), 5))
+        #obstacle_manager.add_obstacle(LineObstacle("BLACK", (800, 800), (0, 800), 5))
+        obstacle_manager.add_obstacle(LineObstacle("BLACK", (0, 1000), (0, 0), 5))
+
+        obstacle_manager.add_obstacle(LineObstacle("BLUE", (0, 800), (200, 900), 5))
+        obstacle_manager.add_obstacle(LineObstacle("BLUE", (800, 800), (600, 900), 5))
+
+        # Add Flippers
+        obstacle_manager.add_obstacle(FlipperObstacle("ORANGE", (200, 900), (150, 20), 0))
+        obstacle_manager.add_obstacle(FlipperObstacle("ORANGE", (450, 900), (150, 20), 0))
+
+
+        #obstacle_manager.add_obstacle(RectObstacle("GREEN", pygame.Rect(200, 150, 100, 50)))
+        
+
+        #active Elements
+        obstacle_manager.add_obstacle(CircleObstacle("RED", (200, 200), 20))
+        obstacle_manager.add_obstacle(CircleObstacle("RED", (250, 300), 20))
+        obstacle_manager.add_obstacle(CircleObstacle("RED", (300, 200), 20))
+        obstacle_manager.add_obstacle(CircleObstacle("RED", (350, 300), 20))
+        obstacle_manager.add_obstacle(CircleObstacle("RED", (400, 200), 20))
+        obstacle_manager.add_obstacle(CircleObstacle("RED", (450, 300), 20))
+        obstacle_manager.add_obstacle(CircleObstacle("RED", (500, 200), 20))
+        obstacle_manager.add_obstacle(CircleObstacle("RED", (550, 300), 20))
+
+
+
 
         ball1 = ball.Ball(screen1)
 
@@ -58,12 +88,16 @@ class Game:
                 elif event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE and drawUI:
                     drawUI = False
 
+
+
                 # Check if the restart button is clicked
                 elif simparam.SimParam.is_restart_button_clicked(event):
                     clock, screen1, klicks, obstacle_manager, ball1 = Game.reset_game()
                 # Pause the game
                 elif simparam.SimParam.is_pause_button_clicked(event):
                     paused = not paused
+
+
 
             if not paused:
                 screen1.fill((255, 255, 255))
