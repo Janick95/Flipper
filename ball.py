@@ -95,8 +95,7 @@ class Ball:
 
         if self.lineStart.x <= self.lineCollisionPoint.x <= self.lineEnd.x or self.lineStart.x >= self.lineCollisionPoint.x >= self.lineEnd.x:
             if self.lineStart.y <= self.lineCollisionPoint.y <= self.lineEnd.y or self.lineStart.y >= self.lineCollisionPoint.y >= self.lineEnd.y:
-                self.onLine = True
-                
+                self.onLine = True  
         else:
             self.onLine = False
         print(self.onLine)
