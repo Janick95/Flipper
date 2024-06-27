@@ -54,6 +54,7 @@ class SimParam:
         acceleration = str(ball1.acceleration)
         gravity = str(ball1.GRAVITY)
         impulse = str(ball1.impulse)
+        score = str(ball1.scoreCounter)
         
         posImg = SimParam.text_font.render("Position: " + position, True, "WHITE")
         screen.blit(posImg, (20,20))
@@ -69,9 +70,14 @@ class SimParam:
 
         impulseImg = SimParam.text_font.render("Impulse: " + impulse, True, "WHITE")
         screen.blit(impulseImg, (20,100))
+
+        scoreImg = SimParam.text_font.render("Score: " + score, True, "YELLOW")
+        screen.blit(scoreImg, (20,120))
         
         gravImg = SimParam.text_font.render("Gravity: " + gravity, True, "WHITE")
         screen.blit(gravImg, (270,20))
+
+
 
         ball1.GRAVITY = SimParam.slider1.getValue()
 

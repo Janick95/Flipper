@@ -4,14 +4,26 @@ import pygame
 RED = (255, 0, 0)
 GREEN = (0, 255, 0)
 BLUE = (0, 0, 255)
+BLACK = (0, 0, 0)
+ORANGE = (255, 165, 0)
 
 # Obstacle base class
 class Obstacle:
     def __init__(self, color):
         self.color = color
+        self.collision_count = 0
 
     def draw(self, screen):
         pass
+
+    def change_color_on_collision(self):
+        self.collision_count += 1
+        if self.collision_count == 1:
+            self.color = RED
+        elif self.collision_count == 2:
+            self.color = GREEN
+        elif self.collision_count == 3:
+            self.color = BLUE
 
 class CircleObstacle(Obstacle):
     def __init__(self, color, position, radius):

@@ -34,6 +34,10 @@ class Ball:
     onLine = False
     delta = pygame.math.Vector2(0, 0)
     normal = pygame.math.Vector2(0, 0)
+    colorCounter = 0
+
+    #Player Score
+    scoreCounter=0
 
     
     def __init__(self, screen):                             
@@ -112,6 +116,9 @@ class Ball:
         return collision
     
 
+    def addScore(self, points):
+        self.scoreCounter += points
+
     def detectPoint(self, currentObstacle, collision):
         if isinstance(currentObstacle, obstacle.CircleObstacle):
             distanceVec = self.position - currentObstacle.position
@@ -129,6 +136,9 @@ class Ball:
         if collisionDistance < 1:                                                                               
             collision = True
             self.collisionCounter += 1
+            # Change the obstacle's color based on the collision count
+            currentObstacle.change_color_on_collision()
+            self.addScore(10)  # Add score by 10 points for each point collision
             print("pointCollision")
 
         return collision
@@ -148,6 +158,7 @@ class Ball:
             if isinstance(temporaryObstacle, obstacle.CircleObstacle):
                 collision = self.detectPoint(temporaryObstacle, collision)
                 currentObstacle = temporaryObstacle
+
 
 
             #Auskommentieren um zu Testen. Code funktioniert noch nicht
@@ -252,6 +263,8 @@ class Ball:
             self.velocity.y -= 2 * dot_product * self.normal.y 
 
 
+
+
         elif isinstance(currentObstacle, obstacle.LineObstacle):
 
             self.delta = currentObstacle.end_pos - currentObstacle.start_pos
@@ -277,7 +290,6 @@ class Ball:
             self.normal = direction.normalize()
             dot_product = self.velocity.dot(self.normal)
             self.velocity -= 2 * dot_product * self.normal
-
 
 
             #self.velocity = -self.velocity
