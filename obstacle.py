@@ -29,6 +29,7 @@ class CircleObstacle(Obstacle):
     def __init__(self, color, position, radius):
         super().__init__(color)
         self.position = pygame.math.Vector2(position)
+        #self.normal_vec = pygame.math.Vector2(-position.y, position.x)
         self.radius = radius
 
     def draw(self, screen):
@@ -47,6 +48,8 @@ class LineObstacle(Obstacle):
         super().__init__(color)
         self.start_pos = pygame.math.Vector2(start_pos)
         self.end_pos = pygame.math.Vector2(end_pos)
+        self.direction_vec = self.end_pos - self.start_pos
+        self.normal_vec = pygame.math.Vector2(-self.direction_vec.y, self.direction_vec.x).normalize()
         self.width = width
 
     def draw(self, screen):

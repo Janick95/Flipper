@@ -25,12 +25,12 @@ class Game:
         #obstacle_manager.add_obstacle(LineObstacle("BLUE", (300, 300), (400, 400), 5))
 
         #passive Elements
-        obstacle_manager.add_obstacle(LineObstacle("BLACK", (0, 0), (800, 0), 5))
-        obstacle_manager.add_obstacle(LineObstacle("BLACK", (800, 0), (800, 1000), 5))
+        obstacle_manager.add_obstacle(LineObstacle("WHITE", (0, 0), (800, 0), 5))
+        obstacle_manager.add_obstacle(LineObstacle("WHITE", (800, 0), (800, 800), 5))
         #obstacle_manager.add_obstacle(LineObstacle("BLACK", (800, 800), (0, 800), 5))
-        obstacle_manager.add_obstacle(LineObstacle("BLACK", (0, 1000), (0, 0), 5))
+        obstacle_manager.add_obstacle(LineObstacle("WHITE", (0, 800), (0, 0), 5))
 
-        obstacle_manager.add_obstacle(LineObstacle("BLUE", (50, 800), (300, 900), 5))
+        obstacle_manager.add_obstacle(LineObstacle("BLUE", (50, 800), (225, 900), 5))
         obstacle_manager.add_obstacle(LineObstacle("BLUE", (800, 800), (600, 900), 5))
 
         obstacle_manager.add_obstacle(LineObstacle("GREEN", (0, 150), (0, 800), 5))
@@ -38,8 +38,8 @@ class Game:
         obstacle_manager.add_obstacle(LineObstacle("GREEN", (0, 800), (50, 800), 5))
 
         # Add Flippers
-        obstacle_manager.add_obstacle(FlipperObstacle("ORANGE", (300, 900), (100, 20), 0))
-        obstacle_manager.add_obstacle(FlipperObstacle("ORANGE", (500, 900), (100, 20), 0))
+        obstacle_manager.add_obstacle(FlipperObstacle("ORANGE", (225, 900), (150, 20), 90))
+        obstacle_manager.add_obstacle(FlipperObstacle("ORANGE", (450, 900), (150, 20), 45))
 
 
         #obstacle_manager.add_obstacle(RectObstacle("GREEN", pygame.Rect(200, 150, 100, 50)))
@@ -94,7 +94,6 @@ class Game:
                     simparam.SimParam.show_text(screen1, ball1.position, ball1.acceleration, ball1.GRAVITY)
                 elif event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE and drawUI:
                     drawUI = False
-
 
 
                 # Check if the restart button is clicked
