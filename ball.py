@@ -32,8 +32,6 @@ class Ball:
     velocityTreshold = 300.0                                
     rolling = False                                         
     onLine = False
-    delta = pygame.math.Vector2(0, 0)
-    normal = pygame.math.Vector2(0, 0)
     colorCounter = 0
 
     #Player Score
@@ -73,7 +71,6 @@ class Ball:
         self.position = self.position + (self.velocity * delta_time) + (0.5 * self.acceleration * delta_time**2)      
         
     def detectLine(self, obstacle, collision):
-        #collisionDirection = pygame.math.Vector2(0, 0)
         self.lineStart = pygame.math.Vector2(obstacle.start_pos)
         self.lineEnd = pygame.math.Vector2(obstacle.end_pos)
         a = self.position - self.lineStart                                                                                      
@@ -108,7 +105,7 @@ class Ball:
         elif self.lineCollisionPoint.y == self.lineEnd.x and self.lineCollisionPoint.y == self.lineEnd.y:
             collision = self.detectPoint(obstacle, collision)
                         
-        elif collisionDistance < 1 and self.onLine:
+        elif collisionDistance < 0.5 and self.onLine:
             collision = True
             self.collisionCounter += 1
             print("line collision")
@@ -133,7 +130,7 @@ class Ball:
             print("point line")
             collisionDistance = i.length() - self.radius
 
-        if collisionDistance < 1:                                                                               
+        if collisionDistance < 0.5:
             collision = True
             self.collisionCounter += 1
             # Change the obstacle's color based on the collision count
@@ -162,48 +159,44 @@ class Ball:
 
 
             #Auskommentieren um zu Testen. Code funktioniert noch nicht
-            if isinstance(temporaryObstacle, obstacle.RectObstacle):
+            #if isinstance(temporaryObstacle, obstacle.RectObstacle):
                 
-                rectWidth = temporaryObstacle.rect[2]
-                rectHeight = temporaryObstacle.rect[3]
+            #    rectWidth = temporaryObstacle.rect[2]
+            #    rectHeight = temporaryObstacle.rect[3]
 
-                corner_top_left = pygame.math.Vector2(temporaryObstacle.rect[0], temporaryObstacle.rect[1])
-                corner_bottom_left = pygame.math.Vector2(corner_top_left.x, corner_top_left.y + rectHeight)
-                corner_top_right = pygame.math.Vector2(corner_top_left.x + rectWidth, corner_top_left.y)
-                corner_bottom_right = pygame.math.Vector2(corner_top_left.x + rectWidth, corner_top_left.y + rectHeight)
+            #    corner_top_left = pygame.math.Vector2(temporaryObstacle.rect[0], temporaryObstacle.rect[1])
+            #    corner_bottom_left = pygame.math.Vector2(corner_top_left.x, corner_top_left.y + rectHeight)
+            #    corner_top_right = pygame.math.Vector2(corner_top_left.x + rectWidth, corner_top_left.y)
+            #    corner_bottom_right = pygame.math.Vector2(corner_top_left.x + rectWidth, corner_top_left.y + rectHeight)
 
-                edge_left = obstacle.LineObstacle("alpha = 0", corner_bottom_left, corner_top_left, 0)
-                edge_top = obstacle.LineObstacle("alpha = 0", corner_bottom_left, corner_top_right, 0)
-                edge_right = obstacle.LineObstacle("alpha = 0", corner_top_right, corner_bottom_right, 0)
-                edge_bottom = obstacle.LineObstacle("alpha = 0", corner_bottom_right, corner_bottom_left, 0)
+            #    edge_left = obstacle.LineObstacle("alpha = 0", corner_bottom_left, corner_top_left, 0)
+            #    edge_top = obstacle.LineObstacle("alpha = 0", corner_bottom_left, corner_top_right, 0)
+            #    edge_right = obstacle.LineObstacle("alpha = 0", corner_top_right, corner_bottom_right, 0)
+            #    edge_bottom = obstacle.LineObstacle("alpha = 0", corner_bottom_right, corner_bottom_left, 0)
 
-                collision = self.detectLine(edge_left, collision)
-                collision = self.detectLine(edge_top, collision)
-                collision = self.detectLine(edge_right, collision)
-                collision = self.detectLine(edge_bottom, collision)
-                currentObstacle = temporaryObstacle
+            #    collision = self.detectLine(edge_left, collision)
+            #    collision = self.detectLine(edge_top, collision)
+            #    collision = self.detectLine(edge_right, collision)
+            #    collision = self.detectLine(edge_bottom, collision)
+            #    currentObstacle = temporaryObstacle
                 
                 
         if self.position.x - self.radius < 0:
-            print("rim collision")
             collision = True
             self.collisionCounter += 1
             currentObstacle = None
             collisionRim = 1
         if self.position.x + self.radius > self.screen.get_width():
-            print("rim collision")
             collision = True
             self.collisionCounter += 1
             currentObstacle = None
             collisionRim = 2
         if self.position.y - self.radius < 0:
-            print("rim collision")
             collision = True
             self.collisionCounter += 1
             currentObstacle = None
             collisionRim = 3
         if self.position.y + self.radius > self.screen.get_height():
-            print("rim collision")
             collision = True
             self.collisionCounter += 1
             currentObstacle = None
@@ -267,13 +260,30 @@ class Ball:
 
         elif isinstance(currentObstacle, obstacle.LineObstacle):
 
-            self.delta = currentObstacle.end_pos - currentObstacle.start_pos
-            lineLength = self.delta.length()
-            direction = self.delta / lineLength
-            self.normal = pygame.math.Vector2(-direction.y, direction.x)
-            dot_product = self.velocity.dot(self.normal)
-            self.velocity -= 2 * dot_product * self.normal
+            surface_vec = currentObstacle.end_pos - currentObstacle.start_pos
+            surface_vec_amount = pygame.math.Vector2(0, 0)
+            surface_vec_amount.x = math.sqrt(((surface_vec.x)**2)+((surface_vec.x)**2))
+            surface_vec_amount.y = math.sqrt(((surface_vec.y)**2)+((surface_vec.y)**2))
+            
+            #pygame.math.Vector2(surface_vec.x, -surface_vec.y)
+            normal_vec = currentObstacle.normal_vec
+            normal_vec_amount = pygame.math.Vector2
+            normal_vec_amount.x = math.sqrt(((normal_vec.x)**2)+((normal_vec.x)**2))
+            normal_vec_amount.y = math.sqrt(((normal_vec.y)**2)+((normal_vec.y)**2))
+            
+            velocity_surface_projection = ((surface_vec * self.velocity) / (surface_vec_amount**2)) * surface_vec
+            velocity_normal_projection = ((normal_vec * self.velocity) / (normal_vec_amount**2)) * normal_vec
 
+            self.velocity = velocity_surface_projection - velocity_normal_projection
+
+
+
+            #self.delta = currentObstacle.end_pos - currentObstacle.start_pos
+            #lineLength = self.delta.length()
+            #direction = self.delta / lineLength
+            #self.normal = pygame.math.Vector2(-direction.y, direction.x)
+            #dot_product = self.velocity.dot(self.normal)
+            #self.velocity -= 2 * dot_product * self.normal
 
             #self.delta = currentObstacle.end_pos - currentObstacle.start_pos
             #lineLength = self.delta.length()
