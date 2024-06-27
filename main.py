@@ -26,15 +26,14 @@ class Game:
 
         #passive Elements
         obstacle_manager.add_obstacle(LineObstacle("WHITE", (0, 0), (800, 0), 5))
-        obstacle_manager.add_obstacle(LineObstacle("WHITE", (800, 0), (800, 800), 5))
-        #obstacle_manager.add_obstacle(LineObstacle("BLACK", (800, 800), (0, 800), 5))
+        obstacle_manager.add_obstacle(LineObstacle("WHITE", (800, 800), (800, 0), 5))
         obstacle_manager.add_obstacle(LineObstacle("WHITE", (0, 800), (0, 0), 5))
 
         obstacle_manager.add_obstacle(LineObstacle("BLUE", (50, 800), (225, 900), 5))
-        obstacle_manager.add_obstacle(LineObstacle("BLUE", (800, 800), (600, 900), 5))
+        obstacle_manager.add_obstacle(LineObstacle("BLUE", (600, 900), (800, 800), 5))
 
         obstacle_manager.add_obstacle(LineObstacle("GREEN", (0, 150), (0, 800), 5))
-        obstacle_manager.add_obstacle(LineObstacle("GREEN", (50, 150), (50, 800), 5))
+        obstacle_manager.add_obstacle(LineObstacle("GREEN", (50, 150), (50, 800 ), 5))
         obstacle_manager.add_obstacle(LineObstacle("GREEN", (0, 800), (50, 800), 5))
 
         # Add Flippers
@@ -47,18 +46,11 @@ class Game:
         #obstacle_manager.add_obstacle(RectObstacle("GREEN", pygame.Rect(200, 150, 100, 50)))
         
 
-        #active Elements
-        obstacle_manager.add_obstacle(CircleObstacle("YELLOW", (250, 200), 20))
-        obstacle_manager.add_obstacle(CircleObstacle("YELLOW", (300, 300), 20))
-        obstacle_manager.add_obstacle(CircleObstacle("YELLOW", (350, 200), 20))
-        obstacle_manager.add_obstacle(CircleObstacle("YELLOW", (400, 300), 20))
-        obstacle_manager.add_obstacle(CircleObstacle("YELLOW", (450, 200), 20))
-        obstacle_manager.add_obstacle(CircleObstacle("YELLOW", (500, 300), 20))
-        obstacle_manager.add_obstacle(CircleObstacle("YELLOW", (550, 200), 20))
-        obstacle_manager.add_obstacle(CircleObstacle("YELLOW", (350, 400), 20))
-        obstacle_manager.add_obstacle(CircleObstacle("YELLOW", (450, 400), 20))
-        obstacle_manager.add_obstacle(CircleObstacle("YELLOW", (450, 400), 20))
-        obstacle_manager.add_obstacle(CircleObstacle("YELLOW", (400, 500), 20))
+        # Active Elements
+        active_positions = [(250, 200), (300, 300), (350, 200), (400, 300), (450, 200), (500, 300), (550, 200), 
+                            (350, 400), (450, 400), (450, 400), (400, 500)]
+        for pos in active_positions:
+            obstacle_manager.add_obstacle(CircleObstacle("YELLOW", pos, 20))
 
 
 
