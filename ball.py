@@ -70,7 +70,7 @@ class Ball:
         #self.velocity = self.velocity / (delta_time * 1000) + self.acceleration * delta_time
         self.position = self.position + (self.velocity * delta_time) + (0.5 * self.acceleration * delta_time**2)      
         
-    def detectLine(self, obstacle, collision):
+    def detectLine(self, obstacle, collision, direction_to_collide):
         self.lineStart = pygame.math.Vector2(obstacle.start_pos)
         self.lineEnd = pygame.math.Vector2(obstacle.end_pos)
         a = self.position - self.lineStart                                                                                      
@@ -86,7 +86,7 @@ class Ball:
         i.x = math.sqrt(((distanceVec.x)**2)+((distanceVec.x)**2))
         i.y = math.sqrt(((distanceVec.y)**2)+((distanceVec.y)**2))
         collisionDistance = i.length() - self.radius                 
-
+        print(collisionDistance)
         #if self.lineCollisionPoint.x >= self.lineStart.x and self.lineCollisionPoint.y <= self.lineStart.y:                       
         #    if self.lineCollisionPoint.x <= self.lineEnd.x and self.lineCollisionPoint.y >= self.lineEnd.y:
         #        self.onLine = True
@@ -96,19 +96,21 @@ class Ball:
         if self.lineStart.x <= self.lineCollisionPoint.x <= self.lineEnd.x or self.lineStart.x >= self.lineCollisionPoint.x >= self.lineEnd.x:
             if self.lineStart.y <= self.lineCollisionPoint.y <= self.lineEnd.y or self.lineStart.y >= self.lineCollisionPoint.y >= self.lineEnd.y:
                 self.onLine = True
+                
         else:
             self.onLine = False
-
-        
+        print(self.onLine)
         if self.lineCollisionPoint.x == self.lineStart.x and self.lineCollisionPoint.y == self.lineStart.y:
-            collision = self.detectPoint(obstacle, collision)
+            collision = self.detectPoint(obstacle, collision, direction_to_collide)
         elif self.lineCollisionPoint.y == self.lineEnd.x and self.lineCollisionPoint.y == self.lineEnd.y:
-            collision = self.detectPoint(obstacle, collision)
+            collision = self.detectPoint(obstacle, collision, direction_to_collide)
+
                         
-        elif collisionDistance < 0.5 and self.onLine:
+        elif collisionDistance < 1 and self.onLine and direction_to_collide:
+            
             collision = True
             self.collisionCounter += 1
-            print("line collision")
+            print("lineCollision")
 
         return collision
     
@@ -116,7 +118,7 @@ class Ball:
     def addScore(self, points):
         self.scoreCounter += points
 
-    def detectPoint(self, currentObstacle, collision):
+    def detectPoint(self, currentObstacle, collision, direction_to_collide):
         if isinstance(currentObstacle, obstacle.CircleObstacle):
             distanceVec = self.position - currentObstacle.position
         elif isinstance(currentObstacle, obstacle.LineObstacle):
@@ -127,10 +129,9 @@ class Ball:
         if isinstance(currentObstacle, obstacle.CircleObstacle):
             collisionDistance = i.length() - self.radius - currentObstacle.radius
         elif isinstance(currentObstacle, obstacle.LineObstacle):
-            print("point line")
             collisionDistance = i.length() - self.radius
 
-        if collisionDistance < 0.5:
+        if collisionDistance < 1 and direction_to_collide:
             collision = True
             self.collisionCounter += 1
             # Change the obstacle's color based on the collision count
@@ -146,15 +147,30 @@ class Ball:
         collision = False
         currentObstacle = None
         collisionRim = 0
-        ball_direction = self.velocity.normalize()
+        ball_direction = self.velocity
+        direction_to_collide = False
 
         for temporaryObstacle in obstacles:
             if isinstance(temporaryObstacle, obstacle.LineObstacle):
-                collision = self.detectLine(temporaryObstacle, collision)
+                normal_vec = temporaryObstacle.normal_vec
+                angle = normal_vec.angle_to(ball_direction)
+                
+                if 0 <= angle <= 90 or 0 >= angle >= -90:
+                    direction_to_collide = True
+                else:
+                    direction_to_collide = False
+                collision = self.detectLine(temporaryObstacle, collision, direction_to_collide)
                 currentObstacle = temporaryObstacle
                 
             if isinstance(temporaryObstacle, obstacle.CircleObstacle):
-                collision = self.detectPoint(temporaryObstacle, collision)
+                normal_vec = (self.position - temporaryObstacle.position)
+                angle = normal_vec.angle_to(ball_direction)
+                if 0 <= angle <= 90 or 0 >= angle >= -90:
+                    direction_to_collide = True
+                else:
+                    direction_to_collide = False
+
+                collision = self.detectPoint(temporaryObstacle, collision, direction_to_collide)
                 currentObstacle = temporaryObstacle
 
 
