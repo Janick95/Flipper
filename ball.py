@@ -266,14 +266,10 @@ class Ball:
         elif isinstance(currentObstacle, obstacle.LineObstacle):
 
             surface_vec = currentObstacle.end_pos - currentObstacle.start_pos
-            surface_vec_amount = pygame.math.Vector2(0, 0)
-            surface_vec_amount.x = math.sqrt(((surface_vec.x)**2)+((surface_vec.x)**2))
-            surface_vec_amount.y = math.sqrt(((surface_vec.y)**2)+((surface_vec.y)**2))
+            surface_vec_amount.x = math.sqrt(((surface_vec.x)**2)+((surface_vec.y)**2))
             
             normal_vec = currentObstacle.normal_vec
-            normal_vec_amount = pygame.math.Vector2
-            normal_vec_amount.x = math.sqrt(((normal_vec.x)**2)+((normal_vec.x)**2))
-            normal_vec_amount.y = math.sqrt(((normal_vec.y)**2)+((normal_vec.y)**2))
+            normal_vec_amount.x = math.sqrt(((normal_vec.x)**2)+((normal_vec.y)**2))
             
             velocity_surface_projection = ((surface_vec * self.velocity) / (surface_vec_amount**2)) * surface_vec
             velocity_normal_projection = ((normal_vec * self.velocity) / (normal_vec_amount**2)) * normal_vec
@@ -300,15 +296,11 @@ class Ball:
 
         elif isinstance(currentObstacle, obstacle.CircleObstacle):
 
-            normal_vec = (self.position - currentObstacle.position).normalize()
-            normal_vec_amount = pygame.math.Vector2
-            normal_vec_amount.x = math.sqrt(((normal_vec.x)**2)+((normal_vec.x)**2))
-            normal_vec_amount.y = math.sqrt(((normal_vec.y)**2)+((normal_vec.y)**2))
+            normal_vec = (self.position - currentObstacle.position)
+            normal_vec_amount = math.sqrt(((normal_vec.x)**2)+((normal_vec.y)**2))
 
-            surface_vec = pygame.math.Vector2(self.normal_vec.y, -self.normal_vec.x).normalize()
-            surface_vec_amount = pygame.math.Vector2(0, 0)
-            surface_vec_amount.x = math.sqrt(((surface_vec.x)**2)+((surface_vec.x)**2))
-            surface_vec_amount.y = math.sqrt(((surface_vec.y)**2)+((surface_vec.y)**2))
+            surface_vec = pygame.math.Vector2(normal_vec.y, -normal_vec.x)
+            surface_vec_amount = math.sqrt(((surface_vec.x)**2)+((surface_vec.y)**2))
 
             velocity_surface_projection = ((surface_vec * self.velocity) / (surface_vec_amount**2)) * surface_vec
             velocity_normal_projection = ((normal_vec * self.velocity) / (normal_vec_amount**2)) * normal_vec
