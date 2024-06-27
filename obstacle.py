@@ -57,18 +57,42 @@ class LineObstacle(Obstacle):
 
 
 class FlipperObstacle(Obstacle):
-    def __init__(self, color, position, size, angle):       
-        self.color = color
-        self.position = position
+    def __init__(self, color, position, size, angle, identifier, pivot):
+        super().__init__(color)
+        self.position = pygame.math.Vector2(position)
         self.size = size
         self.angle = angle
-        self.rect = pygame.Rect(position, size)
+        self.original_angle = angle
+        self.identifier = identifier
+        self.pivot = pygame.math.Vector2(pivot)  # Pivot relative to top-left corner
+        self.original_image = pygame.Surface(size, pygame.SRCALPHA)
+        self.original_image.fill(pygame.Color(color))
+        self.image = pygame.Surface(size, pygame.SRCALPHA)
+        self.image.blit(self.original_image, (0, 0))
+        self.rect = self.image.get_rect(topleft=self.position)
 
     def draw(self, screen):
-        pygame.draw.rect(screen, self.color, self.rect)
+        # Rotate the image around the pivot point
+        rotated_image = pygame.transform.rotate(self.original_image, self.angle)
+        pivot_offset = self.pivot.rotate(-self.angle)  # Adjust pivot for rotation
+        pivot_rect = rotated_image.get_rect(center=self.rect.topleft + pivot_offset)
+        screen.blit(rotated_image, pivot_rect.topleft)
 
     def rotate(self, angle):
-        self.angle += angle    
+        self.angle += angle
+
+    def reset_angle(self):
+        self.angle = self.original_angle
+
+
+    def rotate(self, angle):
+        self.angle += angle
+
+    def reset_angle(self):
+        self.angle = self.original_angle
+
+
+
 
 
 # ObstacleManager class

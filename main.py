@@ -38,8 +38,10 @@ class Game:
         obstacle_manager.add_obstacle(LineObstacle("GREEN", (0, 800), (50, 800), 5))
 
         # Add Flippers
-        obstacle_manager.add_obstacle(FlipperObstacle("ORANGE", (225, 900), (150, 20), 90))
-        obstacle_manager.add_obstacle(FlipperObstacle("ORANGE", (450, 900), (150, 20), 45))
+        #obstacle_manager.add_obstacle(FlipperObstacle("ORANGE", (250, 900), (140, 20), 0, "left_flipper", (45, 10)))
+        obstacle_manager.add_obstacle(FlipperObstacle("ORANGE", (225, 900), (140, 20), -25, "left_flipper", (70, 10)))
+        obstacle_manager.add_obstacle(FlipperObstacle("ORANGE", (600, 900), (140, 20), 25, "right_flipper", (-70, 10)))
+        #obstacle_manager.add_obstacle(FlipperObstacle("ORANGE", (600, 900), (140, 20), 0, "right_flipper", (-45, 0)))
 
 
         #obstacle_manager.add_obstacle(RectObstacle("GREEN", pygame.Rect(200, 150, 100, 50)))
@@ -70,6 +72,7 @@ class Game:
         running = True
         paused = False
         drawUI = False
+        rotated = False
 
         while running:
             delta_time = clock.tick(60) / 1000 # seconds
@@ -102,6 +105,30 @@ class Game:
                 # Pause the game
                 elif simparam.SimParam.is_pause_button_clicked(event):
                     paused = not paused
+
+                # Rotate left flipper with left key
+                elif event.type == pygame.KEYDOWN and event.key == pygame.K_LEFT:
+                    for obstacle in obstacle_manager.obstacles:
+                        if isinstance(obstacle, FlipperObstacle) and obstacle.identifier == "left_flipper":
+                            obstacle.rotate(45)  # Rotate left flipper counterclockwise
+
+                # Rotate right flipper with right key
+                elif event.type == pygame.KEYDOWN and event.key == pygame.K_RIGHT:
+                    for obstacle in obstacle_manager.obstacles:
+                        if isinstance(obstacle, FlipperObstacle) and obstacle.identifier == "right_flipper":
+                            obstacle.rotate(-45)  # Rotate right flipper clockwise
+
+                # Reset left flipper with left key release
+                elif event.type == pygame.KEYUP and event.key == pygame.K_LEFT:
+                    for obstacle in obstacle_manager.obstacles:
+                        if isinstance(obstacle, FlipperObstacle) and obstacle.identifier == "left_flipper":
+                            obstacle.reset_angle()  # Reset to original angle
+
+                # Reset right flipper with right key release
+                elif event.type == pygame.KEYUP and event.key == pygame.K_RIGHT:
+                    for obstacle in obstacle_manager.obstacles:
+                        if isinstance(obstacle, FlipperObstacle) and obstacle.identifier == "right_flipper":
+                            obstacle.reset_angle()  # Reset to original angle
 
 
 
