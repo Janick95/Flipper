@@ -139,9 +139,9 @@ class Game:
                     pygame_widgets.update(events)
 
                 if klicks > 0:
-                    ball1.update(delta_time, klicks, obstacle_manager.obstacles)
+                    ball1.update(delta_time, klicks, obstacle_manager.obstacles, ball2)
                 if klicks == 3:
-                    ball2.update(delta_time, klicks, obstacle_manager.obstacles)
+                    ball2.update(delta_time, klicks, obstacle_manager.obstacles, ball1)
 
                 pygame.display.update()
 
