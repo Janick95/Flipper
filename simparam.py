@@ -5,6 +5,7 @@ import ball
 import math
 import pygame_widgets
 import button
+import gamelogic
 from pygame_widgets.slider import Slider
 
 
@@ -16,6 +17,7 @@ class SimParam:
     slider1 = Slider(window.Window().screen, 270, 40, 150, 20, min=0, max=981, step=1, handleColour=(255, 255, 0),curved= True, initial=981)                          # Create a slider for adjusting gravity
 
     restart_button = button.Button("Restart", (650, 50), (100, 40), "GREY", "ORANGE", text_font)
+    restart_button2 = button.Button("Restart Game", (500,500), (100, 40), "GREY", "WHITE", text_font) 
     pause_button = button.Button("| |", (650, 150), (100, 40), "GREEN", "RED", text_font)
     
     # Calculate the window resolution into real units
@@ -54,7 +56,8 @@ class SimParam:
         acceleration = str(ball1.acceleration)
         gravity = str(ball1.GRAVITY)
         impulse = str(ball1.impulse)
-        score = str(ball1.scoreCounter)
+        #score = str(ball.gamelogic.GameLogic.score)
+
         
         posImg = SimParam.text_font.render("Position: " + position, True, "WHITE")
         screen.blit(posImg, (20,20))
@@ -71,8 +74,8 @@ class SimParam:
         impulseImg = SimParam.text_font.render("Impulse: " + impulse, True, "WHITE")
         screen.blit(impulseImg, (20,100))
 
-        scoreImg = SimParam.text_font.render("Score: " + score, True, "YELLOW")
-        screen.blit(scoreImg, (20,120))
+        #scoreImg = SimParam.text_font.render("Score: " + score, True, "YELLOW")
+        #screen.blit(scoreImg, (20,120))
         
         gravImg = SimParam.text_font.render("Gravity: " + gravity, True, "WHITE")
         screen.blit(gravImg, (270,20))
@@ -99,3 +102,6 @@ class SimParam:
 
     def is_pause_button_clicked(event):
         return SimParam.pause_button.is_clicked(event)
+
+    def draw_restart_button2(screen):
+        SimParam.restart_button2.draw(screen)
