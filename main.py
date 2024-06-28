@@ -21,9 +21,9 @@ class Game:
 
         obstacle_manager = ObstacleManager()
         #Passive Elements
-        obstacle_manager.add_obstacle(LineObstacle("WHITE", (0, 0), (800, 0), 5))
-        obstacle_manager.add_obstacle(LineObstacle("WHITE", (800, 800), (800, 0), 5))
-        obstacle_manager.add_obstacle(LineObstacle("WHITE", (0, 800), (0, 0), 5))
+        #obstacle_manager.add_obstacle(LineObstacle("WHITE", (0, 0), (800, 0), 5))
+        #obstacle_manager.add_obstacle(LineObstacle("WHITE", (800, 800), (800, 0), 5))
+        #obstacle_manager.add_obstacle(LineObstacle("WHITE", (0, 800), (0, 0), 5))
 
         obstacle_manager.add_obstacle(LineObstacle("BLUE", (0, 800), (250, 875), 5))
         obstacle_manager.add_obstacle(LineObstacle("BLUE", (550, 875), (800, 800), 5))
@@ -47,9 +47,13 @@ class Game:
 
 
 
-        ball1 = ball.Ball(screen1)
 
-        return clock, screen1, klicks, obstacle_manager, ball1, left_flipper, right_flipper
+
+        ball1 = ball.Ball(screen1)
+        ball2 = ball.Ball(screen1)
+
+
+        return clock, screen1, klicks, obstacle_manager, ball1, ball2, left_flipper, right_flipper
 
 
     def update_flippers(left_flipper, right_flipper, left_pressed, right_pressed):
@@ -64,7 +68,7 @@ class Game:
             right_flipper.end_pos = (450, 900)  # Original position
             
     def game():
-        clock, screen1, klicks, obstacle_manager, ball1, left_flipper, right_flipper = Game.reset_game()
+        clock, screen1, klicks, obstacle_manager, ball1, ball2, left_flipper, right_flipper = Game.reset_game()
         running = True
         paused = False
         drawUI = False
@@ -89,6 +93,10 @@ class Game:
                     if event.button == pygame.BUTTON_LEFT:
                         ball1.target = event.pos
                         klicks = 2
+                elif klicks == 2 and event.type == pygame.MOUSEBUTTONDOWN:
+                    if event.button == pygame.BUTTON_LEFT:
+                        ball2.position = event.pos
+                        klicks = 3
                 elif event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE and not drawUI:
                     drawUI = True
                 elif event.type == pygame_gui.UI_TEXT_ENTRY_FINISHED and event.ui_object_id == "#gravity_text_entry" and drawUI:
@@ -98,7 +106,7 @@ class Game:
 
                 # Check if the restart button is clicked
                 elif simparam.SimParam.is_restart_button_clicked(event):
-                    clock, screen1, klicks, obstacle_manager, ball1 = Game.reset_game()
+                    clock, screen1, klicks, obstacle_manager, ball1, ball2, left_flipper, right_flipper = Game.reset_game()
                 # Pause the game
                 elif simparam.SimParam.is_pause_button_clicked(event):
                     paused = not paused
@@ -132,6 +140,8 @@ class Game:
 
                 if klicks > 0:
                     ball1.update(delta_time, klicks, obstacle_manager.obstacles)
+                if klicks == 3:
+                    ball2.update(delta_time, klicks, obstacle_manager.obstacles)
 
                 pygame.display.update()
 
