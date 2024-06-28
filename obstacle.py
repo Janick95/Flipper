@@ -99,15 +99,10 @@ class FlipperObstacle(Obstacle):
 class ObstacleManager:
     def __init__(self):
         self.obstacles = []
-        self.active_circles = []
 
     def add_obstacle(self, obstacle):
         self.obstacles.append(obstacle)
-        
-    def add_active_circles(self, obstacle):
-        self.active_circles.append(obstacle)
 
     def draw(self, screen):
-        self.obstacles = self.obstacles + self.active_circles
         for obstacle in self.obstacles:
             obstacle.draw(screen)
