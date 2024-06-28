@@ -33,6 +33,8 @@ class Ball:
     rolling = False                                         
     onLine = False
     colorCounter = 0
+    # steel
+    density = 7.85 #g/cm
 
     #Player Score
     scoreCounter=0
@@ -179,6 +181,7 @@ class Ball:
                 collision = self.detectPoint(temporaryObstacle, collision, direction_to_collide)
                 currentObstacle = temporaryObstacle
 
+            #braucht noch ein ständiges update um die kollisionslinien auf dem rechteck zu platzieren
             if isinstance(temporaryObstacle, obstacle.RectObstacle) or isinstance(temporaryObstacle, obstacle.FlipperObstacle):
                 
                 rectWidth = temporaryObstacle.rect[2]
@@ -190,9 +193,13 @@ class Ball:
                 corner_bottom_right = pygame.math.Vector2(corner_top_left.x + rectWidth, corner_top_left.y + rectHeight)
 
                 edge_left = obstacle.LineObstacle("alpha = 0", corner_bottom_left, corner_top_left, 0)
-                edge_top = obstacle.LineObstacle("alpha = 0", corner_bottom_left, corner_top_right, 0)
+                #edge_left.draw(self.screen)
+                edge_top = obstacle.LineObstacle("alpha = 0", corner_top_left, corner_top_right, 0)
+                #edge_top.draw(self.screen)
                 edge_right = obstacle.LineObstacle("alpha = 0", corner_top_right, corner_bottom_right, 0)
+                #edge_right.draw(self.screen)
                 edge_bottom = obstacle.LineObstacle("alpha = 0", corner_bottom_right, corner_bottom_left, 0)
+                #edge_bottom.draw(self.screen)
 
                 if 0 <= angle <= 90 or 0 >= angle >= -90:
                     direction_to_collide = True
@@ -205,7 +212,16 @@ class Ball:
                 collision = self.detectLine(edge_bottom, collision, direction_to_collide)
                 currentObstacle = temporaryObstacle
 
-            #if isinstance(temporaryObstacle, obstacle.Ball):
+            if isinstance(temporaryObstacle, obstacle.Ball):
+                normal_vec = (self.position - temporaryObstacle.position)
+                angle = normal_vec.angle_to(ball_direction)
+                if 0 <= angle <= 90 or 0 >= angle >= -90:
+                    direction_to_collide = True
+                else:
+                    direction_to_collide = False
+
+                collision = self.detectPoint(temporaryObstacle, collision, direction_to_collide)
+                currentObstacle = temporaryObstacle
                 
         #left      
         if self.position.x - self.radius < 0:
@@ -271,6 +287,7 @@ class Ball:
                 direction_to_collide = False
 
             if direction_to_collide:
+                
                 collision = True
             self.collisionCounter += 1
             currentObstacle = None
@@ -304,7 +321,6 @@ class Ball:
         #else:
             
         if currentObstacle == None:
-
             startVec = pygame.math.Vector2(0, 0)
             endVec = pygame.math.Vector2(0, 0)
             normal = pygame.math.Vector2(0, 0)
@@ -330,11 +346,7 @@ class Ball:
             self.velocity.x -= 2 * dot_product * normal.x
             self.velocity.y -= 2 * dot_product * normal.y 
 
-
-
-
         elif isinstance(currentObstacle, obstacle.LineObstacle):
-
             surface_vec = currentObstacle.end_pos - currentObstacle.start_pos
             surface_vec_amount.x = math.sqrt(((surface_vec.x)**2)+((surface_vec.y)**2))
             
@@ -345,8 +357,6 @@ class Ball:
             velocity_normal_projection = ((normal_vec * self.velocity) / (normal_vec_amount**2)) * normal_vec
 
             self.velocity = velocity_surface_projection - velocity_normal_projection
-
-
 
             #self.delta = currentObstacle.end_pos - currentObstacle.start_pos
             #lineLength = self.delta.length()
@@ -363,9 +373,7 @@ class Ball:
             #self.velocity.x -= 2 * dot_product * self.normal.x
             #self.velocity.y -= 2 * dot_product * self.normal.y
 
-
         elif isinstance(currentObstacle, obstacle.CircleObstacle):
-
             normal_vec = (self.position - currentObstacle.position)
             normal_vec_amount = math.sqrt(((normal_vec.x)**2)+((normal_vec.y)**2))
 
@@ -381,5 +389,34 @@ class Ball:
             #dot_product = self.velocity.dot(self.normal)
             #self.velocity -= 2 * dot_product * self.normal
 
+
+        elif isinstance(currentObstacle, obstacle.Ball):
+
+            ball_volume = 4/3 * math.pi * self.radius**3
+            ball_mass = ball_volume * self.density
+
+            obstacle_volume = 4/3 * math.pi * currentObstacle.radius**3
+            obstacle_mass = obstacle_volume * currentObstacle.density
+
+            #calculation for the own ball
+            normal_vec = (self.position - currentObstacle.position)
+            normal_vec_amount = math.sqrt(((normal_vec.x)**2)+((normal_vec.y)**2))
+            surface_vec = pygame.math.Vector2(normal_vec.y, -normal_vec.x)
+            surface_vec_amount = math.sqrt(((surface_vec.x)**2)+((surface_vec.y)**2))
+            velocity_surface_projection = ((surface_vec * self.velocity) / (surface_vec_amount**2)) * surface_vec
+            velocity_normal_projection = ((normal_vec * self.velocity) / (normal_vec_amount**2)) * normal_vec
+
+            #calculation for the other ball
+            obstacle_normal_vec = (currentObstacle.position - self.position)
+            obstacle_normal_vec_amount = math.sqrt(((obstacle_normal_vec.x)**2)+((obstacle_normal_vec.y)**2))
+            obstacle_surface_vec = pygame.math.Vector2(obstacle_normal_vec.y, -obstacle_normal_vec.x)
+            obstacle_surface_vec_amount = math.sqrt(((obstacle_surface_vec.x)**2)+((obstacle_surface_vec.y)**2))
+            #obstacle_velocity_surface_projection = ((obstacle_surface_vec * self.velocity) / (obstacle_surface_vec_amount**2)) * obstacle_surface_vec
+            obstacle_velocity_normal_projection = ((obstacle_normal_vec * self.velocity) / (obstacle_normal_vec_amount**2)) * obstacle_normal_vec
+
+
+            new_velocity_normal_projection = 2 * ((ball_mass * velocity_normal_projection + obstacle_mass * obstacle_velocity_normal_projection)/(ball_mass + obstacle_mass)) - velocity_surface_projection
+
+            self.velocity = velocity_surface_projection + new_velocity_normal_projection
 
             #self.velocity = -self.velocity
