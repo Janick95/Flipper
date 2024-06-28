@@ -115,29 +115,6 @@ class Game:
                 elif simparam.SimParam.is_pause_button_clicked(event):
                     paused = not paused
 
-                # Rotate left flipper with left key
-                #elif event.type == pygame.KEYDOWN and event.key == pygame.K_LEFT:
-                 #   for obstacle in obstacle_manager.obstacles:
-                  #      if isinstance(obstacle, FlipperObstacle) and obstacle.identifier == "left_flipper":
-                   #         obstacle.rotate(45)  # Rotate left flipper counterclockwise
-
-                # Rotate right flipper with right key
-                #elif event.type == pygame.KEYDOWN and event.key == pygame.K_RIGHT:
-                #    for obstacle in obstacle_manager.obstacles:
-                  #      if isinstance(obstacle, FlipperObstacle) and obstacle.identifier == "right_flipper":
-                    #        obstacle.rotate(-45)  # Rotate right flipper clockwise
-
-                # Reset left flipper with left key release
-               # elif event.type == pygame.KEYUP and event.key == pygame.K_LEFT:
-                 #   for obstacle in obstacle_manager.obstacles:
-                 #       if isinstance(obstacle, FlipperObstacle) and obstacle.identifier == "left_flipper":
-                        #    obstacle.reset_angle()  # Reset to original angle
-
-                # Reset right flipper with right key release
-              #  elif event.type == pygame.KEYUP and event.key == pygame.K_RIGHT:
-                 #   for obstacle in obstacle_manager.obstacles:
-                  #      if isinstance(obstacle, FlipperObstacle) and obstacle.identifier == "right_flipper":
-                     #       obstacle.reset_angle()  # Reset to original angle
                 if event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_LEFT:
                         left_pressed = True
