@@ -15,10 +15,13 @@ class Game:
 
     pygame.init()
 
-    def reset_game(screen1, klicks):
+    def reset_game(screen1, klicks, obstacle_manager):
         screen1 = window.Window().screen
         klicks = 0
-
+        active_circles = [(250, 200), (300, 300), (350, 200), (400, 300), (450, 200), (500, 300), (550, 200), 
+                            (350, 400), (450, 400), (450, 400), (400, 500)]
+        for pos in active_circles:
+            obstacle_manager.add_active_circles(CircleObstacle("YELLOW", pos, 20))
 
         return screen1, klicks
     
@@ -40,19 +43,21 @@ class Game:
         obstacle_manager = ObstacleManager()
         ball1 = ball.Ball(screen1)
         ball2 = ball.Ball(screen1)
+        
         # Active Elements
         #flippers
         left_flipper = LineObstacle("ORANGE", (275, 875), (375, 900), 10)  # Base at (225, 900) extending downward
         right_flipper = LineObstacle("ORANGE", (525, 875), (425, 900), 10)  # Base at (600, 900) extending downward
         obstacle_manager.add_obstacle(left_flipper)
         obstacle_manager.add_obstacle(right_flipper)
-        active_positions = [(250, 200), (300, 300), (350, 200), (400, 300), (450, 200), (500, 300), (550, 200), 
+        active_circles = [(250, 200), (300, 300), (350, 200), (400, 300), (450, 200), (500, 300), (550, 200), 
                             (350, 400), (450, 400), (450, 400), (400, 500)]
-        for pos in active_positions:
-            obstacle_manager.add_obstacle(CircleObstacle("YELLOW", pos, 20))
+        for pos in active_circles:
+            obstacle_manager.add_active_circles(CircleObstacle("YELLOW", pos, 20))
         #obstacle_manager.add_obstacle(FlipperObstacle("ORANGE", (225, 900), (140, 20), -25, "left_flipper", (70, 10)))
         #obstacle_manager.add_obstacle(FlipperObstacle("ORANGE", (600, 900), (140, 20), 25, "right_flipper", (-70, 10)))
-        #passive Elements
+        
+        #Passive Elements
         obstacle_manager.add_obstacle(LineObstacle("WHITE", (0, 0), (800, 0), 5))
         obstacle_manager.add_obstacle(LineObstacle("WHITE", (800, 800), (800, 0), 5))
         obstacle_manager.add_obstacle(LineObstacle("WHITE", (0, 800), (0, 0), 5))
@@ -67,8 +72,6 @@ class Game:
         #obstacle_manager.add_obstacle(RectObstacle("GREEN", pygame.Rect(200, 150, 100, 50)))
         #obstacle_manager.add_obstacle(LineObstacle("BLUE", (300, 300), (400, 400), 5))
         
-        
-
         running = True
         paused = False
         drawUI = False
@@ -107,7 +110,7 @@ class Game:
 
                 # Check if the restart button is clicked
                 elif simparam.SimParam.is_restart_button_clicked(event):
-                    screen1, klicks = Game.reset_game(screen1, klicks)
+                    screen1, klicks = Game.reset_game(screen1, klicks, obstacle_manager)
                 # Pause the game
                 elif simparam.SimParam.is_pause_button_clicked(event):
                     paused = not paused
