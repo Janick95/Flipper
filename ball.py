@@ -182,46 +182,46 @@ class Ball:
                 currentObstacle = temporaryObstacle
 
             #braucht noch ein ständiges update um die kollisionslinien auf dem rechteck zu platzieren
-            if isinstance(temporaryObstacle, obstacle.RectObstacle) or isinstance(temporaryObstacle, obstacle.FlipperObstacle):
+            #if isinstance(temporaryObstacle, obstacle.RectObstacle) or isinstance(temporaryObstacle, obstacle.FlipperObstacle):
                 
-                rectWidth = temporaryObstacle.rect[2]
-                rectHeight = temporaryObstacle.rect[3]
+            #    rectWidth = temporaryObstacle.rect[2]
+            #    rectHeight = temporaryObstacle.rect[3]
 
-                corner_top_left = pygame.math.Vector2(temporaryObstacle.rect[0], temporaryObstacle.rect[1])
-                corner_bottom_left = pygame.math.Vector2(corner_top_left.x, corner_top_left.y + rectHeight)
-                corner_top_right = pygame.math.Vector2(corner_top_left.x + rectWidth, corner_top_left.y)
-                corner_bottom_right = pygame.math.Vector2(corner_top_left.x + rectWidth, corner_top_left.y + rectHeight)
+            #    corner_top_left = pygame.math.Vector2(temporaryObstacle.rect[0], temporaryObstacle.rect[1])
+            #    corner_bottom_left = pygame.math.Vector2(corner_top_left.x, corner_top_left.y + rectHeight)
+            #    corner_top_right = pygame.math.Vector2(corner_top_left.x + rectWidth, corner_top_left.y)
+            #    corner_bottom_right = pygame.math.Vector2(corner_top_left.x + rectWidth, corner_top_left.y + rectHeight)
 
-                edge_left = obstacle.LineObstacle("alpha = 0", corner_bottom_left, corner_top_left, 0)
+            #    edge_left = obstacle.LineObstacle("alpha = 0", corner_bottom_left, corner_top_left, 0)
                 #edge_left.draw(self.screen)
-                edge_top = obstacle.LineObstacle("alpha = 0", corner_top_left, corner_top_right, 0)
+            #    edge_top = obstacle.LineObstacle("alpha = 0", corner_top_left, corner_top_right, 0)
                 #edge_top.draw(self.screen)
-                edge_right = obstacle.LineObstacle("alpha = 0", corner_top_right, corner_bottom_right, 0)
+            #    edge_right = obstacle.LineObstacle("alpha = 0", corner_top_right, corner_bottom_right, 0)
                 #edge_right.draw(self.screen)
-                edge_bottom = obstacle.LineObstacle("alpha = 0", corner_bottom_right, corner_bottom_left, 0)
+            #    edge_bottom = obstacle.LineObstacle("alpha = 0", corner_bottom_right, corner_bottom_left, 0)
                 #edge_bottom.draw(self.screen)
 
-                if 0 <= angle <= 90 or 0 >= angle >= -90:
-                    direction_to_collide = True
-                else:
-                    direction_to_collide = False
+            #    if 0 <= angle <= 90 or 0 >= angle >= -90:
+            #        direction_to_collide = True
+            #    else:
+            #        direction_to_collide = False
 
-                collision = self.detectLine(edge_left, collision, direction_to_collide)
-                collision = self.detectLine(edge_top, collision, direction_to_collide)
-                collision = self.detectLine(edge_right, collision, direction_to_collide)
-                collision = self.detectLine(edge_bottom, collision, direction_to_collide)
-                currentObstacle = temporaryObstacle
+            #    collision = self.detectLine(edge_left, collision, direction_to_collide)
+            #    collision = self.detectLine(edge_top, collision, direction_to_collide)
+            #    collision = self.detectLine(edge_right, collision, direction_to_collide)
+            #    collision = self.detectLine(edge_bottom, collision, direction_to_collide)
+            #    currentObstacle = temporaryObstacle
 
-            if isinstance(temporaryObstacle, obstacle.Ball):
-                normal_vec = (self.position - temporaryObstacle.position)
-                angle = normal_vec.angle_to(ball_direction)
-                if 0 <= angle <= 90 or 0 >= angle >= -90:
-                    direction_to_collide = True
-                else:
-                    direction_to_collide = False
+            #if isinstance(temporaryObstacle, obstacle.Ball):
+            #    normal_vec = (self.position - temporaryObstacle.position)
+            #    angle = normal_vec.angle_to(ball_direction)
+            #    if 0 <= angle <= 90 or 0 >= angle >= -90:
+            #        direction_to_collide = True
+            #    else:
+            #       direction_to_collide = False
 
-                collision = self.detectPoint(temporaryObstacle, collision, direction_to_collide)
-                currentObstacle = temporaryObstacle
+            #    collision = self.detectPoint(temporaryObstacle, collision, direction_to_collide)
+            #    currentObstacle = temporaryObstacle
                 
         #left      
         if self.position.x - self.radius < 0:
