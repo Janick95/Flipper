@@ -90,7 +90,6 @@ class Game:
                 elif event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE and drawUI:
                     drawUI = False
 
-
                 # Check if the restart button is clicked
                 elif simparam.SimParam.is_restart_button_clicked(event):
                     clock, screen1, klicks, obstacle_manager, ball1 = Game.reset_game()

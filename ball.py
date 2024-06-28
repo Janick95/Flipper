@@ -73,9 +73,9 @@ class Ball:
     def detectLine(self, obstacle, collision, direction_to_collide):
         self.lineStart = pygame.math.Vector2(obstacle.start_pos)
         self.lineEnd = pygame.math.Vector2(obstacle.end_pos)
-        a = self.position - self.lineStart                                                                                      
+        a = self.position - self.lineStart
         self.directionVec = self.lineEnd - self.lineStart
-        #directionVec = directionVec.normalize()
+        #self.directionVec = self.directionVec.normalize()
         numerator = a * self.directionVec                                                                                       
         denominator = (math.sqrt(((self.directionVec.x)**2)+((self.directionVec.y)**2)))**2                                     
         self.scalar = numerator / denominator
@@ -86,7 +86,7 @@ class Ball:
         i.x = math.sqrt(((distanceVec.x)**2)+((distanceVec.x)**2))
         i.y = math.sqrt(((distanceVec.y)**2)+((distanceVec.y)**2))
         collisionDistance = i.length() - self.radius                 
-        print(collisionDistance)
+        #print(collisionDistance)
         #if self.lineCollisionPoint.x >= self.lineStart.x and self.lineCollisionPoint.y <= self.lineStart.y:                       
         #    if self.lineCollisionPoint.x <= self.lineEnd.x and self.lineCollisionPoint.y >= self.lineEnd.y:
         #        self.onLine = True
@@ -94,26 +94,24 @@ class Ball:
         #    self.onLine = False
 
         if self.lineStart.x <= self.lineCollisionPoint.x <= self.lineEnd.x or self.lineStart.x >= self.lineCollisionPoint.x >= self.lineEnd.x:
+            #print("x works")
             if self.lineStart.y <= self.lineCollisionPoint.y <= self.lineEnd.y or self.lineStart.y >= self.lineCollisionPoint.y >= self.lineEnd.y:
                 self.onLine = True  
         else:
             self.onLine = False
-        print(self.onLine)
+        #print(self.onLine)
         if self.lineCollisionPoint.x == self.lineStart.x and self.lineCollisionPoint.y == self.lineStart.y:
             collision = self.detectPoint(obstacle, collision, direction_to_collide)
         elif self.lineCollisionPoint.y == self.lineEnd.x and self.lineCollisionPoint.y == self.lineEnd.y:
             collision = self.detectPoint(obstacle, collision, direction_to_collide)
-
-                        
+              
         elif collisionDistance < 1 and self.onLine and direction_to_collide:
-            
             collision = True
             self.collisionCounter += 1
-            print("lineCollision")
+            #print("lineCollision")
 
         return collision
     
-
     def addScore(self, points):
         self.scoreCounter += points
 
@@ -125,11 +123,13 @@ class Ball:
         i = pygame.math.Vector2(0, 0)
         i.x = math.sqrt(((distanceVec.x)**2)+((distanceVec.x)**2))
         i.y = math.sqrt(((distanceVec.y)**2)+((distanceVec.y)**2))
+
         if isinstance(currentObstacle, obstacle.CircleObstacle):
             collisionDistance = i.length() - self.radius - currentObstacle.radius
         elif isinstance(currentObstacle, obstacle.LineObstacle):
             collisionDistance = i.length() - self.radius
 
+        print(collisionDistance)
         if collisionDistance < 1 and direction_to_collide:
             collision = True
             self.collisionCounter += 1
@@ -160,7 +160,14 @@ class Ball:
                     direction_to_collide = False
                 collision = self.detectLine(temporaryObstacle, collision, direction_to_collide)
                 currentObstacle = temporaryObstacle
-                
+                if not collision:
+                    normal_vec = pygame.math.Vector2(normal_vec.x, -normal_vec.y)
+                    angle = normal_vec.angle_to(ball_direction)
+                    if 0 <= angle <= 90 or 0 >= angle >= -90:
+                        direction_to_collide = True
+                        collision = self.detectLine(currentObstacle, collision, direction_to_collide)
+                        currentObstacle = temporaryObstacle
+
             if isinstance(temporaryObstacle, obstacle.CircleObstacle):
                 normal_vec = (self.position - temporaryObstacle.position)
                 angle = normal_vec.angle_to(ball_direction)
@@ -172,51 +179,99 @@ class Ball:
                 collision = self.detectPoint(temporaryObstacle, collision, direction_to_collide)
                 currentObstacle = temporaryObstacle
 
-
-
-            #Auskommentieren um zu Testen. Code funktioniert noch nicht
-            #if isinstance(temporaryObstacle, obstacle.RectObstacle):
+            if isinstance(temporaryObstacle, obstacle.RectObstacle) or isinstance(temporaryObstacle, obstacle.FlipperObstacle):
                 
-            #    rectWidth = temporaryObstacle.rect[2]
-            #    rectHeight = temporaryObstacle.rect[3]
+                rectWidth = temporaryObstacle.rect[2]
+                rectHeight = temporaryObstacle.rect[3]
 
-            #    corner_top_left = pygame.math.Vector2(temporaryObstacle.rect[0], temporaryObstacle.rect[1])
-            #    corner_bottom_left = pygame.math.Vector2(corner_top_left.x, corner_top_left.y + rectHeight)
-            #    corner_top_right = pygame.math.Vector2(corner_top_left.x + rectWidth, corner_top_left.y)
-            #    corner_bottom_right = pygame.math.Vector2(corner_top_left.x + rectWidth, corner_top_left.y + rectHeight)
+                corner_top_left = pygame.math.Vector2(temporaryObstacle.rect[0], temporaryObstacle.rect[1])
+                corner_bottom_left = pygame.math.Vector2(corner_top_left.x, corner_top_left.y + rectHeight)
+                corner_top_right = pygame.math.Vector2(corner_top_left.x + rectWidth, corner_top_left.y)
+                corner_bottom_right = pygame.math.Vector2(corner_top_left.x + rectWidth, corner_top_left.y + rectHeight)
 
-            #    edge_left = obstacle.LineObstacle("alpha = 0", corner_bottom_left, corner_top_left, 0)
-            #    edge_top = obstacle.LineObstacle("alpha = 0", corner_bottom_left, corner_top_right, 0)
-            #    edge_right = obstacle.LineObstacle("alpha = 0", corner_top_right, corner_bottom_right, 0)
-            #    edge_bottom = obstacle.LineObstacle("alpha = 0", corner_bottom_right, corner_bottom_left, 0)
+                edge_left = obstacle.LineObstacle("alpha = 0", corner_bottom_left, corner_top_left, 0)
+                edge_top = obstacle.LineObstacle("alpha = 0", corner_bottom_left, corner_top_right, 0)
+                edge_right = obstacle.LineObstacle("alpha = 0", corner_top_right, corner_bottom_right, 0)
+                edge_bottom = obstacle.LineObstacle("alpha = 0", corner_bottom_right, corner_bottom_left, 0)
 
-            #    collision = self.detectLine(edge_left, collision)
-            #    collision = self.detectLine(edge_top, collision)
-            #    collision = self.detectLine(edge_right, collision)
-            #    collision = self.detectLine(edge_bottom, collision)
-            #    currentObstacle = temporaryObstacle
+                if 0 <= angle <= 90 or 0 >= angle >= -90:
+                    direction_to_collide = True
+                else:
+                    direction_to_collide = False
+
+                collision = self.detectLine(edge_left, collision, direction_to_collide)
+                collision = self.detectLine(edge_top, collision, direction_to_collide)
+                collision = self.detectLine(edge_right, collision, direction_to_collide)
+                collision = self.detectLine(edge_bottom, collision, direction_to_collide)
+                currentObstacle = temporaryObstacle
+
+            #if isinstance(temporaryObstacle, obstacle.Ball):
                 
         #left      
         if self.position.x - self.radius < 0:
-            collision = True
+            startVec = pygame.math.Vector2(0, 0)
+            endVec = pygame.math.Vector2(0, self.screen.get_height())
+            direction_vec = endVec - startVec
+            normal_vec = pygame.math.Vector2(-direction_vec.y, direction_vec.x)
+            angle = normal_vec.angle_to(ball_direction)
+            if 0 <= angle <= 90 or 0 >= angle >= -90:
+                direction_to_collide = True
+            else:
+                direction_to_collide = False
+
+            if direction_to_collide:
+                collision = True
             self.collisionCounter += 1
             currentObstacle = None
             collisionRim = 1
         #right
         if self.position.x + self.radius > self.screen.get_width():
-            collision = True
+            startVec = pygame.math.Vector2(self.screen.get_width(),self.screen.get_height())
+            endVec = pygame.math.Vector2(self.screen.get_width(), 0)
+            direction_vec = endVec - startVec
+            normal_vec = pygame.math.Vector2(-direction_vec.y, direction_vec.x)
+            angle = normal_vec.angle_to(ball_direction)
+            if 0 <= angle <= 90 or 0 >= angle >= -90:
+                direction_to_collide = True
+            else:
+                direction_to_collide = False
+
+            if direction_to_collide:
+                collision = True
             self.collisionCounter += 1
             currentObstacle = None
             collisionRim = 2
         #top
         if self.position.y - self.radius < 0:
-            collision = True
+            startVec = pygame.math.Vector2(self.screen.get_width(), 0)
+            endVec = pygame.math.Vector2(0, 0)
+            direction_vec = endVec - startVec
+            normal_vec = pygame.math.Vector2(-direction_vec.y, direction_vec.x)
+            angle = normal_vec.angle_to(ball_direction)
+            if 0 <= angle <= 90 or 0 >= angle >= -90:
+                direction_to_collide = True
+            else:
+                direction_to_collide = False
+
+            if direction_to_collide:
+                collision = True
             self.collisionCounter += 1
             currentObstacle = None
             collisionRim = 3
         #bottom
         if self.position.y + self.radius > self.screen.get_height():
-            collision = True
+            startVec = pygame.math.Vector2(0, self.screen.get_height())
+            endVec = pygame.math.Vector2(self.screen.get_width(), self.screen.get_height())
+            direction_vec = endVec - startVec
+            normal_vec = pygame.math.Vector2(-direction_vec.y, direction_vec.x)
+            angle = normal_vec.angle_to(ball_direction)
+            if 0 <= angle <= 90 or 0 >= angle >= -90:
+                direction_to_collide = True
+            else:
+                direction_to_collide = False
+
+            if direction_to_collide:
+                collision = True
             self.collisionCounter += 1
             currentObstacle = None
             collisionRim = 4
