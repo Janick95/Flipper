@@ -27,14 +27,14 @@ class Game:
     
     def update_flippers(left_flipper, right_flipper, left_pressed, right_pressed):
         if left_pressed:
-            left_flipper.end_pos = (375, 850)  # Slightly rotated upwards
+            left_flipper.end_pos = (350, 850)  # Slightly rotated upwards
         else:
-            left_flipper.end_pos = (375, 900)  # Original position
+            left_flipper.end_pos = (350, 900)  # Original position
 
         if right_pressed:
-            right_flipper.end_pos = (425, 850)  # Slightly rotated upwards
+            right_flipper.end_pos = (450, 850)  # Slightly rotated upwards
         else:
-            right_flipper.end_pos = (425, 900)  # Original position
+            right_flipper.end_pos = (450, 900)  # Original position
 
     def game():
         clock = pygame.time.Clock()
@@ -46,8 +46,8 @@ class Game:
         
         # Active Elements
         #flippers
-        left_flipper = LineObstacle("ORANGE", (275, 875), (375, 900), 10)  # Base at (225, 900) extending downward
-        right_flipper = LineObstacle("ORANGE", (525, 875), (425, 900), 10)  # Base at (600, 900) extending downward
+        left_flipper = LineObstacle("ORANGE", (250, 875), (375, 900), 10)  # Base at (225, 900) extending downward
+        right_flipper = LineObstacle("ORANGE", (550, 875), (425, 900), 10)  # Base at (600, 900) extending downward
         obstacle_manager.add_obstacle(left_flipper)
         obstacle_manager.add_obstacle(right_flipper)
         active_circles = [(250, 200), (300, 300), (350, 200), (400, 300), (450, 200), (500, 300), (550, 200), 
@@ -62,12 +62,17 @@ class Game:
         obstacle_manager.add_obstacle(LineObstacle("WHITE", (800, 800), (800, 0), 5))
         obstacle_manager.add_obstacle(LineObstacle("WHITE", (0, 800), (0, 0), 5))
 
-        obstacle_manager.add_obstacle(LineObstacle("BLUE", (50, 800), (225, 900), 5))
-        obstacle_manager.add_obstacle(LineObstacle("BLUE", (600, 900), (800, 800), 5))
+        obstacle_manager.add_obstacle(LineObstacle("BLUE", (0, 800), (250, 875), 5))
+        obstacle_manager.add_obstacle(LineObstacle("BLUE", (550, 875), (800, 800), 5))
 
-        obstacle_manager.add_obstacle(LineObstacle("GREEN", (0, 150), (0, 800), 5))
-        obstacle_manager.add_obstacle(LineObstacle("GREEN", (50, 150), (50, 800 ), 5))
-        obstacle_manager.add_obstacle(LineObstacle("GREEN", (0, 800), (50, 800), 5))
+        #EckenElemente
+        obstacle_manager.add_obstacle(LineObstacle("BLUE", (0, 75), (200, 0), 5))
+        obstacle_manager.add_obstacle(LineObstacle("BLUE", (600, 0), (800, 75), 5))
+
+
+        #obstacle_manager.add_obstacle(LineObstacle("GREEN", (0, 150), (0, 800), 5))
+        #obstacle_manager.add_obstacle(LineObstacle("GREEN", (50, 150), (50, 800 ), 5))
+        #obstacle_manager.add_obstacle(LineObstacle("GREEN", (0, 800), (50, 800), 5))
         #obstacle_manager.add_obstacle(CircleObstacle("RED", (100, 100), 50))
         #obstacle_manager.add_obstacle(RectObstacle("GREEN", pygame.Rect(200, 150, 100, 50)))
         #obstacle_manager.add_obstacle(LineObstacle("BLUE", (300, 300), (400, 400), 5))
